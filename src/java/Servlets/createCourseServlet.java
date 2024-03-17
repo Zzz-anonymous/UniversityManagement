@@ -81,7 +81,6 @@ public class createCourseServlet extends HttpServlet {
 
         String name = request.getParameter("name");
         String details = request.getParameter("details");
-        String status = request.getParameter("status");
 
         // Obtain the selected course types from the request parameters
         String[] courseTypes = request.getParameterValues("courseTypes");
@@ -111,7 +110,7 @@ public class createCourseServlet extends HttpServlet {
         int available = Integer.parseInt(avail);
 
         // Create a new Course object with the provided data
-        Course c = new Course(id, name, details, status, courseTypes, creditHours, tutorName, programmeName, available);
+        Course c = new Course(id, name, details, courseTypes, creditHours, tutorName, programmeName, available);
 
         try {
             // Attempt to add the course

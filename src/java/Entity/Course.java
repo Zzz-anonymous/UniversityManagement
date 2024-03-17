@@ -14,7 +14,7 @@ public class Course {
     private String name;
     private String details;
     private String[] courseTypes;
-    private String status;
+    
     private int creditHours;
     private Programme programme;
     private double fees;
@@ -22,11 +22,10 @@ public class Course {
     private int maxCapacity = 200;
     private Tutor tutor;
 
-    public Course(String Id, String name, String details,String status,String[] courseTypes, int creditHours,Tutor tutor, Programme programme, int availability) {
+    public Course(String Id, String name, String details,String[] courseTypes, int creditHours,Tutor tutor, Programme programme, int availability) {
         this.Id = Id;
         this.name = name;
         this.details = details;
-        this.status = status;
         this.courseTypes = courseTypes;
         this.creditHours = creditHours;
         setFeesAutomatically(creditHours);
@@ -68,15 +67,6 @@ public class Course {
     }
 
     
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public int getCreditHours() {
         return creditHours;
     }

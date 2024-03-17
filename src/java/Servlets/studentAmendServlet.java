@@ -46,7 +46,6 @@ public class studentAmendServlet extends HttpServlet {
             throws ServletException, IOException {
         String id = request.getParameter("id");
         String name = request.getParameter("name");
-        String ic = request.getParameter("ic");
         String gender = request.getParameter("gender");
         String email = request.getParameter("email");
         
@@ -56,7 +55,7 @@ public class studentAmendServlet extends HttpServlet {
         String programme = request.getParameter("programme");
 
         // Create a new Student object with the provided data
-        Student s = new Student(id, name, ic, gender, email, sStatus, 0,programme);
+        Student s = new Student(id, name, gender, email, sStatus, 0,programme);
 
         // Check if studentList is empty
         if (sList.isEmpty()) {

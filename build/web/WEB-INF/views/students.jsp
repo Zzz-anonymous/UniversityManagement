@@ -20,7 +20,7 @@
             </form>
 
             <%
-                LinkedListInterface<Student> sList = (LinkedListInterface<Student>) request.getAttribute("sList");
+                LinkedListInterface<Student> sList = (LinkedListInterface<Student>) request.getAttribute("mergedList");
                 LinkedListInterface<Student> sr = (LinkedListInterface<Student>) request.getAttribute("searchResults");
                 boolean showSearchResults = sr != null && !sr.isEmpty();
             %>
@@ -28,8 +28,7 @@
                 <thead>
                     <tr>
                         <th>Student ID</th>
-                        <th>Name</th>
-                        <th>IC No</th>
+                        <th>Name</th>      
                         <th>Gender</th>
                         <th>Email</th>
                         <th>Student Status</th>
@@ -47,7 +46,6 @@
                     <tr>
                         <td><%= s.getId()%></td>
                         <td><%= s.getName()%></td>
-                        <td><%= s.getIc()%></td>
                         <td><%= s.getGender()%></td>
                         <td><%= s.getEmail()%></td>
                         <td><%= s.getStatus() == 1 ? "Active" : "Inactive"%></td>
@@ -65,7 +63,6 @@
                     <tr>
                         <td><%= s.getId()%></td>
                         <td><%= s.getName()%></td>
-                        <td><%= s.getIc()%></td>
                         <td><%= s.getGender()%></td>
                         <td><%= s.getEmail()%></td>
                         <td><%= s.getStatus() == 1 ? "Active" : "Inactive"%></td>

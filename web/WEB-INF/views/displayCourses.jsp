@@ -15,10 +15,10 @@
     <div class="home-content">
         <i class='bx bx-menu'></i>
         <header>
-            <h1>Course Details</h1>
+            <h1>View All Course</h1>
         </header>
         <main>
-            <form style="padding-bottom:10px" action="studentSearchServlet" method="post">
+            <form style="padding-bottom:10px" action="courseSearchingServlet" method="post">
                 <input type="search" id="search" name="search" placeholder="Search Names" autofocus>        
             </form>
 

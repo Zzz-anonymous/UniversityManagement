@@ -4,6 +4,9 @@
     Author     : Zy
 --%>
 
+<%@page import="Utility.Tools"%>
+<%@page import="Entity.Programme"%>
+<%@page import="adt.ListInterface"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file = "/shared/header.jsp"%>
 <!DOCTYPE html>
@@ -27,13 +30,10 @@
                                     <td><label for="id">Student ID:</label> </td>
                                     <td><input name="id" ID="id" type="text" maxlength="5"/></td>
                                 </tr>
+
                                 <tr>
                                     <td><label for="name">Full Name as in IC / Passport:</label> </td>
                                     <td><input name="name" ID="name" type="text" maxlength="30"/></td>
-                                </tr>
-                                <tr>
-                                    <td><label for="ic">Identity Card:</label> </td>
-                                    <td><input name="ic" ID="ic" type="text" maxlength="12"/></td>
                                 </tr>
                                 <tr>
                                     <td><label for="gender">Gender:</label></td>
@@ -48,18 +48,31 @@
                                     <td><input name="email" ID="email" type="email"/></td>
                                 </tr>
 
+                                <%
+                                    ListInterface<Programme> pList = Tools.initializeProgrammes();
+                                    if (pList != null && !pList.isEmpty()) {
+
+                                %>           
                                 <tr>
-                                    <!-- TODO -->
-                                    <td><label for="programme">Choose a Course:</label></td>
-                                    <td>     
-                                        <select name="programme" id="programme">
-                                            <option value="volvo">Volvo</option>
-                                            <option value="saab">Saab</option>
-                                            <option value="mercedes">Mercedes</option>
-                                            <option value="audi">Audi</option>
+                                    <td><label for="programmeId">Select your programme Id:</label> </td>
+                                    <td>
+                                        <select name="programmeId" id="programmeId">
+                                            <%      for (int i = 1; i <= pList.getTotalNumberOfData(); i++) {
+                                                    Programme p = pList.getData(i);
+                                            %>
+                                            <option value="<%= p.getId()%>">
+                                                <%= p.getId()%>
+                                            </option>
+                                            <%
+                                                }
+                                            %>
                                         </select>
                                     </td>
                                 </tr>
+
+                                <%
+                                    }
+                                %>
                                 <tr>
                                     <td></td>
                                     <td>
@@ -71,5 +84,5 @@
                     </form>
                 </main>
                 <%@include file = "/shared/footer.jsp"%>
-    </body>
-</html>
+                </body>
+                </html>

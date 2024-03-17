@@ -13,6 +13,9 @@ public class Programme {
     private String name;
     private String facultyName;
 
+    public Programme() {
+    }
+    
     public Programme(String id, String name, String facultyName) {
         this.id = id;
         this.name = name;

@@ -24,7 +24,7 @@ import javax.servlet.RequestDispatcher;
  */
 @WebServlet("/studentDeleteServlet")
 public class studentDeleteServlet extends HttpServlet {
-    private static ListInterface<Student> studentList = StudentDao.getAllStudents();
+   
     // delete
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

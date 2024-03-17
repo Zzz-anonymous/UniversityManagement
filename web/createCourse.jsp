@@ -5,6 +5,7 @@
 --%>
 <%@include file = "/shared/header.jsp"%>
 <%@ page import = "Entity.Programme"%>
+<%@ page import = "Entity.Tutor"%>
 <%@page import = "Utility.Tools"%>
 <%@page import = "adt.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -61,7 +62,31 @@
                                 </select>
                             </td>
                         </tr>
-
+                        <%
+                            ListInterface<Tutor> tList = Tools.initializeTutors();
+                            if (tList != null && !tList.isEmpty()) {
+                        %>           
+                        <tr>
+                            <td><label for="tutorName">Tutor Names:</label> </td>
+                            <td>
+                                <select name="tutorName" id="tutorName">
+                                    <%      for (int i = 1; i <= tList.getTotalNumberOfData(); i++) {
+                                            Tutor t = tList.getData(i);
+                                    %>
+                                    <option value="<%= t.getName() %>">
+                                        <%= t.getName() %>
+                                    </option>
+                                    <%
+                                        }
+                                    %>
+                                </select>
+                            </td>
+                        </tr>
+                        
+                        <%
+                            }
+                        %>
+                        
                         <%
                             ListInterface<Programme> pList = Tools.initializeProgrammes();
                             if (pList != null && !pList.isEmpty()) {
@@ -71,10 +96,10 @@
                             <td><label for="programmeName">programme Names:</label> </td>
                             <td>
                                 <select name="programmeName" id="programmeName">
-                                    <%      for (int i = 1; i <= pList.getNumberOfEntries(); i++) {
-                                            Programme p = pList.getEntry(i);
+                                    <%      for (int i = 1; i <= pList.getTotalNumberOfData(); i++) {
+                                            Programme p = pList.getData(i);
                                     %>
-                                    <option value="<%= p.getId() %>">
+                                    <option value="<%= p.getName() %>">
                                         <%= p.getName() %>
                                     </option>
                                     <%

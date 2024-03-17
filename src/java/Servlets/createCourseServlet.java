@@ -5,9 +5,10 @@
 package Servlets;
 
 import Dao.CourseDao;
-import static Dao.ProgrammeDao.findProgrammeByName;
-import Entity.Course;
-import Entity.Programme;
+import Dao.ProgrammeDao;
+import Dao.TutorDao;
+
+import Entity.*;
 import adt.*;
 
 import java.io.IOException;
@@ -33,7 +34,7 @@ public class createCourseServlet extends HttpServlet {
         String pathInfo = request.getPathInfo();
 
         if (pathInfo == null || pathInfo.equals("/")) {
-            ListInterface<Course> cList = CourseDao.getAllCourses();
+            LinkedListInterface<Course> cList = CourseDao.getAllCourses();
             if (cList.isEmpty()) {
                 // Display alert message if no students were found
                 PrintWriter out = response.getWriter();
@@ -95,25 +96,22 @@ public class createCourseServlet extends HttpServlet {
             return; // Exit the method
         }
 
-        // Create an instance of CircularArrayQueue<CourseType> to store the selected course types
-        //CircularArrayQueue<String> courseTypes = new CircularArrayQueue<>(selectedTypes.length);
-
-        // Enqueue the selected course types into the circular array queue
-//        for (String type : selectedTypes) {
-//            courseTypes.enqueue(type);
-//        }
 
         String ch = request.getParameter("creditHours");
         int creditHours = Integer.parseInt(ch);
 
-        String p = request.getParameter("ProgrammeName");
-        Programme programme = findProgrammeByName(p);
+        String t = request.getParameter("tutorName");
+        // Get the tutor object using the name
+        Tutor tutorName = TutorDao.findTutorByName(t);
+        
+        String p = request.getParameter("programmeName");
+        Programme programmeName = ProgrammeDao.findProgrammeByName(p);
         
         String avail = request.getParameter("avail");
         int available = Integer.parseInt(avail);
 
         // Create a new Course object with the provided data
-        Course c = new Course(id, name, details, status, courseTypes, creditHours, programme, available);
+        Course c = new Course(id, name, details, status, courseTypes, creditHours, tutorName, programmeName, available);
 
         try {
             // Attempt to add the course

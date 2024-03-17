@@ -77,6 +77,21 @@
                     </ul>
                 </li>
                 <li>
+                    <div class="iocn-link">
+                        <a href="#">
+                            <i class='bx bx-book-alt'></i>
+                            <span class="link_name">Programme Management</span>
+                        </a>
+                        <i class='bx bxs-chevron-down arrow'></i>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a class="link_name" href="#">Programme Management</a></li>
+                        <li><a href="createCourse.jsp">Create Course</a></li>
+                        <li><a href="/UniversityManagement/createCourseServlet">View Courses</a></li>
+                        <li><a href="#">Card Design</a></li>
+                    </ul>
+                </li>
+                <li>
                     <a href="#">
                         <i class='bx bx-pie-chart-alt-2'></i>
                         <span class="link_name">Analytics</span>

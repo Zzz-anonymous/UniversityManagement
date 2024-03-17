@@ -25,8 +25,6 @@ import Dao.StudentDao;
 @WebServlet("/studentServlet")
 public class studentServlet extends HttpServlet {
 
-    private static ListInterface<Student> studentList = StudentDao.getAllStudents();
-
     // check students availability, display students records if not empty
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -34,7 +32,7 @@ public class studentServlet extends HttpServlet {
         String pathInfo = request.getPathInfo();
 
         if (pathInfo == null || pathInfo.equals("/")) {
-            ListInterface<Student> sList = StudentDao.getAllStudents();
+            LinkedListInterface<Student> sList = StudentDao.getAllStudents();
             if (sList.isEmpty()) {
                 // Display alert message if no students were found
                 PrintWriter out = response.getWriter();
@@ -78,16 +76,14 @@ public class studentServlet extends HttpServlet {
         String programme = request.getParameter("programme");
 
         // Create a new Student object with the provided data
-        Student s = new Student(id, name, ic, gender, email, 0, programme);
+        Student s = new Student(id, name, ic, gender, email, 1,0, programme);
 
         try {
             // Attempt to add the student
             StudentDao.addStudent(s);
             
             // If no exceptions are thrown, the addition was successful
-            // Save student records to file
-            ListInterface<Student> updatedStudentList = StudentDao.getAllStudents();
-            StudentDao.saveToFile(updatedStudentList, getServletContext());
+            //LinkedListInterface<Student> updatedStudentList = StudentDao.getAllStudents();     
 
             // If no exceptions are thrown, the addition was successful
             PrintWriter out = response.getWriter();

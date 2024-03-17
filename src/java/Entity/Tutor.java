@@ -13,8 +13,8 @@ import Utility.Person;
 public class Tutor extends Person{
     private String level;
 
-    public Tutor(String id, String name, String ic, String gender, String email, String level) {
-        super(id, name, ic, gender, email);
+    public Tutor(String id, String name, String ic, String gender, String email, int status, String level) {
+        super(id, name, ic, gender, email, status);
         this.level = level;
     }
 

@@ -9,20 +9,23 @@ package Utility;
  * @author Zy
  */
 public abstract class Person {
+
     private String id;
     private String name;
     private String ic;
     private String gender;
     private String email;
+    private int status;
 
-    public Person(String id, String name, String ic, String gender, String email) {
+    public Person(String id, String name, String ic, String gender, String email, int status) {
         this.id = id;
         this.name = name;
         this.ic = ic;
         this.gender = gender;
         this.email = email;
+        this.status = status;
     }
-    
+
     public String getId() {
         return id;
     }
@@ -61,5 +64,17 @@ public abstract class Person {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public boolean nameMatches(String name) {
+        return this.name.equals(name);
     }
 }

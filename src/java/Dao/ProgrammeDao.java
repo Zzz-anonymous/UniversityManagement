@@ -13,20 +13,19 @@ import adt.ListInterface;
  * @author Zy
  */
 
-
 public class ProgrammeDao {
     public static Programme findProgrammeByName(String name) {
-    ListInterface<Programme> programmes = initializeProgrammes();
-    
-    for (int i = 1; i <= programmes.getNumberOfEntries(); i++) {
-        Programme programme = programmes.getEntry(i);
-        if (programme.getName().equals(name)) {
-            return programme;
+        ListInterface<Programme> programme = initializeProgrammes();
+
+        for (int i = 1; i <= programme.getTotalNumberOfData(); i++) {
+            Programme p = programme.getData(i);
+            if (p.getName().equals(name)) {
+                return p;
+            }
         }
+
+        // If no matching programme is found, return null or throw an exception
+        return null;
     }
-    
-    // If no matching programme is found, return null or throw an exception
-    return null;
-}
 
 }

@@ -6,14 +6,16 @@ package Dao;
 
 import Entity.Course;
 import adt.*;
+import java.util.Iterator;
 
 /**
  *
  * @author Zy
  */
 public class CourseDao {
- // Create an ArrayList to store Student objects
-    private static ListInterface<Course> cList = new ArrayList<>();
+    // Create an ArrayList to store Student objects
+
+    private static LinkedListInterface<Course> cList = new LinkedList<>();
 
     // add new student
     public static void addCourse(Course s) {
@@ -21,7 +23,7 @@ public class CourseDao {
     }
 
     // get all student details
-    public static ListInterface<Course> getAllCourses() {
+    public static LinkedListInterface<Course> getAllCourses() {
         return cList;
     }
 
@@ -53,7 +55,7 @@ public class CourseDao {
         // If the student is not found, return false
         return false;
     }
-
+    
     // check the availability of the id 
     public static boolean availableId(String id) {
         // return value if the index number is available
@@ -65,23 +67,34 @@ public class CourseDao {
         // Trim the provided ID to remove leading and trailing whitespace
         String trimmedId = id.trim();
 
-        for (int i = 1; i <= cList.getNumberOfEntries(); i++) {
-            Course s = cList.getEntry(i);
-            if (s != null) {
-                if (s.getId().equals(trimmedId)) {
-                    // if equals, return the index number
-                    return i;
+        // Get an iterator for the LinkedList
+        Iterator<Course> iterator = cList.getIterator();
+
+        // Initialize index counter
+        int index = 1;
+
+        // Iterate over the list
+        while (iterator.hasNext()) {
+            Course c = iterator.next();
+            if (c != null) {
+                if (c.getId().equals(trimmedId)) {
+                    // If student ID matches, return the index
+                    return index;
                 }
             }
+            // Increment index counter
+            index++;
         }
+
+        // If student ID is not found, return -1
         return -1;
     }
 
     // get student info by id
     public static Course getStudentById(String id) {
         // Iterate over the list of students to find the one with the matching ID
-        for (int i = 1; i <= cList.getNumberOfEntries(); i++) {
-            Course s = cList.getEntry(i);
+        for (int i = 1; i <= cList.getTotalNumberOfData(); i++) {
+            Course s = cList.getData(i);
             if (s.getId().equals(id)) {
                 return s;
             }
@@ -94,23 +107,14 @@ public class CourseDao {
     public static ListInterface<Course> searchStudent(String name) {
         ListInterface<Course> searchResults = new ArrayList<>();
         // Loop through all students to find matches
-        for (int i = 1; i <= cList.getNumberOfEntries(); i++) {
-            Course s = cList.getEntry(i);
+        for (int i = 1; i <= cList.getTotalNumberOfData(); i++) {
+            Course s = cList.getData(i);
             // Check if the student's name contains the search term (case-insensitive)
             if (s.getName().toLowerCase().contains(name.toLowerCase())) {
                 searchResults.add(s);
             }
         }
         return searchResults;
-    }  
-    
-    // Define the method to get course types as a comma-separated string
-//        String getCourseTypesAsString(Course c) {
-//            CircularArrayQueue<String> courseTypes = c.getCourseTypes();
-//            if (courseTypes != null) {
-//                return courseTypes.getCircularArrayQueueAsString();
-//            } else {
-//                return ""; // or any other default value you prefer
-//            }
-//        }
+    }
+
 }

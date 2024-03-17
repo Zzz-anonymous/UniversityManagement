@@ -23,22 +23,20 @@
             </form>
 
             <%
-                ListInterface<Course> cList = (ListInterface<Course>) request.getAttribute("cList");
-                ListInterface<Course> cr = (ListInterface<Course>) request.getAttribute("searchResults");
+                LinkedListInterface<Course> cList = (LinkedListInterface<Course>) request.getAttribute("cList");
+                LinkedListInterface<Course> cr = (LinkedListInterface<Course>) request.getAttribute("searchResults");
                 boolean showSearchResults = cr != null && !cr.isEmpty();
-
-
-
             %>
             <table border="1" style="width:80%;">
                 <thead>
                     <tr>
                         <th>Course ID</th>
-                        <th>Name</th>
+                        <th>Course Name</th>
                         <th>Course Details</th>
                         <th>Course Types</th>
                         <th>Credit Hours</th>
-                        <th>Course Fees</th>
+                        <th>Tutors</th>
+                        <th>Programmes</th>
                         <th>Course Status</th>
                         <th>Edit</th>
                         <th>Delete</th>
@@ -46,8 +44,8 @@
                 </thead>    
                 <tbody>
                     <% if (showSearchResults) {
-                            for (int i = 1; i <= cr.getNumberOfEntries(); i++) {
-                                Course c = cr.getEntry(i);
+                            for (int i = 1; i <= cr.getTotalNumberOfData(); i++) {
+                                Course c = cr.getData(i);
                     %>
                     <tr>
                         <td><%= c.getId()%></td>
@@ -62,8 +60,13 @@
                             <% } %>
                         </td>
                         <td><%= c.getCreditHours()%></td>
-                        <td><%= c.getFees()%></td>
-                        <td><%= c.getAvailability() == 1 ? "Yes" : "False"%></td>
+                        <td>
+                            <%= c.getTutor().getName()%>
+                        </td>
+                        <td>
+                            <%= c.getProgramme().getName()%>
+                        </td>
+                        <td><%= c.getAvailability() == 1 ? "Available" : "Not Available"%></td>
 
                         <td><a href="/UniversityManagement/amendCourseServlet?id=<%= c.getId()%>">Edit</a></td>
                         <td><a href="/UniversityManagement/deleteCourseServlet?id=<%= c.getId()%>">Delete</a></td>                           
@@ -71,8 +74,8 @@
                     <%
                         }
                     } else if (cList != null && !cList.isEmpty()) {
-                        for (int i = 1; i <= cList.getNumberOfEntries(); i++) {
-                            Course c = cList.getEntry(i);
+                        for (int i = 1; i <= cList.getTotalNumberOfData(); i++) {
+                            Course c = cList.getData(i);
                     %>
                     <tr>
                         <td><%= c.getId()%></td>
@@ -87,12 +90,17 @@
                             <% } %>
                         </td>
                         <td><%= c.getCreditHours()%></td>
-                        <td><%= c.getFees()%></td>
-                        <td><%= c.getAvailability() == 1 ? "Available" : "Not Available"%></td>
+                       
                         <td>
-                            <%%>
+                            <%= c.getTutor().getName()%>
                         </td>
-                        
+                        <td>
+                            <%= c.getProgramme().getName() %>
+                        </td>
+                      
+                        <td><%= c.getAvailability() == 1 ? "Available" : "Not Available"%></td>
+                        <!--TODO-->
+                        <!-- delete and modification havent done  -->
                         <td><a href="/UniversityManagement/studentAmendServlet?id=<%= c.getId()%>">Edit</a></td>
                         <td><a href="/UniversityManagement/studentDeleteServlet?id=<%= c.getId()%>">Delete</a></td>                           
                     </tr>
@@ -101,7 +109,7 @@
                     } else {
                     %>
                     <tr>
-                        <td colspan="9">No Course records found</td>
+                        <td colspan="10">No Course records found</td>
                     </tr>
                     <% }%>
                 </tbody>

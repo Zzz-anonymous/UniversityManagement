@@ -20,8 +20,8 @@
             </form>
 
             <%
-                ListInterface<Student> sList = (ListInterface<Student>) request.getAttribute("sList");
-                ListInterface<Student> sr = (ListInterface<Student>) request.getAttribute("searchResults");
+                LinkedListInterface<Student> sList = (LinkedListInterface<Student>) request.getAttribute("sList");
+                LinkedListInterface<Student> sr = (LinkedListInterface<Student>) request.getAttribute("searchResults");
                 boolean showSearchResults = sr != null && !sr.isEmpty();
             %>
             <table border="1" style="width:80%;">
@@ -32,6 +32,7 @@
                         <th>IC No</th>
                         <th>Gender</th>
                         <th>Email</th>
+                        <th>Student Status</th>
                         <th>Payment Status</th>
                         <th>Programme ID</th>
                         <th>Edit</th>
@@ -40,8 +41,8 @@
                 </thead>    
                 <tbody>
                     <% if (showSearchResults) {
-                            for (int i = 1; i <= sr.getNumberOfEntries(); i++) {
-                                Student s = sr.getEntry(i);
+                            for (int i = 1; i <= sr.getTotalNumberOfData(); i++) {
+                                Student s = sr.getData(i);
                     %>
                     <tr>
                         <td><%= s.getId()%></td>
@@ -49,6 +50,7 @@
                         <td><%= s.getIc()%></td>
                         <td><%= s.getGender()%></td>
                         <td><%= s.getEmail()%></td>
+                        <td><%= s.getStatus() == 1 ? "Active" : "Inactive"%></td>
                         <td><%= s.getPaymentStatus()%></td>
                         <td><%= s.getProgrammeId()%></td>
                         <td><a href="/UniversityManagement/studentAmendServlet?id=<%= s.getId()%>">Edit</a></td>
@@ -57,8 +59,8 @@
                     <%
                         }
                     } else if (sList != null && !sList.isEmpty()) {
-                        for (int i = 1; i <= sList.getNumberOfEntries(); i++) {
-                            Student s = sList.getEntry(i);
+                        for (int i = 1; i <= sList.getTotalNumberOfData(); i++) {
+                            Student s = sList.getData(i);
                     %>
                     <tr>
                         <td><%= s.getId()%></td>
@@ -66,6 +68,7 @@
                         <td><%= s.getIc()%></td>
                         <td><%= s.getGender()%></td>
                         <td><%= s.getEmail()%></td>
+                        <td><%= s.getStatus() == 1 ? "Active" : "Inactive"%></td>
                         <td><%= s.getPaymentStatus()%></td>
                         <td><%= s.getProgrammeId()%></td>
                         <td><a href="/UniversityManagement/studentAmendServlet?id=<%= s.getId()%>">Edit</a></td>
@@ -76,7 +79,7 @@
                     } else {
                     %>
                     <tr>
-                        <td colspan="9">No student records found</td>
+                        <td colspan="10">No student records found</td>
                     </tr>
                     <% }%>
                 </tbody>

@@ -5,8 +5,7 @@
 package Utility;
 
 import adt.*;
-import Entity.Programme;
-import Entity.Tutor;
+import Entity.*;
 
 /**
  *
@@ -52,18 +51,18 @@ public class Tools {
     //  Method to return a collection of with hard-coded entity values
     public static ListInterface<Tutor> initializeTutors() {
         ListInterface<Tutor> tList = new ArrayList<>();
-        tList.add(new Tutor("T1001", "Zhong Li", "123456789101", "Male", "abc@123.com", "Doctoral"));
-        tList.add(new Tutor("T1002", "Raiden Shogun", "123456789101", "Female", "abc@123.com", "Master"));
-        tList.add(new Tutor("T1003", "Yae Miko", "123456789101", "Female", "abc@123.com", "Master"));
-        tList.add(new Tutor("T1004", "Klee", "123456789101", "Female", "abc@123.com", "Degree"));
-        tList.add(new Tutor("T1005", "Ningguang", "123456789101", "Female", "abc@123.com", "Master"));
-        tList.add(new Tutor("T1006", "Xian Yun", "123456789101", "Female", "abc@123.com", "Master"));
-        tList.add(new Tutor("T1007", "Neuvillette", "123456789101", "Male", "abc@123.com", "Master"));
-        tList.add(new Tutor("T1008", "Alhaitham", "123456789101", "Male", "abc@123.com", "Doctoral"));
-        tList.add(new Tutor("T1009", "Beidou", "123456789101", "Female", "abc@123.com", "Degree"));
-        tList.add(new Tutor("T1010", "Nahida", "123456789101", "Female", "abc@123.com", "Master"));
-        tList.add(new Tutor("T1011", "Xiao", "123456789101", "Male", "abc@123.com", "Degree"));
-        tList.add(new Tutor("T1012", "Yelan", "123456789101", "Female", "abc@123.com", "Degree"));
+        tList.add(new Tutor("T1001", "Zhong Li", "123456789101", "Male", "abc@123.com",1, "Doctoral"));
+        tList.add(new Tutor("T1002", "Raiden Shogun", "123456789101", "Female", "abc@123.com",1, "Master"));
+        tList.add(new Tutor("T1003", "Yae Miko", "123456789101", "Female", "abc@123.com",1, "Master"));
+        tList.add(new Tutor("T1004", "Klee", "123456789101", "Female", "abc@123.com",1, "Degree"));
+        tList.add(new Tutor("T1005", "Ningguang", "123456789101", "Female", "abc@123.com",1, "Master"));
+        tList.add(new Tutor("T1006", "Xian Yun", "123456789101", "Female", "abc@123.com",1, "Master"));
+        tList.add(new Tutor("T1007", "Neuvillette", "123456789101", "Male", "abc@123.com",1, "Master"));
+        tList.add(new Tutor("T1008", "Alhaitham", "123456789101", "Male", "abc@123.com",1, "Doctoral"));
+        tList.add(new Tutor("T1009", "Beidou", "123456789101", "Female", "abc@123.com",1, "Degree"));
+        tList.add(new Tutor("T1010", "Nahida", "123456789101", "Female", "abc@123.com",1, "Master"));
+        tList.add(new Tutor("T1011", "Xiao", "123456789101", "Male", "abc@123.com",1, "Degree"));
+        tList.add(new Tutor("T1012", "Yelan", "123456789101", "Female", "abc@123.com",1, "Degree"));
         return tList;
     }
 }

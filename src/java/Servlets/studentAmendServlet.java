@@ -24,8 +24,10 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/studentAmendServlet")
 public class studentAmendServlet extends HttpServlet {
 
-    private final static ListInterface<Student> studentList = StudentDao.getAllStudents();
+    private final static LinkedListInterface<Student> sList = StudentDao.getAllStudents();
 
+    
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -47,13 +49,17 @@ public class studentAmendServlet extends HttpServlet {
         String ic = request.getParameter("ic");
         String gender = request.getParameter("gender");
         String email = request.getParameter("email");
+        
+        String stat = request.getParameter("status");
+        int sStatus = Integer.parseInt(stat);
+        
         String programme = request.getParameter("programme");
 
         // Create a new Student object with the provided data
-        Student s = new Student(id, name, ic, gender, email, 0, programme);
+        Student s = new Student(id, name, ic, gender, email, sStatus, 0,programme);
 
         // Check if studentList is empty
-        if (studentList.isEmpty()) {
+        if (sList.isEmpty()) {
             // Handle the case where studentList is empty
             PrintWriter out = response.getWriter();
             out.println("<script>alert('No students found!');</script>");

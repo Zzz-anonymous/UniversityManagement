@@ -8,7 +8,6 @@ package Entity;
  *
  * @author Zy
  */
-import adt.CircularArrayQueue;
 
 public class Course {
     private String Id;
@@ -21,8 +20,9 @@ public class Course {
     private double fees;
     private int availability;
     private int maxCapacity = 200;
+    private Tutor tutor;
 
-    public Course(String Id, String name, String details,String status,String[] courseTypes, int creditHours,Programme programme, int availability) {
+    public Course(String Id, String name, String details,String status,String[] courseTypes, int creditHours,Tutor tutor, Programme programme, int availability) {
         this.Id = Id;
         this.name = name;
         this.details = details;
@@ -30,6 +30,7 @@ public class Course {
         this.courseTypes = courseTypes;
         this.creditHours = creditHours;
         setFeesAutomatically(creditHours);
+        this.tutor = tutor;
         this.programme = programme;
         this.availability = availability;
     }
@@ -83,6 +84,14 @@ public class Course {
     public void setCreditHours(int creditHours) {
         this.creditHours = creditHours;
         setFeesAutomatically(creditHours);
+    }
+
+    public Tutor getTutor() {
+        return tutor;
+    }
+
+    public void setTutor(Tutor tutor) {
+        this.tutor = tutor;
     }
 
     public double getFees() {

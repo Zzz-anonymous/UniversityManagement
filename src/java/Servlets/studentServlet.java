@@ -17,6 +17,7 @@ import javax.servlet.RequestDispatcher;
 import adt.*;
 import Entity.Student;
 import Dao.StudentDao;
+import Utility.Tools;
 
 /**
  *
@@ -32,15 +33,31 @@ public class studentServlet extends HttpServlet {
         String pathInfo = request.getPathInfo();
 
         if (pathInfo == null || pathInfo.equals("/")) {
+            // Get both userInput and hardcoded students
             LinkedListInterface<Student> sList = StudentDao.getAllStudents();
-            if (sList.isEmpty()) {
+            ListInterface<Student> initialzeStudents = Tools.initializeStudents();
+
+            // Merge the lists
+            LinkedListInterface<Student> mergedList = new LinkedList<>();
+            if (!sList.isEmpty()) {
+                for (int i = 1; i <= sList.getTotalNumberOfData(); i++) {
+                    mergedList.add(sList.getData(i));
+                }
+            }
+            if (!initialzeStudents.isEmpty()) {
+                for (int i = 1; i <= initialzeStudents.getTotalNumberOfData(); i++) {
+                    mergedList.add(initialzeStudents.getData(i));
+                }
+            }
+
+            if (mergedList.isEmpty()) {
                 // Display alert message if no students were found
                 PrintWriter out = response.getWriter();
                 out.println("<script>alert('No students were found.');</script>");
                 out.println("<script>window.location.href = 'insertStudent.jsp';</script>");
                 out.close();
             } else {
-                request.setAttribute("sList", sList);
+                request.setAttribute("mergedList", mergedList);
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/students.jsp");
                 dispatcher.forward(request, response);
             }
@@ -70,21 +87,19 @@ public class studentServlet extends HttpServlet {
         }
 
         String name = request.getParameter("name");
-        String ic = request.getParameter("ic");
         String gender = request.getParameter("gender");
         String email = request.getParameter("email");
-        String programme = request.getParameter("programme");
+        String programmeId = request.getParameter("programmeId");
 
         // Create a new Student object with the provided data
-        Student s = new Student(id, name, ic, gender, email, 1,0, programme);
+        Student s = new Student(id, name, gender, email, 1, 0, programmeId);
 
         try {
             // Attempt to add the student
             StudentDao.addStudent(s);
-            
+
             // If no exceptions are thrown, the addition was successful
             //LinkedListInterface<Student> updatedStudentList = StudentDao.getAllStudents();     
-
             // If no exceptions are thrown, the addition was successful
             PrintWriter out = response.getWriter();
             out.println("<script>alert('Record saved successfully!');</script>");

@@ -13,23 +13,6 @@ import Entity.*;
  */
 public class Tools {
 
-    private static final String PREFIX = "S";
-    private static final int ID_LENGTH = 5; // Length of the numeric portion of the ID
-
-    public static String generateID(int number) {
-        StringBuilder sb = new StringBuilder();
-
-        // Append the prefix
-        sb.append(PREFIX);
-
-        // Append the numeric portion
-        String numericPart = String.format("%0" + ID_LENGTH + "d", number);
-        sb.append(numericPart);
-
-        return sb.toString();
-    }
-
-
     //  Method to return a collection of with hard-coded entity values
     public static ListInterface<Programme> initializeProgrammes() {
         ListInterface<Programme> pList = new ArrayList<>();
@@ -51,18 +34,36 @@ public class Tools {
     //  Method to return a collection of with hard-coded entity values
     public static ListInterface<Tutor> initializeTutors() {
         ListInterface<Tutor> tList = new ArrayList<>();
-        tList.add(new Tutor("T1001", "Zhong Li", "123456789101", "Male", "abc@123.com",1, "Doctoral"));
-        tList.add(new Tutor("T1002", "Raiden Shogun", "123456789101", "Female", "abc@123.com",1, "Master"));
-        tList.add(new Tutor("T1003", "Yae Miko", "123456789101", "Female", "abc@123.com",1, "Master"));
-        tList.add(new Tutor("T1004", "Klee", "123456789101", "Female", "abc@123.com",1, "Degree"));
-        tList.add(new Tutor("T1005", "Ningguang", "123456789101", "Female", "abc@123.com",1, "Master"));
-        tList.add(new Tutor("T1006", "Xian Yun", "123456789101", "Female", "abc@123.com",1, "Master"));
-        tList.add(new Tutor("T1007", "Neuvillette", "123456789101", "Male", "abc@123.com",1, "Master"));
-        tList.add(new Tutor("T1008", "Alhaitham", "123456789101", "Male", "abc@123.com",1, "Doctoral"));
-        tList.add(new Tutor("T1009", "Beidou", "123456789101", "Female", "abc@123.com",1, "Degree"));
-        tList.add(new Tutor("T1010", "Nahida", "123456789101", "Female", "abc@123.com",1, "Master"));
-        tList.add(new Tutor("T1011", "Xiao", "123456789101", "Male", "abc@123.com",1, "Degree"));
-        tList.add(new Tutor("T1012", "Yelan", "123456789101", "Female", "abc@123.com",1, "Degree"));
+        tList.add(new Tutor("T1001", "Zhong Li",  "Male", "abc@123.com",1, "Doctoral"));
+        tList.add(new Tutor("T1002", "Raiden Shogun",  "Female", "abc@123.com",1, "Master"));
+        tList.add(new Tutor("T1003", "Yae Miko", "Female", "abc@123.com",1, "Master"));
+        tList.add(new Tutor("T1004", "Klee", "Female", "abc@123.com",1, "Degree"));
+        tList.add(new Tutor("T1005", "Ningguang", "Female", "abc@123.com",1, "Master"));
+        tList.add(new Tutor("T1006", "Xian Yun", "Female", "abc@123.com",1, "Master"));
+        tList.add(new Tutor("T1007", "Neuvillette",  "Male", "abc@123.com",1, "Master"));
+        tList.add(new Tutor("T1008", "Alhaitham", "Male", "abc@123.com",1, "Doctoral"));
+        tList.add(new Tutor("T1009", "Beidou",  "Female", "abc@123.com",1, "Degree"));
+        tList.add(new Tutor("T1010", "Nahida", "Female", "abc@123.com",1, "Master"));
+        tList.add(new Tutor("T1011", "Xiao",  "Male", "abc@123.com",1, "Degree"));
+        tList.add(new Tutor("T1012", "Yelan",  "Female", "abc@123.com",1, "Degree"));
         return tList;
+    }
+    
+    //  Method to return a collection of with hard-coded entity values
+    public static ListInterface<Student> initializeStudents() {
+        ListInterface<Student> sList = new ArrayList<>();
+        sList.add(new Student("S0001","Bennett" ,"Male", "abc@123.com",1, 0,"RSE"));
+        sList.add(new Student("S0002","Amber","Female", "abc@123.com",1,  0,"RSP"));
+        sList.add(new Student("S0003","Dori",  "Female", "abc@123.com",1,0,"RAC"));
+        sList.add(new Student("S0004", "Kaveh","Male", "abc@123.com",1, 0,"RES"));
+        sList.add(new Student("S0005","Qiqi","Female", "abc@123.com",1,  0,"RPY"));
+        sList.add(new Student("S0006","Tighnari","Male", "abc@123.com",1,  0,"RML"));
+        sList.add(new Student("S0007","Xiangling", "Female", "abc@123.com",1, 0,"RSD"));
+        sList.add(new Student("S0008","Xingqiu", "Male", "abc@123.com",1, 0,"REU"));
+        sList.add(new Student("S0009","Chongyun", "Male", "abc@123.com",1, 0,"RBD"));
+        sList.add(new Student("S0010","Collei","Female", "abc@123.com",1,  0,"RAC"));
+        sList.add(new Student("S0011","Furina",  "Female", "abc@123.com",1,0,"RBC"));
+        sList.add(new Student("S0012","Kirara","Female", "abc@123.com",1,  0,"RIT"));
+        return sList;
     }
 }

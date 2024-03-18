@@ -52,4 +52,39 @@
         });
     }
 
-    
+// Check all checkboxes
+document.querySelectorAll('[data-check]').forEach(button => {
+    button.addEventListener('click', e => {
+        e.preventDefault();
+        const name = e.target.dataset.check;
+        // Set the checkbox as checked when the button is clicked
+        document.querySelectorAll(`[name=${name}]`).forEach(checkbox => {
+            checkbox.checked = true;
+        });
+    });
+});
+
+
+// Uncheck all checkboxes
+document.querySelectorAll('[data-uncheck]').forEach(button => {
+    button.addEventListener('click', e => {
+        e.preventDefault();
+        const name = e.target.dataset.uncheck;
+        // Set the checkbox as unchecked when the button is clicked
+        document.querySelectorAll(`[name=${name}]`).forEach(checkbox => {
+            checkbox.checked = false;
+        });
+    });
+});
+
+// Row checkable, 按 table 的 row 可以 tick the checkbox
+document.querySelectorAll('[data-checkable]').forEach(element => {
+    element.addEventListener('click', e => {
+        if (e.target.tagName.toLowerCase() === 'input' || e.target.tagName.toLowerCase() === 'a') return;
+        
+        const checkboxes = element.querySelectorAll(':scope input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = !checkbox.checked;
+        });
+    });
+});

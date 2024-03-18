@@ -24,6 +24,28 @@ import javax.servlet.http.HttpServletResponse;
 public class studentSearchServlet extends HttpServlet {
 
     @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        // Get the programmeId parameter from the request
+        String programmeId = request.getParameter("programId");
+
+        // If programmeId is null or empty, retrieve all students
+        if (programmeId == null || programmeId.isEmpty()) {
+            LinkedListInterface<Student> studentList = StudentDao.getAllStudents();
+            request.setAttribute("studentList", studentList);
+        } else {
+            // Retrieve students based on the specified programmeId
+            LinkedListInterface<Student> studentList = StudentDao.getStudentsByPid(programmeId);
+            request.setAttribute("studentList", studentList);
+        }
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/students.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    // display the search result
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Retrieve the search query from the request parameter
@@ -37,7 +59,5 @@ public class studentSearchServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/students.jsp");
         dispatcher.forward(request, response);
     }
-
-   
 
 }

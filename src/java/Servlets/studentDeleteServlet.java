@@ -36,7 +36,7 @@ public class studentDeleteServlet extends HttpServlet {
         StudentDao.deleteStudent(id);
         
         // Update the studentList attribute in the request
-        request.setAttribute("sList", StudentDao.getAllStudents());
+        request.setAttribute("mergedList", StudentDao.getAllStudents());
         
         // Call the deleteStudent method passing the student ID
         StudentDao.deleteStudent(id);

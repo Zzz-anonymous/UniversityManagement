@@ -310,7 +310,7 @@ main h1 {
 
 /* Table ---------------------------------------------------------------------- */
 
-.table {
+table {
     border-collapse: collapse;
 }
 
@@ -345,3 +345,34 @@ main h1 {
     content: ' ▾';
 }
 
+/*table ；里面有一个 input element is checked */
+.table tr:has(input:checked) td{
+    background:lightgreen;
+}
+
+/* Form ----------------------------------------------------------------------- */
+
+label > * {
+    vertical-align: text-top;
+}
+
+form {
+    display: grid;
+    grid: auto / auto auto auto;
+    gap: 5px;
+    place-content: start;
+    place-items: center start;
+}
+
+form > label {
+    background: #ccc;
+    font-weight: bold;
+    padding: 5px;
+    place-self: stretch;
+}
+
+form > section,
+.validation-summary-valid,
+.validation-summary-errors {
+    grid-column: 1 / -1;
+}

@@ -34,21 +34,7 @@ public class studentServlet extends HttpServlet {
 
         if (pathInfo == null || pathInfo.equals("/")) {
             // Get both userInput and hardcoded students
-            LinkedListInterface<Student> sList = StudentDao.getAllStudents();
-            ListInterface<Student> initialzeStudents = Tools.initializeStudents();
-
-            // Merge the lists
-            LinkedListInterface<Student> mergedList = new LinkedList<>();
-            if (!sList.isEmpty()) {
-                for (int i = 1; i <= sList.getTotalNumberOfData(); i++) {
-                    mergedList.add(sList.getData(i));
-                }
-            }
-            if (!initialzeStudents.isEmpty()) {
-                for (int i = 1; i <= initialzeStudents.getTotalNumberOfData(); i++) {
-                    mergedList.add(initialzeStudents.getData(i));
-                }
-            }
+            LinkedListInterface<Student> mergedList = StudentDao.getAllStudents();
 
             if (mergedList.isEmpty()) {
                 // Display alert message if no students were found

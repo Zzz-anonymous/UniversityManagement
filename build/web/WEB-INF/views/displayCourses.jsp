@@ -27,7 +27,7 @@
                 LinkedListInterface<Course> cr = (LinkedListInterface<Course>) request.getAttribute("searchResults");
                 boolean showSearchResults = cr != null && !cr.isEmpty();
             %>
-            <table border="1" style="width:80%;">
+            <table border="1" style="width:80%;" class="table">
                 <thead>
                     <tr>
                         <th>Course ID</th>

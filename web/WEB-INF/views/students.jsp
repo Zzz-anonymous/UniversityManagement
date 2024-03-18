@@ -24,9 +24,25 @@
                 LinkedListInterface<Student> sr = (LinkedListInterface<Student>) request.getAttribute("searchResults");
                 boolean showSearchResults = sr != null && !sr.isEmpty();
             %>
-            <table border="1" style="width:80%;">
+
+            <div>
+                <a href ="?">All</a>
+                <%
+                    for (int i = 1; i <= sList.getTotalNumberOfData(); i++) {
+                        Student s = sList.getData(i);
+                %>
+                    <span>|</span>
+                    <a href="studentSearchServlet?programId=<%= s.getProgrammeId()%>"><%= s.getProgrammeId()%></a>
+                <% } %>
+            </div>
+            <p>
+                <button data-check="ids">Check All</button>
+                <button data-uncheck="ids">Uncheck All</button>
+            </p>
+            <table border="1" style="width:80%;" class="table">
                 <thead>
                     <tr>
+                        <th></th>
                         <th>Student ID</th>
                         <th>Name</th>      
                         <th>Gender</th>
@@ -43,7 +59,10 @@
                             for (int i = 1; i <= sr.getTotalNumberOfData(); i++) {
                                 Student s = sr.getData(i);
                     %>
-                    <tr>
+                    <tr data-checkable>
+                        <td>
+                            <input type="checkbox" name="ids" value="<%= s.getId()%>" >
+                        </td>
                         <td><%= s.getId()%></td>
                         <td><%= s.getName()%></td>
                         <td><%= s.getGender()%></td>
@@ -60,7 +79,10 @@
                         for (int i = 1; i <= sList.getTotalNumberOfData(); i++) {
                             Student s = sList.getData(i);
                     %>
-                    <tr>
+                    <tr data-checkable>
+                        <td>
+                            <input type="checkbox" name="ids" value="<%= s.getId()%>">
+                        </td>
                         <td><%= s.getId()%></td>
                         <td><%= s.getName()%></td>
                         <td><%= s.getGender()%></td>

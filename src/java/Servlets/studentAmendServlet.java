@@ -6,6 +6,7 @@ package Servlets;
 
 import Dao.StudentDao;
 import Entity.Student;
+import Utility.Tools;
 import adt.*;
 
 import java.io.IOException;
@@ -24,10 +25,9 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/studentAmendServlet")
 public class studentAmendServlet extends HttpServlet {
 
-    private final static LinkedListInterface<Student> sList = StudentDao.getAllStudents();
+    private final static LinkedListInterface<Student> mergedList = StudentDao.getAllStudents();
 
-    
-    
+    // pass id to amendStudent.jsp to modify that particular student
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -41,6 +41,7 @@ public class studentAmendServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
+    // update student
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -48,30 +49,36 @@ public class studentAmendServlet extends HttpServlet {
         String name = request.getParameter("name");
         String gender = request.getParameter("gender");
         String email = request.getParameter("email");
-        
+
         String stat = request.getParameter("status");
         int sStatus = Integer.parseInt(stat);
-        
+
         String programme = request.getParameter("programme");
 
         // Create a new Student object with the provided data
-        Student s = new Student(id, name, gender, email, sStatus, 0,programme);
+        Student s = new Student(id, name, gender, email, sStatus, 0, programme);
 
         // Check if studentList is empty
-        if (sList.isEmpty()) {
+        if (mergedList.isEmpty()) {
             // Handle the case where studentList is empty
             PrintWriter out = response.getWriter();
             out.println("<script>alert('No students found!');</script>");
-            out.println("<script>window.location.replace('index.html');</script>");
+            out.println("<script>window.location.replace('studentAmendServlet');</script>");
             out.close();
             return;
         }
-        
+
         // Check if the student with the provided ID exists
         int index = StudentDao.getIndex(id);
         if (index != -1) {
             // Student exists, proceed with updating
-            boolean status = StudentDao.updateStudent( id, s);
+            // Remove the existing student from the mergedList
+            mergedList.remove(index);
+
+            // Add the new student to the mergedList
+            mergedList.add(index,s );
+
+            boolean status = StudentDao.updateStudent(id, s);
             if (status) {
                 // Student updated successfully
                 PrintWriter out = response.getWriter();
@@ -82,14 +89,14 @@ public class studentAmendServlet extends HttpServlet {
                 // Failed to update student, display an error message
                 PrintWriter out = response.getWriter();
                 out.println("<script>alert('Failed to update student record!');</script>");
-                out.println("<script>window.location.replace('index.html');</script>");
+                out.println("<script>window.location.replace('studentAmendServlet');</script>");
                 out.close();
             }
         } else {
             // Student with the provided ID does not exist, display an error message
             PrintWriter out = response.getWriter();
             out.println("<script>alert('Student with ID " + id + " does not exist!');</script>");
-            out.println("<script>window.location.replace('index.html');</script>");
+            out.println("<script>window.location.replace('studentAmendServlet');</script>");
             out.close();
         }
     }

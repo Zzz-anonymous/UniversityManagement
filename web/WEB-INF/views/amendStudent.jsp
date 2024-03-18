@@ -55,14 +55,14 @@
 
                         %>           
                     <tr>
-                        <td><label for="programmeName">programme Names:</label> </td>
+                        <td><label for="programmeId">programme Id:</label> </td>
                         <td>
-                            <select name="programmeName" id="programmeName">
+                            <select name="programmeId" id="programmeId">
                                 <%      for (int i = 1; i <= pList.getTotalNumberOfData(); i++) {
                                         Programme p = pList.getData(i);
                                 %>
-                                <option value="<%= p.getName()%>">
-                                    <%= p.getName()%>
+                                <option value="<%= p.getId()%>">
+                                    <%= p.getId()%>
                                 </option>
                                 <%
                                     }

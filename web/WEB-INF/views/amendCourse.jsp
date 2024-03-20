@@ -1,6 +1,6 @@
 <%-- 
-    Document   : createCourse
-    Created on : 10 Mar 2024, 2:58:01 pm
+    Document   : amendCourse
+    Created on : 19 Mar 2024, 6:52:51 pm
     Author     : Zy
 --%>
 <%@include file = "/shared/header.jsp"%>
@@ -14,23 +14,24 @@
     <div class="home-content">
         <i class='bx bx-menu'></i>
         <header>
-            <h1>Create Course</h1>
+            <h1>Update Course Detail</h1>
         </header>
         <main>
-            <form method="post" action="createCourseServlet">
+            <form method="post" action="amendCourseServlet">
+                <input type="hidden" name="id" value="${course.id}">
                 <div>
                     <table width="100%">
                         <tr>
                             <td><label for="id">Course ID:</label></td>
-                            <td><input name="id" ID="id" type="text" maxlength="5"/></td>
+                            <td><span>${course.id}</span></td>
                         </tr>
                         <tr>
                             <td><label for="name">Course Name:</label> </td>
-                            <td><input name="name" ID="name" type="text" maxlength="30"/></td>
+                            <td><input type="text" name="name" value="${course.name}" maxlength="30"></td>
                         </tr>
                         <tr>
                             <td><label for="details">Course Details:</label> </td>
-                            <td><input name="details" ID="details" type="text" maxlength="30"/></td>
+                            <td><input type="text" name="name" value="${course.details}" maxlength="30"></td>
                         </tr>
                         <tr>
                             <td>Course Types</td>

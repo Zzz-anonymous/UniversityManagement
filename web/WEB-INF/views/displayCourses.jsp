@@ -6,6 +6,7 @@
 
 <%@page import = "adt.*"%>
 <%@page import = "Entity.Course"%>
+<%@page import = "Entity.Programme"%>
 <%@page import = "Dao.CourseDao"%>
 <%@page import = "Utility.Tools"%>
 
@@ -52,19 +53,21 @@
                         <td><%= c.getName()%></td>
                         <td><%= c.getDetails()%></td>
                         <td>
-                            <% 
-                                String[] courseTypes = c.getCourseTypes();
-                                for (String courseType : courseTypes) {
+                            <%
+                                LinkedListInterface<String> courseTypes = c.getCourseTypes();
+                                for (int j = 1; j <= courseTypes.getTotalNumberOfData(); j++) {
+                                        String courseType = courseTypes.getData(j);
                             %>
-                                <%= courseType %><br>
-                            <% } %>
+                            <%= courseType%><br>
+                            <% }%>
                         </td>
+
                         <td><%= c.getCreditHours()%></td>
                         <td>
                             <%= c.getTutor().getName()%>
                         </td>
                         <td>
-                            <%= c.getProgramme().getName()%>
+                            <%= c.getProgramme()%>
                         </td>
                         <td><%= c.getAvailability() == 1 ? "Available" : "Not Available"%></td>
 
@@ -82,26 +85,33 @@
                         <td><%= c.getName()%></td>
                         <td><%= c.getDetails()%></td>
                         <td>
-                            <% 
-                                String[] courseTypes = c.getCourseTypes();
-                                for (String courseType : courseTypes) {
+                            <%
+                                LinkedListInterface<String> courseTypes = c.getCourseTypes();
+                                for (int j = 1; j <= courseTypes.getTotalNumberOfData(); j++) {
+                                        String courseType = courseTypes.getData(j);
                             %>
-                                <%= courseType %><br>
-                            <% } %>
+                            <%= courseType%><br>
+                            <% }%>
                         </td>
                         <td><%= c.getCreditHours()%></td>
-                       
+
                         <td>
                             <%= c.getTutor().getName()%>
                         </td>
                         <td>
-                            <%= c.getProgramme().getName() %>
+                            <%
+                                LinkedListInterface<Programme> programmes = c.getProgramme();
+                                for (int j = 1; j <= programmes.getTotalNumberOfData(); j++) {
+                                        Programme p = programmes.getData(j);
+                            %>
+                            <%= j + ") " + p.getName() %><br>
+                            <% }%>
                         </td>
-                      
+
                         <td><%= c.getAvailability() == 1 ? "Available" : "Not Available"%></td>
                         <!--TODO-->
                         <!-- delete and modification havent done  -->
-                        <td><a href="/UniversityManagement/studentAmendServlet?id=<%= c.getId()%>">Edit</a></td>
+                        <td><a href="/UniversityManagement/amendCourseServlet?id=<%= c.getId()%>">Edit</a></td>
                         <td><a href="/UniversityManagement/studentDeleteServlet?id=<%= c.getId()%>">Delete</a></td>                           
                     </tr>
                     <%

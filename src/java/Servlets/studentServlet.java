@@ -25,7 +25,8 @@ import Utility.Tools;
  */
 @WebServlet("/studentServlet")
 public class studentServlet extends HttpServlet {
-
+    private final static LinkedListInterface<Student> mergedList = StudentDao.getAllStudents();
+    
     // check students availability, display students records if not empty
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -33,9 +34,6 @@ public class studentServlet extends HttpServlet {
         String pathInfo = request.getPathInfo();
 
         if (pathInfo == null || pathInfo.equals("/")) {
-            // Get both userInput and hardcoded students
-            LinkedListInterface<Student> mergedList = StudentDao.getAllStudents();
-
             if (mergedList.isEmpty()) {
                 // Display alert message if no students were found
                 PrintWriter out = response.getWriter();
@@ -61,7 +59,7 @@ public class studentServlet extends HttpServlet {
         String id = request.getParameter("id");
 
         // Check if the ID already exists in the studentList
-        boolean idExists = StudentDao.availableId(id);
+        boolean idExists = StudentDao.availableId(id,mergedList);
 
         if (idExists) {
             // ID already exists, handle accordingly (e.g., show error message)
@@ -83,7 +81,7 @@ public class studentServlet extends HttpServlet {
         try {
             // Attempt to add the student
             StudentDao.addStudent(s);
-
+            
             // If no exceptions are thrown, the addition was successful
             //LinkedListInterface<Student> updatedStudentList = StudentDao.getAllStudents();     
             // If no exceptions are thrown, the addition was successful
@@ -100,10 +98,5 @@ public class studentServlet extends HttpServlet {
         }
 
     }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }

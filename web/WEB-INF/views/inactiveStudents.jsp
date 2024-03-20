@@ -1,11 +1,13 @@
 <%-- 
-    Document   : students
-    Created on : 5 Mar 2024, 6:26:52 pm
+    Document   : inactiveStudents
+    Created on : 20 Mar 2024, 8:39:39 am
     Author     : Zy
 --%>
+
+<%@page import="Entity.Student"%>
 <%@page import = "adt.*"%>
 <%@page import = "Entity.Student"%>
-<%@page import = "Control.*"%>
+<%@page import = "Utility.Tools"%>
 <%@include file = "/shared/header.jsp"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <section class="home-section">
@@ -20,63 +22,77 @@
             </form>
 
             <%
-                ListInterface<Student> sList = (ListInterface<Student>) request.getAttribute("sList");
-                ListInterface<Student> sr = (ListInterface<Student>) request.getAttribute("searchResults");
+                ListInterface<Student> initializeStudent = Tools.initializeStudents();
+                LinkedListInterface<Student> inactiveList = (LinkedListInterface<Student>) request.getAttribute("inactiveList");
+                LinkedListInterface<Student> sr = (LinkedListInterface<Student>) request.getAttribute("searchResults");
                 boolean showSearchResults = sr != null && !sr.isEmpty();
             %>
-            <table border="1" style="width:80%;">
+
+            <div>
+                <a href ="?">All</a>
+                
+                <%
+                    for (int i = 1; i <= initializeStudent.getTotalNumberOfData(); i++) {
+                        Student p = initializeStudent.getData(i);
+                %>
+                    <span>|</span>
+                    <a href="studentSearchServlet?programId=<%= p.getProgrammeId()%>"><%= p.getProgrammeId()%></a>
+                <% } %>
+            </div>
+          
+            <table border="1" style="width:80%; padding-top: 20px" class="table">
                 <thead>
                     <tr>
                         <th>Student ID</th>
-                        <th>Name</th>
-                        <th>IC No</th>
+                        <th>Name</th>      
                         <th>Gender</th>
                         <th>Email</th>
+                        <th>Student Status</th>
                         <th>Payment Status</th>
                         <th>Programme ID</th>
                         <th>Edit</th>
-                        <th>Delete</th>
                     </tr>
                 </thead>    
                 <tbody>
                     <% if (showSearchResults) {
-                            for (int i = 1; i <= sr.getNumberOfEntries(); i++) {
-                                Student s = sr.getEntry(i);
+                            for (int i = 1; i <= sr.getTotalNumberOfData(); i++) {
+                                Student s = sr.getData(i);
                     %>
-                    <tr>
+                    <tr data-checkable>
                         <td><%= s.getId()%></td>
                         <td><%= s.getName()%></td>
-                        <td><%= s.getIc()%></td>
                         <td><%= s.getGender()%></td>
                         <td><%= s.getEmail()%></td>
+                        <td><%= s.getStatus() == 1 ? "Active" : "Inactive"%></td>
                         <td><%= s.getPaymentStatus()%></td>
                         <td><%= s.getProgrammeId()%></td>
                         <td><a href="/UniversityManagement/studentAmendServlet?id=<%= s.getId()%>">Edit</a></td>
-                        <td><a href="/UniversityManagement/studentDeleteServlet?id=<%= s.getId()%>">Delete</a></td>                           
                     </tr>
                     <%
                         }
-                    } else if (sList != null && !sList.isEmpty()) {
-                        for (int i = 1; i <= sList.getNumberOfEntries(); i++) {
-                            Student s = sList.getEntry(i);
+                    } else if (inactiveList != null && !inactiveList.isEmpty()) {
+                        for (int i = 1; i <= inactiveList.getTotalNumberOfData(); i++) {
+                            Student s = inactiveList.getData(i);
                     %>
-                    <tr>
+                    <tr data-checkable>
+                        <td>
+                            <input type="checkbox" name="ids" class="studentCheckbox" value="<%= s.getId()%>">
+                        </td>
                         <td><%= s.getId()%></td>
                         <td><%= s.getName()%></td>
-                        <td><%= s.getIc()%></td>
                         <td><%= s.getGender()%></td>
                         <td><%= s.getEmail()%></td>
+                        <td><%= s.getStatus() == 1 ? "Active" : "Inactive"%></td>
                         <td><%= s.getPaymentStatus()%></td>
                         <td><%= s.getProgrammeId()%></td>
                         <td><a href="/UniversityManagement/studentAmendServlet?id=<%= s.getId()%>">Edit</a></td>
-                        <td><a href="/UniversityManagement/studentDeleteServlet?id=<%= s.getId()%>">Delete</a></td>                           
                     </tr>
                     <%
                         }
                     } else {
                     %>
                     <tr>
-                        <td colspan="9">No student records found</td>
+                        <td colspan="10">No student records found</td>
                     </tr>
                     <% }%>
                 </tbody>

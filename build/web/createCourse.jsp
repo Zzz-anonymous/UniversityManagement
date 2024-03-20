@@ -43,16 +43,7 @@
                                 <label for="Practical"> Practical</label>
                             </td>
                         </tr>
-                        <tr>
-                            <td><label for="status">Course Status:</label> </td>
-                            <td><select name="status" id="status">
-                                    <option value="Main">Main</option>
-                                    <option value="Elective">Elective</option>
-                                    <option value="Resit">Resit</option>
-                                    <option value="Repeat">Repeat</option>
-                                </select>
-                            </td>
-                        </tr>
+
                         <tr>
                             <td><label for="creditHours">Credit Hours:</label> </td>
                             <td><select name="creditHours" id="creditHours">
@@ -73,8 +64,8 @@
                                     <%      for (int i = 1; i <= tList.getTotalNumberOfData(); i++) {
                                             Tutor t = tList.getData(i);
                                     %>
-                                    <option value="<%= t.getName() %>">
-                                        <%= t.getName() %>
+                                    <option value="<%= t.getName()%>">
+                                        <%= t.getName()%>
                                     </option>
                                     <%
                                         }
@@ -82,36 +73,31 @@
                                 </select>
                             </td>
                         </tr>
-                        
+
                         <%
                             }
                         %>
-                        
+
                         <%
                             ListInterface<Programme> pList = Tools.initializeProgrammes();
                             if (pList != null && !pList.isEmpty()) {
 
                         %>           
                         <tr>
-                            <td><label for="programmeName">programme Names:</label> </td>
+                            <td><label for="programmeName">programme Names:</label></td>
                             <td>
-                                <select name="programmeName" id="programmeName">
-                                    <%      for (int i = 1; i <= pList.getTotalNumberOfData(); i++) {
-                                            Programme p = pList.getData(i);
-                                    %>
-                                    <option value="<%= p.getName() %>">
-                                        <%= p.getName() %>
-                                    </option>
-                                    <%
-                                        }
-                                    %>
-                                </select>
+                                <% for (int i = 1; i <= pList.getTotalNumberOfData(); i++) {
+                                        Programme p = pList.getData(i);
+                                %>
+                                <input type="checkbox" id="programme" name="programmeName[]" value="<%= p.getName()%>">
+                                <label for="programme"><%= p.getName()%></label><br>
+                                <% }
+                                }%>
                             </td>
                         </tr>
-                        
-                        <%
-                            }
-                        %>
+
+
+
                         <tr>
                             <td><label for="avail">Availability:</label> </td>
                             <td><select name="avail" id="avail">

@@ -1,6 +1,6 @@
 <%-- 
-    Document   : students
-    Created on : 5 Mar 2024, 6:26:52 pm
+    Document   : testing
+    Created on : 19 Mar 2024, 10:07:00 pm
     Author     : Zy
 --%>
 <%@page import = "adt.*"%>
@@ -37,12 +37,9 @@
                     <a href="studentSearchServlet?programId=<%= p.getProgrammeId()%>"><%= p.getProgrammeId()%></a>
                 <% } %>
             </div>
-            <div style="display:flex; ">
+            <div style="display:flex;">
                 <button data-check="ids">Check All</button>
                 <button data-uncheck="ids">Uncheck All</button>
-                <form action="studentDeleteServlet" method="post">
-                    <button>Inactive List</button>
-                </form>
                 <form id="studentsForm" action="addToCourseServlet" method="post">
                     <button id="addToCourseBtn">Add to course</button>
                     <input type="hidden" id="ids" name="ids">

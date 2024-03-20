@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/createCourseServlet")
 public class createCourseServlet extends HttpServlet {
 
-    // check students availability
+    // check courses availability
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -42,7 +42,7 @@ public class createCourseServlet extends HttpServlet {
                 out.println("<script>window.location.href = 'createCourse.jsp';</script>");
                 out.close();
             } else {
-                
+
                 request.setAttribute("cList", cList);
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/displayCourses.jsp");
                 dispatcher.forward(request, response);
@@ -52,14 +52,7 @@ public class createCourseServlet extends HttpServlet {
         }
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    
     // Create a course
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -82,11 +75,19 @@ public class createCourseServlet extends HttpServlet {
         String name = request.getParameter("name");
         String details = request.getParameter("details");
 
+        // to store selected courseType (T,P,L)
+        LinkedListInterface<String> courseTypesList = new LinkedList<>();
+
         // Obtain the selected course types from the request parameters
         String[] courseTypes = request.getParameterValues("courseTypes");
 
         // Check if any course types are selected
-        if (courseTypes == null || courseTypes.length == 0) {
+        if (courseTypes != null) {
+            // Add each course type to the LinkedList
+            for (String courseType : courseTypes) {
+                courseTypesList.add(courseType);
+            }
+        } else {
             // No course types selected, display an alert message
             PrintWriter out = response.getWriter();
             out.println("<script>alert('Please select at least one course type!');</script>");
@@ -95,22 +96,42 @@ public class createCourseServlet extends HttpServlet {
             return; // Exit the method
         }
 
-
         String ch = request.getParameter("creditHours");
         int creditHours = Integer.parseInt(ch);
 
         String t = request.getParameter("tutorName");
         // Get the tutor object using the name
         Tutor tutorName = TutorDao.findTutorByName(t);
-        
-        String p = request.getParameter("programmeName");
-        Programme programmeName = ProgrammeDao.findProgrammeByName(p);
-        
+
+        // Obtain the selected programme names from the request parameters
+        String[] programmeNames = request.getParameterValues("programmeName[]");
+         
+        LinkedListInterface<Programme> programmes = new LinkedList<>();
+
+        // Check if any programme names are selected
+        if (programmeNames != null) {
+            // Iterate over the selected programme names and find the corresponding Programme objects
+            for (String programmeName : programmeNames) {
+                Programme p = ProgrammeDao.findProgrammeByName(programmeName);
+                if (p != null) {
+                    programmes.add(p);
+                }
+            }
+            // Now you have a list of Programme objects corresponding to the selected programme names
+        }else {
+            // No course types selected, display an alert message
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('Please select at least one programme!');</script>");
+            out.println("<script>window.location.href = '" + request.getContextPath() + "/createCourseServlet';</script>");
+            out.close();
+            return; // Exit the method
+        }
+
         String avail = request.getParameter("avail");
         int available = Integer.parseInt(avail);
 
         // Create a new Course object with the provided data
-        Course c = new Course(id, name, details, courseTypes, creditHours, tutorName, programmeName, available);
+        Course c = new Course(id, name, details, courseTypesList, creditHours, tutorName, programmes, available);
 
         try {
             // Attempt to add the course

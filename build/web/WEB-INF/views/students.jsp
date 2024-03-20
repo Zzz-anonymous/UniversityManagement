@@ -5,7 +5,7 @@
 --%>
 <%@page import = "adt.*"%>
 <%@page import = "Entity.Student"%>
-<%@page import = "Control.*"%>
+<%@page import = "Utility.Tools"%>
 <%@include file = "/shared/header.jsp"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <section class="home-section">
@@ -20,26 +20,35 @@
             </form>
 
             <%
-                LinkedListInterface<Student> sList = (LinkedListInterface<Student>) request.getAttribute("mergedList");
+                ListInterface<Student> initializeStudent = Tools.initializeStudents();
+                LinkedListInterface<Student> mergedList = (LinkedListInterface<Student>) request.getAttribute("mergedList");
                 LinkedListInterface<Student> sr = (LinkedListInterface<Student>) request.getAttribute("searchResults");
                 boolean showSearchResults = sr != null && !sr.isEmpty();
             %>
 
             <div>
                 <a href ="?">All</a>
+                
                 <%
-                    for (int i = 1; i <= sList.getTotalNumberOfData(); i++) {
-                        Student s = sList.getData(i);
+                    for (int i = 1; i <= initializeStudent.getTotalNumberOfData(); i++) {
+                        Student p = initializeStudent.getData(i);
                 %>
                     <span>|</span>
-                    <a href="studentSearchServlet?programId=<%= s.getProgrammeId()%>"><%= s.getProgrammeId()%></a>
+                    <a href="studentSearchServlet?programId=<%= p.getProgrammeId()%>"><%= p.getProgrammeId()%></a>
                 <% } %>
             </div>
-            <p>
+            <div style="display:flex; ">
                 <button data-check="ids">Check All</button>
                 <button data-uncheck="ids">Uncheck All</button>
-            </p>
-            <table border="1" style="width:80%;" class="table">
+                <form action="studentDeleteServlet" method="post">
+                    <button>Inactive List</button>
+                </form>
+                <form id="studentsForm" action="addToCourseServlet" method="post">
+                    <button id="addToCourseBtn">Add to course</button>
+                    <input type="hidden" id="ids" name="ids">
+                </form>
+            </div>
+            <table border="1" style="width:80%; padding-top: 20px" class="table">
                 <thead>
                     <tr>
                         <th></th>
@@ -61,7 +70,7 @@
                     %>
                     <tr data-checkable>
                         <td>
-                            <input type="checkbox" name="ids" value="<%= s.getId()%>" >
+                            <input type="checkbox" class="studentCheckbox" name="ids" value="<%= s.getId()%>" >
                         </td>
                         <td><%= s.getId()%></td>
                         <td><%= s.getName()%></td>
@@ -75,13 +84,13 @@
                     </tr>
                     <%
                         }
-                    } else if (sList != null && !sList.isEmpty()) {
-                        for (int i = 1; i <= sList.getTotalNumberOfData(); i++) {
-                            Student s = sList.getData(i);
+                    } else if (mergedList != null && !mergedList.isEmpty()) {
+                        for (int i = 1; i <= mergedList.getTotalNumberOfData(); i++) {
+                            Student s = mergedList.getData(i);
                     %>
                     <tr data-checkable>
                         <td>
-                            <input type="checkbox" name="ids" value="<%= s.getId()%>">
+                            <input type="checkbox" name="ids" class="studentCheckbox" value="<%= s.getId()%>">
                         </td>
                         <td><%= s.getId()%></td>
                         <td><%= s.getName()%></td>

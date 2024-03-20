@@ -91,7 +91,7 @@ public class CourseDao {
     }
 
     // get student info by id
-    public static Course getStudentById(String id) {
+    public static Course getCourseById(String id) {
         // Iterate over the list of students to find the one with the matching ID
         for (int i = 1; i <= cList.getTotalNumberOfData(); i++) {
             Course s = cList.getData(i);

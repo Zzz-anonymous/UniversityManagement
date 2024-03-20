@@ -4,6 +4,8 @@
  */
 package Entity;
 
+import adt.LinkedListInterface;
+
 /**
  *
  * @author Zy
@@ -13,16 +15,16 @@ public class Course {
     private String Id;
     private String name;
     private String details;
-    private String[] courseTypes;
+    private LinkedListInterface<String> courseTypes;
     
     private int creditHours;
-    private Programme programme;
+    private LinkedListInterface<Programme> programme;
     private double fees;
     private int availability;
     private int maxCapacity = 200;
     private Tutor tutor;
 
-    public Course(String Id, String name, String details,String[] courseTypes, int creditHours,Tutor tutor, Programme programme, int availability) {
+    public Course(String Id, String name, String details,LinkedListInterface<String> courseTypes, int creditHours,Tutor tutor, LinkedListInterface<Programme>  programme, int availability) {
         this.Id = Id;
         this.name = name;
         this.details = details;
@@ -58,11 +60,11 @@ public class Course {
         this.details = details;
     }
 
-    public String[] getCourseTypes() {
+    public LinkedListInterface<String> getCourseTypes() {
         return courseTypes;
     }
 
-    public void setCourseTypes(String[] courseTypes) {
+    public void setCourseTypes(LinkedListInterface<String> courseTypes) {
         this.courseTypes = courseTypes;
     }
 
@@ -92,11 +94,11 @@ public class Course {
         this.fees = fees;
     }
 
-    public Programme getProgramme() {
+    public LinkedListInterface<Programme> getProgramme() {
         return programme;
     }
 
-    public void setProgramme(Programme programme) {
+    public void setProgramme(LinkedListInterface<Programme> programme) {
         this.programme = programme;
     }
 

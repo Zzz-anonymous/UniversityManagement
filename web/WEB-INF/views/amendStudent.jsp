@@ -31,8 +31,8 @@
                         <td><label for="gender">Gender:</label></td>
                         <td>     
                             <select name="gender" id="gender">
-                                <option value="Female">Female</option>
-                                <option value="Male">Male</option>
+                                <option value="Female" ${gender == "Female" ? "selected" : ""}>Female</option>
+                                <option value="Male" ${gender == "Male" ? "selected" : ""}>Male</option>
                             </select>
                         </td>
                     <tr>
@@ -61,7 +61,7 @@
                                 <%      for (int i = 1; i <= pList.getTotalNumberOfData(); i++) {
                                         Programme p = pList.getData(i);
                                 %>
-                                <option value="<%= p.getId()%>">
+                                <option value="<%= p.getId()%>" <% if (p.getId().equals(request.getAttribute("ProgrammeId"))) { %> selected <% }%>>
                                     <%= p.getId()%>
                                 </option>
                                 <%

@@ -10,82 +10,77 @@ package Dao;
  */
 import Utility.*;
 import Entity.Student;
-import java.sql.*;
 import adt.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
+
+
 import java.util.Iterator;
-import java.util.NoSuchElementException;
-import javax.servlet.ServletContext;
+
 
 public class StudentDao {
 
     // Create an ArrayList to store Student objects
-    private static LinkedListInterface<Student> sList = new LinkedList<>();
     private static LinkedListInterface<Student> inactiveList = new LinkedList<>();
     private final static ListInterface<Student> initialzeStudents = Tools.initializeStudents();
     private final static LinkedListInterface<Student> mergedList = new LinkedList<>();
-
-    public static void mergeStudent() {
-        if (!sList.isEmpty()) {
-            for (int i = 1; i <= sList.getTotalNumberOfData(); i++) {
-                mergedList.add(sList.getData(i));
-            }
-        }
-        if (!initialzeStudents.isEmpty()) {
-            for (int i = 1; i <= initialzeStudents.getTotalNumberOfData(); i++) {
-                mergedList.add(initialzeStudents.getData(i));
-            }
-        }
-    }
+    private static boolean isInitializeStudents = false;
 
     // add new student
     public static void addStudent(Student s) {
         // Add student to LinkedList
-        sList.add(s);
+        mergedList.add(s);
+        //mergeStudent(mergedList);
     }
 
-public static LinkedListInterface<Student> getAllStudents() {
-    try {
-        // Clear mergedList to avoid duplication
-        mergedList.clear();
-        
-        // Merge student lists
-        mergeStudent();
-        
-        // Return mergedList
+    // Retrieve all student records
+    public static LinkedListInterface<Student> getAllStudents() {
+        // Create a new list to avoid modifying the original mergedList
+        //LinkedListInterface<Student> resultList = new LinkedList<>();
+
+        // Merge student lists into the new list
+        mergeStudent(mergedList);
+
+        // Clear mergedList and add all elements from resultList
+        //mergedList.clear();
+//        Iterator<Student> iterator = resultList.getIterator();
+//        while (iterator.hasNext()) {
+//            mergedList.add(iterator.next());
+//        }
+        // Return the new list
         return mergedList;
-    } catch (Exception e) {
-        // Log error message
-        e.printStackTrace(); // You can replace this with your logging mechanism
-        
-        // Return null or an empty list as appropriate
-        return null;
     }
-}
 
+        // Retrieve all student records
+    public static LinkedListInterface<Student> getInactiveStudents() {
+        
+        // Return the inactive list
+        return inactiveList;
+    }
+    
+    // Merge student lists into the provided list
+    public static void mergeStudent(LinkedListInterface<Student> resultList) {
+        if (!isInitializeStudents && !initialzeStudents.isEmpty()) {
+            for (int i = 1; i <= initialzeStudents.getTotalNumberOfData(); i++) {
+                resultList.add(initialzeStudents.getData(i));
+            }
+            isInitializeStudents = true; // Set the flag to true after merging
+        }
+    }
 
     // delete student
     // cannot directly student but move it into withdraw List
-    public static boolean deleteStudent(String id) {
-        // Check if the student ID is available
-        int index = getIndex(id);
+    public static boolean deleteStudent(String id, LinkedListInterface<Student> list) {
+        // Check if the student ID is available in the given list
+        int index = getIndex(id, list);
         if (index != -1) {
-            Student student = mergedList.getData(index);
+            // Get the student from the list
+            Student student = list.getData(index);
 
-            // Remove the student from sList regardless of status
-            mergedList.remove(index);
+            // Set the status of the student to indicate deletion
+            student.setStatus(0); // set student status as inactive(0)
 
-            if (student.getStatus() == 0) {
-                // If the status is inactive, add the student to removeList
-                inactiveList.add(student);
-            }
+            // Remove the student from the given list
+            list.remove(index);
+            inactiveList.add(student);
             return true; // Deletion successful
         } else {
             return false; // Student not found
@@ -93,9 +88,9 @@ public static LinkedListInterface<Student> getAllStudents() {
     }
 
     // update student
-    public static boolean updateStudent(String id, Student updatedStudent) {
+    public static boolean updateStudent(String id, Student updatedStudent, LinkedListInterface<Student> list) {
         // Find the index of the student with the given ID
-        int index = getIndex(id);
+        int index = getIndex(id, list);
 
         // If the student is found, update its information
         if (index != -1) {
@@ -109,21 +104,21 @@ public static LinkedListInterface<Student> getAllStudents() {
     }
 
     // check the availability of the id 
-    public static boolean availableId(String id) {
+    public static boolean availableId(String id, LinkedListInterface<Student> list) {
         // return value if the index number is available
-        return getIndex(id) >= 0;
+        return getIndex(id, list) >= 0;
     }
 
     // check the index number based on id
-    public static int getIndex(String id) {
+    public static int getIndex(String id, LinkedListInterface<Student> list) {
         // Trim the provided ID to remove leading and trailing whitespace
         String trimmedId = id.trim();
 
         // Get an iterator for the LinkedList
-        Iterator<Student> iterator = mergedList.getIterator();
+        Iterator<Student> iterator = list.getIterator();
 
         // Initialize index counter
-        int index = 1;
+        int index = 1; // Adjusted to zero-based indexing
 
         // Iterate over the list
         while (iterator.hasNext()) {
@@ -142,7 +137,7 @@ public static LinkedListInterface<Student> getAllStudents() {
         return -1;
     }
 
-    // get student info by id
+    // get student info by student id
     public static Student getStudentById(String id) {
         Iterator<Student> iterator = mergedList.getIterator();
         while (iterator.hasNext()) {
@@ -186,4 +181,28 @@ public static LinkedListInterface<Student> getAllStudents() {
 
         return searchResults;
     }
+
+    public static LinkedList<Student> validateStudentIds(String[] selectedIds) {
+        LinkedList<Student> selectedStudents = new LinkedList<>();
+
+        // Get an iterator for the LinkedList
+        Iterator<Student> iterator = mergedList.getIterator();
+
+        // Iterate through the LinkedList
+        while (iterator.hasNext()) {
+            Student student = iterator.next();
+            String id = student.getId(); // Assuming getId() returns the student ID
+
+            // Check if the student ID is in the selected IDs array
+            for (String selectedId : selectedIds) {
+                if (id.equals(selectedId)) {
+                    selectedStudents.add(student);
+                    break; // Move to the next student once found
+                }
+            }
+        }
+
+        return selectedStudents;
+    }
+
 }

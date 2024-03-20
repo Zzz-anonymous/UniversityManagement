@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/studentSearchServlet")
 public class studentSearchServlet extends HttpServlet {
 
+    // filtering students based on program
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -32,12 +33,12 @@ public class studentSearchServlet extends HttpServlet {
 
         // If programmeId is null or empty, retrieve all students
         if (programmeId == null || programmeId.isEmpty()) {
-            LinkedListInterface<Student> studentList = StudentDao.getAllStudents();
-            request.setAttribute("studentList", studentList);
+            LinkedListInterface<Student> mergedList = StudentDao.getAllStudents();
+            request.setAttribute("mergedList", mergedList);
         } else {
             // Retrieve students based on the specified programmeId
-            LinkedListInterface<Student> studentList = StudentDao.getStudentsByPid(programmeId);
-            request.setAttribute("studentList", studentList);
+            LinkedListInterface<Student> mergedList = StudentDao.getStudentsByPid(programmeId);
+            request.setAttribute("mergedList", mergedList);
         }
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/students.jsp");

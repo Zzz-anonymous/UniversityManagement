@@ -35,23 +35,23 @@ public class studentAmendServlet extends HttpServlet {
 
         String id = request.getParameter("id");
         // Retrieve student information based on the ID
-        Student student = null;
-
+        Student student = StudentDao.getStudentById(id);
+        // Retrieve the gender of the student's 
+        String gender = student.getGender();
+        String ProgrammeId = student.getProgrammeId(); 
+        
         // Check if the student exists in the mergedList
         int index = StudentDao.getIndex(id, mergedList);
         if (index != -1) {
-            student = mergedList.getData(index);
-        } else {
             // If not found in mergedList, check in inactiveList
-            index = StudentDao.getIndex(id, inactiveList);
-            if (index != -1) {
-                student = inactiveList.getData(index);
-            }
+            student = mergedList.getData(index);
         }
-
+        
         // Pass the student object to the JSP page
         request.setAttribute("student", student);
-
+        request.setAttribute("gender", gender);
+        request.setAttribute("ProgrammeId", ProgrammeId);
+        
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/amendStudent.jsp");
         dispatcher.forward(request, response);
     }
@@ -81,14 +81,7 @@ public class studentAmendServlet extends HttpServlet {
             out.println("<script>window.location.replace('studentAmendServlet');</script>");
             out.close();
             return;
-        } else if (inactiveList.isEmpty()) {
-            // Handle the case where inactiveList is empty
-            PrintWriter out = response.getWriter();
-            out.println("<script>alert('No inactive students found!');</script>");
-            out.println("<script>window.location.replace('studentAmendServlet');</script>");
-            out.close();
-            return;
-        }
+        } 
 
         // Check if the student with the provided ID exists (For Active Students)
         int index = StudentDao.getIndex(id, mergedList);
@@ -121,38 +114,6 @@ public class studentAmendServlet extends HttpServlet {
             out.println("<script>window.location.replace('studentAmendServlet');</script>");
             out.close();
         }
-        
-        // For inactive students
-        int indexNum = StudentDao.getIndex(id, inactiveList);
-    if (indexNum != -1) {
-        // Student exists in the inactiveList, proceed with updating
-        // Remove the existing student from the inactiveList
-        inactiveList.remove(indexNum);
-
-        // Add the new student to the inactiveList
-        inactiveList.add(indexNum, s);
-
-        boolean status = StudentDao.updateStudent(id, s, inactiveList);
-        if (status) {
-            // Student updated successfully
-            PrintWriter out = response.getWriter();
-            out.println("<script>alert('Record saved successfully!');</script>");
-            out.println("<script>window.location.href = '" + request.getContextPath() + "/studentServlet';</script>");
-            out.close();
-        } else {
-            // Failed to update student, display an error message
-            PrintWriter out = response.getWriter();
-            out.println("<script>alert('Failed to update student record!');</script>");
-            out.println("<script>window.location.replace('studentAmendServlet');</script>");
-            out.close();
-        }
-    } else {
-        // Student with the provided ID does not exist in the inactiveList, display an error message
-        PrintWriter out = response.getWriter();
-        out.println("<script>alert('Inactive student with ID " + id + " does not exist!');</script>");
-        out.println("<script>window.location.replace('studentAmendServlet');</script>");
-        out.close();
-    }
         
     }
 

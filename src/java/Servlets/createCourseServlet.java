@@ -26,8 +26,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/createCourseServlet")
 public class createCourseServlet extends HttpServlet {
-
-    // check courses availability
+    
+    
+    // check courses availability + display courses
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -75,17 +76,17 @@ public class createCourseServlet extends HttpServlet {
         String name = request.getParameter("name");
         String details = request.getParameter("details");
 
+        
         // to store selected courseType (T,P,L)
-        LinkedListInterface<String> courseTypesList = new LinkedList<>();
-
+        LinkedListInterface<String> selectedCTypes = new LinkedList<>();
         // Obtain the selected course types from the request parameters
         String[] courseTypes = request.getParameterValues("courseTypes");
-
+        
         // Check if any course types are selected
         if (courseTypes != null) {
             // Add each course type to the LinkedList
             for (String courseType : courseTypes) {
-                courseTypesList.add(courseType);
+                selectedCTypes.add(courseType);
             }
         } else {
             // No course types selected, display an alert message
@@ -103,10 +104,10 @@ public class createCourseServlet extends HttpServlet {
         // Get the tutor object using the name
         Tutor tutorName = TutorDao.findTutorByName(t);
 
+        LinkedListInterface<Programme> programmes = new LinkedList<>();
         // Obtain the selected programme names from the request parameters
         String[] programmeNames = request.getParameterValues("programmeName[]");
          
-        LinkedListInterface<Programme> programmes = new LinkedList<>();
 
         // Check if any programme names are selected
         if (programmeNames != null) {
@@ -131,7 +132,7 @@ public class createCourseServlet extends HttpServlet {
         int available = Integer.parseInt(avail);
 
         // Create a new Course object with the provided data
-        Course c = new Course(id, name, details, courseTypesList, creditHours, tutorName, programmes, available);
+        Course c = new Course(id, name, details, selectedCTypes, creditHours, tutorName, programmes, available);
 
         try {
             // Attempt to add the course

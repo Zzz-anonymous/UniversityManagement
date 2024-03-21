@@ -69,7 +69,7 @@ public interface LinkedListInterface<T> {
    * @return true if the replacement occurs, or false if either the list is
    * empty, givenPosition < 1, or givenPosition > getNumberOfEntries()
    */
-  public boolean replace(int position, T newData);
+  public boolean update(int position, T newData);
 
   /**
    * Task: Retrieves the entry at a given position in the list.

@@ -37,7 +37,7 @@
                     <a href="studentSearchServlet?programId=<%= p.getProgrammeId()%>"><%= p.getProgrammeId()%></a>
                 <% } %>
             </div>
-            <div style="display:flex; ">
+            <div style="display:flex; margin-top: 10px;">
                 <button data-check="ids">Check All</button>
                 <button data-uncheck="ids">Uncheck All</button>
                 <form action="studentDeleteServlet" method="post">
@@ -48,7 +48,7 @@
                     <input type="hidden" id="ids" name="ids">
                 </form>
             </div>
-            <table border="1" style="width:80%; padding-top: 20px" class="table">
+            <table border="1" style="width:80%; margin-top: 10px" class="table">
                 <thead>
                     <tr>
                         <th></th>

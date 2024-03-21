@@ -5,6 +5,7 @@
 package Dao;
 
 import Entity.Course;
+import Entity.Programme;
 import adt.*;
 import java.util.Iterator;
 
@@ -16,8 +17,8 @@ public class CourseDao {
 
     // Create an LinkedList to store course objects
     private static LinkedListInterface<Course> cList = new LinkedList<>();
-    //private static LinkedListInterface<String> cTypesList = new LinkedList<>();
-    private static LinkedListInterface<String> selectedCTypes = new LinkedList<>();
+
+    private static LinkedListInterface<Programme> pList = new LinkedList<>();
 
     // add new course
     public static void addCourse(Course s) {
@@ -30,9 +31,9 @@ public class CourseDao {
     }
 
     // delete student
-    public static boolean deleteCourse(String id,LinkedListInterface<Course> list) {
+    public static boolean deleteCourse(String id, LinkedListInterface<Course> list) {
         // Check if the student ID is available
-        int index = getIndex(id,list);
+        int index = getIndex(id, list);
         if (index != -1) {
             // Remove the student from the list
             cList.remove(index);
@@ -43,9 +44,9 @@ public class CourseDao {
     }
 
     // update student
-    public static boolean updateStudent(String id, Course updatedCourse,LinkedListInterface<Course> list) {
+    public static boolean updateStudent(String id, Course updatedCourse, LinkedListInterface<Course> list) {
         // Find the index of the student with the given ID
-        int index = getIndex(id,list);
+        int index = getIndex(id, list);
 
         // If the student is found, update its information
         if (index != -1) {
@@ -102,6 +103,29 @@ public class CourseDao {
             }
         }
         // Return null if no student with the given ID is found
+        return null;
+    }
+
+    public static String getCourseById(String courseId, String programmeId) {
+        // Iterate over the list of courses
+        for (int i = 1; i <= cList.getTotalNumberOfData(); i++) {
+            Course c = cList.getData(i);
+            // Check if the courseId matches
+            if (c.getId().equals(courseId)) {
+                // Retrieve the associated Programme object
+                LinkedListInterface<Programme> programmeList = c.getProgramme();
+                // Iterate over the programmeList
+                for (int j = 1; j <= programmeList.getTotalNumberOfData(); j++) {
+                    Programme programme = programmeList.getData(j);
+                    // Check if the programmeId of the Programme object matches
+                    if (programme != null && programme.getId().equals(programmeId)) {
+                        // Return the course if both courseId and programmeId match
+                        return c.getName();
+                    }
+                }
+            }
+        }
+        // Return null if no course with the given courseId and programmeId is found
         return null;
     }
 

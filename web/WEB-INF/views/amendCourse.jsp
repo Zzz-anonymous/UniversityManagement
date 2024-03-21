@@ -33,7 +33,7 @@
                         </tr>
                         <tr>
                             <td><label for="details">Course Details:</label> </td>
-                            <td><input type="text" name="name" value="${course.details}" maxlength="30"></td>
+                            <td><input type="text" name="details" value="${course.details}" maxlength="30"></td>
                         </tr>
                         <tr>
                             <td>Course Types</td>
@@ -45,7 +45,7 @@
                                     if (courseTypes != null && courseTypes.getTotalNumberOfData() > 0) {
                                         for (int i = 1; i <= courseTypes.getTotalNumberOfData(); i++) {
                                             String c = courseTypes.getData(i); // Adjust index for LinkedList starting from 0
-%>
+                                %>
                                 <label>
                                     <input type="checkbox" 
                                            name="courseTypes" 
@@ -70,11 +70,11 @@
                                 </select>
                             </td>
                         </tr>
-                        
-                        
+
+
                         <%
                             ListInterface<Tutor> tList = Tools.initializeTutors();
-                            if (tList!= null && !tList.isEmpty()) {
+                            if (tList != null && !tList.isEmpty()) {
                         %>           
                         <tr>
                             <td><label for="tutorName">Tutor Names:</label> </td>
@@ -97,18 +97,17 @@
                             }
                         %>
 
-                        
                         <tr>
                             <td><label for="programmeName">programme Names:</label></td>
                             <td>
                                 <%
                                     LinkedListInterface<Programme> selectedProgrammes = (LinkedListInterface<Programme>) request.getAttribute("selectedProgrammes");
                                     ListInterface<Programme> pList = Tools.initializeProgrammes();
-                                    if (pList!= null && !pList.isEmpty()) {
+                                    if (pList != null && !pList.isEmpty()) {
                                         for (int i = 1; i <= pList.getTotalNumberOfData(); i++) {
-                                                Programme p = pList.getData(i);
+                                            Programme p = pList.getData(i);
                                 %>                                           
-                               <label>
+                                <label>
                                     <input type="checkbox" 
                                            name="programmeName" 
                                            value="<%= p.getName()%>" 
@@ -122,17 +121,19 @@
                         </tr>
 
                         <tr>
-                            <td><label for="avail">Availability:</label> </td>
-                            <td><select name="avail" id="avail">
-                                    <option value="1">Yes</option>
-                                    <option value="0">No</option>           
+                            <td><label for="available">Availability:</label> </td>
+                            <td>
+                                <select name="available" id="available">
+                                    <option value="1" ${available == 1 ? "selected" : ""}>Yes</option>
+                                    <option value="0" ${available == 0 ? "selected" : ""}>No</option>           
                                 </select>
+
                             </td>
                         </tr>
                         <tr>
                             <td></td>
                             <td>
-                                <input type="submit" value="Insert"/>
+                                <input type="submit" value="Update"/>
                             </td>
                         </tr>
                     </table>

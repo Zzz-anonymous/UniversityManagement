@@ -86,7 +86,7 @@
                     </div>
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Programme Management</a></li>
-                        <li><a href="createCourse.jsp">Create Course</a></li>
+                        <li><a href="addProgrammeCourse.jsp">View Programme</a></li>
                         <li><a href="/UniversityManagement/createCourseServlet">View Courses</a></li>
                         <li><a href="#">Card Design</a></li>
                     </ul>

@@ -29,12 +29,10 @@ public class CourseDao {
         return cList;
     }
 
-  
-
     // delete student
-    public static boolean deleteCourse(String id) {
+    public static boolean deleteCourse(String id,LinkedListInterface<Course> list) {
         // Check if the student ID is available
-        int index = getIndex(id);
+        int index = getIndex(id,list);
         if (index != -1) {
             // Remove the student from the list
             cList.remove(index);
@@ -45,9 +43,9 @@ public class CourseDao {
     }
 
     // update student
-    public static boolean updateStudent(String id, Course updatedCourse) {
+    public static boolean updateStudent(String id, Course updatedCourse,LinkedListInterface<Course> list) {
         // Find the index of the student with the given ID
-        int index = getIndex(id);
+        int index = getIndex(id,list);
 
         // If the student is found, update its information
         if (index != -1) {
@@ -61,18 +59,18 @@ public class CourseDao {
     }
 
     // check the availability of the id 
-    public static boolean availableId(String id) {
+    public static boolean availableId(String id, LinkedListInterface<Course> list) {
         // return value if the index number is available
-        return getIndex(id) >= 0;
+        return getIndex(id, list) >= 0;
     }
 
     // check the index number based on id
-    public static int getIndex(String id) {
+    public static int getIndex(String id, LinkedListInterface<Course> list) {
         // Trim the provided ID to remove leading and trailing whitespace
         String trimmedId = id.trim();
 
         // Get an iterator for the LinkedList
-        Iterator<Course> iterator = cList.getIterator();
+        Iterator<Course> iterator = list.getIterator();
 
         // Initialize index counter
         int index = 1;

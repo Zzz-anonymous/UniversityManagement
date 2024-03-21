@@ -3,6 +3,8 @@
     Created on : 19 Mar 2024, 6:52:51 pm
     Author     : Zy
 --%>
+<%@page import="Entity.Course"%>
+<%@page import="Dao.CourseDao"%>
 <%@include file = "/shared/header.jsp"%>
 <%@ page import = "Entity.Programme"%>
 <%@ page import = "Entity.Tutor"%>
@@ -36,27 +38,43 @@
                         <tr>
                             <td>Course Types</td>
                             <td>
-                                <input type="checkbox" id="Tutorial" name="courseTypes" value="Tutorial" checked="checked">
-                                <label for="Tutorial"> Tutorial</label>
-                                <input type="checkbox" id="Lecture" name="courseTypes" value="Lecture">
-                                <label for="Lecture"> Lecture</label>
-                                <input type="checkbox" id="Practical" name="courseTypes" value="Practical">
-                                <label for="Practical"> Practical</label>
+                                <%
+                                    LinkedListInterface<String> selectedCTypes = (LinkedListInterface<String>) request.getAttribute("selectedCTypes");
+                                    LinkedListInterface<String> courseTypes = Tools.initializeCourseTypes(); // Load course types
+
+                                    if (courseTypes != null && courseTypes.getTotalNumberOfData() > 0) {
+                                        for (int i = 1; i <= courseTypes.getTotalNumberOfData(); i++) {
+                                            String c = courseTypes.getData(i); // Adjust index for LinkedList starting from 0
+%>
+                                <label>
+                                    <input type="checkbox" 
+                                           name="courseTypes" 
+                                           value="<%= c%>" 
+                                           <% if (selectedCTypes != null && selectedCTypes.contains(c)) { %> checked <% }%>>
+                                    <%= c%>
+                                </label>
+                                <br />
+                                <%
+                                        }
+                                    }
+                                %>
                             </td>
                         </tr>
 
                         <tr>
                             <td><label for="creditHours">Credit Hours:</label> </td>
                             <td><select name="creditHours" id="creditHours">
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
+                                    <option ${creditHours == 2 ? "selected" : ""}>2</option>
+                                    <option ${creditHours == 3 ? "selected" : ""}>3</option>
+                                    <option ${creditHours == 4 ? "selected" : ""}>4</option>
                                 </select>
                             </td>
                         </tr>
+                        
+                        
                         <%
                             ListInterface<Tutor> tList = Tools.initializeTutors();
-                            if (tList != null && !tList.isEmpty()) {
+                            if (tList!= null && !tList.isEmpty()) {
                         %>           
                         <tr>
                             <td><label for="tutorName">Tutor Names:</label> </td>
@@ -65,7 +83,7 @@
                                     <%      for (int i = 1; i <= tList.getTotalNumberOfData(); i++) {
                                             Tutor t = tList.getData(i);
                                     %>
-                                    <option value="<%= t.getName()%>">
+                                    <option value="<%= t.getName()%>" <% if (t.getName().equals(request.getAttribute("tutorName"))) { %> selected <% }%>>
                                         <%= t.getName()%>
                                     </option>
                                     <%
@@ -79,21 +97,27 @@
                             }
                         %>
 
-                        <%
-                            ListInterface<Programme> pList = Tools.initializeProgrammes();
-                            if (pList != null && !pList.isEmpty()) {
-
-                        %>           
+                        
                         <tr>
                             <td><label for="programmeName">programme Names:</label></td>
                             <td>
-                                <% for (int i = 1; i <= pList.getTotalNumberOfData(); i++) {
-                                        Programme p = pList.getData(i);
-                                %>
-                                <input type="checkbox" id="programme" name="programmeName[]" value="<%= p.getName()%>">
-                                <label for="programme"><%= p.getName()%></label><br>
+                                <%
+                                    LinkedListInterface<Programme> selectedProgrammes = (LinkedListInterface<Programme>) request.getAttribute("selectedProgrammes");
+                                    ListInterface<Programme> pList = Tools.initializeProgrammes();
+                                    if (pList!= null && !pList.isEmpty()) {
+                                        for (int i = 1; i <= pList.getTotalNumberOfData(); i++) {
+                                                Programme p = pList.getData(i);
+                                %>                                           
+                               <label>
+                                    <input type="checkbox" 
+                                           name="programmeName" 
+                                           value="<%= p.getName()%>" 
+                                           <% if (selectedProgrammes != null && selectedProgrammes.contains(p)) { %> checked <% }%>>
+                                    <%= p.getName()%>
+                                </label>
+                                <br />
                                 <% }
-                                }%>
+                                    }%>
                             </td>
                         </tr>
 

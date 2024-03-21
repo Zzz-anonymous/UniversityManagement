@@ -4,18 +4,21 @@
  */
 package Entity;
 
+import java.util.Objects;
+
 /**
  *
  * @author Zy
  */
 public class Programme {
+
     private String id;
     private String name;
     private String facultyName;
 
     public Programme() {
     }
-    
+
     public Programme(String id, String name, String facultyName) {
         this.id = id;
         this.name = name;
@@ -46,5 +49,21 @@ public class Programme {
         this.facultyName = facultyName;
     }
 
+    @Override
+    public String toString() {
+        return this.name;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Programme other = (Programme) obj;
+        return Objects.equals(this.name, other.name);
+    }
 
 }

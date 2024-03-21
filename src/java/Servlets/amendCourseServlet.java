@@ -6,6 +6,9 @@ package Servlets;
 
 import Dao.CourseDao;
 import Entity.Course;
+import Entity.Programme;
+import Entity.Tutor;
+import adt.LinkedListInterface;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -23,25 +26,36 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/amendCourseServlet")
 public class amendCourseServlet extends HttpServlet {
 
-    // pass id to amendStudent.jsp to modify that particular student
+    // display amendCourse.jsp to do modification of course
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         String id = request.getParameter("id");
-        // Retrieve student information based on the ID
+        // Retrieve course information based on the ID
         Course course = CourseDao.getCourseById(id);
-        // Pass the student object to the JSP page
+        int creditHours = course.getCreditHours();
+
+        // Retrieve selected course types
+        LinkedListInterface<String> selectedCTypes = course.getCourseTypes();
+        LinkedListInterface<Programme> selectedProgrammes = course.getProgramme();
+        String tutorName = course.getTutor().getName();
+
+        // Pass the course object and other necessary attributes to the JSP page
         request.setAttribute("course", course);
+        request.setAttribute("creditHours", creditHours);
+        request.setAttribute("selectedCTypes", selectedCTypes);
+        request.setAttribute("selectedProgrammes", selectedProgrammes);
+        request.setAttribute("tutorName", tutorName);
+        
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/amendCourse.jsp");
         dispatcher.forward(request, response);
     }
 
-    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
     }
 
 }

@@ -30,17 +30,19 @@
 
             <div>
                 <a href ="?">All</a>
-                
+
                 <%
                     for (int i = 1; i <= initializeStudent.getTotalNumberOfData(); i++) {
                         Student p = initializeStudent.getData(i);
                 %>
-                    <span>|</span>
-                    <a href="studentSearchServlet?programId=<%= p.getProgrammeId()%>"><%= p.getProgrammeId()%></a>
+                <span>|</span>
+                <a href="studentSearchServlet?programId=<%= p.getProgrammeId()%>"><%= p.getProgrammeId()%></a>
                 <% } %>
             </div>
-          
-            <table border="1" style="width:80%; padding-top: 20px" class="table">
+            <form action="studentServlet" method="get" style="margin-top: 10px">
+                <button>Active List</button>
+            </form>
+            <table border="1" style="width:80%; margin-top: 10px;" class="table">
                 <thead>
                     <tr>
                         <th>Student ID</th>
@@ -50,7 +52,6 @@
                         <th>Student Status</th>
                         <th>Payment Status</th>
                         <th>Programme ID</th>
-                        <th>Edit</th>
                     </tr>
                 </thead>    
                 <tbody>
@@ -58,7 +59,7 @@
                             for (int i = 1; i <= sr.getTotalNumberOfData(); i++) {
                                 Student s = sr.getData(i);
                     %>
-                    <tr data-checkable>
+                    <tr>
                         <td><%= s.getId()%></td>
                         <td><%= s.getName()%></td>
                         <td><%= s.getGender()%></td>
@@ -66,7 +67,6 @@
                         <td><%= s.getStatus() == 1 ? "Active" : "Inactive"%></td>
                         <td><%= s.getPaymentStatus()%></td>
                         <td><%= s.getProgrammeId()%></td>
-                        <td><a href="/UniversityManagement/studentAmendServlet?id=<%= s.getId()%>">Edit</a></td>
                     </tr>
                     <%
                         }
@@ -74,10 +74,7 @@
                         for (int i = 1; i <= inactiveList.getTotalNumberOfData(); i++) {
                             Student s = inactiveList.getData(i);
                     %>
-                    <tr data-checkable>
-                        <td>
-                            <input type="checkbox" name="ids" class="studentCheckbox" value="<%= s.getId()%>">
-                        </td>
+                    <tr>
                         <td><%= s.getId()%></td>
                         <td><%= s.getName()%></td>
                         <td><%= s.getGender()%></td>
@@ -85,14 +82,13 @@
                         <td><%= s.getStatus() == 1 ? "Active" : "Inactive"%></td>
                         <td><%= s.getPaymentStatus()%></td>
                         <td><%= s.getProgrammeId()%></td>
-                        <td><a href="/UniversityManagement/studentAmendServlet?id=<%= s.getId()%>">Edit</a></td>
                     </tr>
                     <%
                         }
                     } else {
                     %>
                     <tr>
-                        <td colspan="10">No student records found</td>
+                        <td colspan="7">No student records found</td>
                     </tr>
                     <% }%>
                 </tbody>

@@ -11,7 +11,6 @@ import java.util.Objects;
  * @author Zy
  */
 public class Programme {
-
     private String id;
     private String name;
     private String facultyName;

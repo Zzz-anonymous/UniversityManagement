@@ -13,19 +13,23 @@ import java.util.Iterator;
  * @author Zy
  */
 public class CourseDao {
-    // Create an ArrayList to store Student objects
 
+    // Create an LinkedList to store course objects
     private static LinkedListInterface<Course> cList = new LinkedList<>();
+    //private static LinkedListInterface<String> cTypesList = new LinkedList<>();
+    private static LinkedListInterface<String> selectedCTypes = new LinkedList<>();
 
-    // add new student
+    // add new course
     public static void addCourse(Course s) {
         cList.add(s);
     }
 
-    // get all student details
+    // get all course details
     public static LinkedListInterface<Course> getAllCourses() {
         return cList;
     }
+
+  
 
     // delete student
     public static boolean deleteCourse(String id) {
@@ -48,14 +52,14 @@ public class CourseDao {
         // If the student is found, update its information
         if (index != -1) {
             // Replace the student at the found index with the updated student
-            cList.replace(index, updatedCourse);
+            cList.update(index, updatedCourse);
             return true; // Return true to indicate a successful update
         }
 
         // If the student is not found, return false
         return false;
     }
-    
+
     // check the availability of the id 
     public static boolean availableId(String id) {
         // return value if the index number is available
@@ -90,7 +94,7 @@ public class CourseDao {
         return -1;
     }
 
-    // get student info by id
+    // get course info by id
     public static Course getCourseById(String id) {
         // Iterate over the list of students to find the one with the matching ID
         for (int i = 1; i <= cList.getTotalNumberOfData(); i++) {

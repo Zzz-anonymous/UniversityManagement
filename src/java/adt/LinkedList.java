@@ -132,7 +132,7 @@ public class LinkedList<T> implements LinkedListInterface<T> {
     }
 
     @Override
-    public boolean replace(int position, T newData) {
+    public boolean update(int position, T newData) {
         boolean isSuccessful = true;
 
         if ((position >= 1) && (position <= totalNumberData)) {

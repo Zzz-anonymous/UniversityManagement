@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/createCourseServlet")
 public class createCourseServlet extends HttpServlet {
-    
+    LinkedListInterface<Course> cList = CourseDao.getAllCourses();
     
     // check courses availability + display courses
     @Override
@@ -61,8 +61,8 @@ public class createCourseServlet extends HttpServlet {
 
         String id = request.getParameter("id");
 
-        // Check if the ID already exists in the studentList
-        boolean idExists = CourseDao.availableId(id);
+        // Check if the ID already exists in the courseList
+        boolean idExists = CourseDao.availableId(id,cList);
 
         if (idExists) {
             // ID already exists, handle accordingly (e.g., show error message)

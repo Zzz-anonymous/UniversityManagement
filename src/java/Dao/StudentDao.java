@@ -95,7 +95,7 @@ public class StudentDao {
         // If the student is found, update its information
         if (index != -1) {
             // Replace the student at the found index with the updated student
-            mergedList.replace(index, updatedStudent);
+            mergedList.update(index, updatedStudent);
             return true; // Return true to indicate a successful update
         }
 

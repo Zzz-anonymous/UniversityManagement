@@ -4,6 +4,7 @@
  */
 package Entity;
 
+import Utility.Tools;
 import adt.LinkedListInterface;
 
 /**

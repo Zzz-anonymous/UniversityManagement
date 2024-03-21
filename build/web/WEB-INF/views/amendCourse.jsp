@@ -121,8 +121,6 @@
                             </td>
                         </tr>
 
-
-
                         <tr>
                             <td><label for="avail">Availability:</label> </td>
                             <td><select name="avail" id="avail">

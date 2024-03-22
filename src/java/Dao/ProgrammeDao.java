@@ -6,7 +6,9 @@ package Dao;
 
 import Entity.Programme;
 import static Utility.Tools.initializeProgrammes;
+import adt.LinkedListInterface;
 import adt.ListInterface;
+import java.util.Iterator;
 
 /**
  *
@@ -40,6 +42,35 @@ public class ProgrammeDao {
 
         // If no matching programme is found, return null or throw an exception
         return null;
+    }
+    
+    
+    // check the index number based on id
+    public static int getIndex(String id, ListInterface<Programme> list) {
+        // Trim the provided ID to remove leading and trailing whitespace
+        String trimmedId = id.trim();
+
+        // Get an iterator for the LinkedList
+        Iterator<Programme> iterator = list.getIterator();
+
+        // Initialize index counter
+        int index = 1; // Adjusted to zero-based indexing
+
+        // Iterate over the list
+        while (iterator.hasNext()) {
+            Programme p = iterator.next();
+            if (p != null) {
+                if (p.getId().equals(trimmedId)) {
+                    // If student ID matches, return the index
+                    return index;
+                }
+            }
+            // Increment index counter
+            index++;
+        }
+
+        // If student ID is not found, return -1
+        return -1;
     }
 
 }

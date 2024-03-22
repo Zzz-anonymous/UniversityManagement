@@ -45,7 +45,7 @@
                     <tr>
                         <td><%= p.getId() %></td>
                         <td><%= p.getName() %></td>
-                        <td><a href="/UniversityManagement/rogrammeDetailsServletp?id=<%= p.getId()%>">Details</a></td>                         
+                        <td><a href="/UniversityManagement/programmeServlet?id=<%= p.getId()%>">Details</a></td>                         
                         <td><a href="/UniversityManagement/amendProgrammeServlet?id=<%= p.getId()%>">Edit</a></td>
                     </tr>
                     <% }}%>

@@ -135,25 +135,29 @@ public class ArrayList<T> implements ListInterface<T>, Serializable {
         return totalNumberData == array.length;
     }
 
-//   @Override
-    public Iterator<T> iterator() {
-        return new Iterator<T>() {
-            private int currentIndex = 0;
-
-            @Override
-            public boolean hasNext() {
-                return currentIndex < totalNumberData;
-            }
-
-            @Override
-            public T next() {
-                return array[currentIndex++];
-            }
-        };
+    @Override
+    public Iterator<T> getIterator() {
+        return new ArrayListIterator();
     }
 
-    @Override
-    public String toString() {
+    private class ArrayListIterator implements Iterator<T> {
+
+        private int currentIndex = 0;
+
+        @Override
+        public boolean hasNext() {
+            return currentIndex < totalNumberData;
+        }
+
+        @Override
+        public T next() {
+            return array[currentIndex++];
+        }
+    };
+
+
+@Override
+public String toString() {
         String outputStr = "";
         for (int index = 0; index < totalNumberData; ++index) {
             outputStr += array[index] + "\n";

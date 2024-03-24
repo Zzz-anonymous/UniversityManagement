@@ -44,6 +44,20 @@ public class ProgrammeDao {
         return null;
     }
     
+        public static Programme getProgrammeById(String id) {
+        ListInterface<Programme> programme = initializeProgrammes();
+
+        for (int i = 1; i <= programme.getTotalNumberOfData(); i++) {
+            Programme p = programme.getData(i);
+            if (p.getId().equals(id)) {
+                return p;
+            }
+        }
+
+        // If no matching programme is found, return null or throw an exception
+        return null;
+    }
+    
     
     // check the index number based on id
     public static int getIndex(String id, ListInterface<Programme> list) {

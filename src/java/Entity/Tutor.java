@@ -13,6 +13,12 @@ import Utility.Person;
 public class Tutor extends Person{
     private String level;
 
+    public Tutor(String id, String name, String gender, String email, int status) {
+        super(id, name, gender, email, status);
+    }
+
+    
+    
     public Tutor(String id, String name, String gender, String email, int status, String level) {
         super(id, name, gender, email, status);
         this.level = level;

@@ -14,8 +14,9 @@ import Entity.*;
 public class Tools {
 
     // Define cTypesList as a class-level variable
-    private static LinkedListInterface<String> cTypesList = new LinkedList<>() {
-    };
+    private static LinkedListInterface<String> cTypesList = new LinkedList<>();
+    // Create a list of courses for the programme
+    private static LinkedListInterface<Course> courses = new LinkedList<>();
 
     // Method to initialize courseTypes with course types
     public static LinkedListInterface<String> initializeCourseTypes() {
@@ -28,8 +29,9 @@ public class Tools {
         // Return a copy of the list to avoid direct modification of the original list
         return cTypesList;
     }
-
-    //  Method to return a collection of with hard-coded entity values
+    
+    
+    //  Method to return a collection of with hard-coded programme values
     public static ListInterface<Programme> initializeProgrammes() {
         ListInterface<Programme> pList = new ArrayList<>();
         pList.add(new Programme("RML", "Creative Multimedia", "FCCI"));
@@ -47,7 +49,7 @@ public class Tools {
         return pList;
     }
 
-    //  Method to return a collection of with hard-coded entity values
+    //  Method to return a collection of with hard-coded tutor values
     public static ListInterface<Tutor> initializeTutors() {
         ListInterface<Tutor> tList = new ArrayList<>();
         tList.add(new Tutor("T1001", "Zhong Li", "Male", "abc@123.com", 1, "Doctoral"));

@@ -8,6 +8,7 @@ import Dao.CourseDao;
 import Dao.ProgrammeDao;
 import Dao.TutorDao;
 import Entity.Course;
+import Entity.Faculty;
 import Entity.Programme;
 import Entity.Tutor;
 import adt.LinkedList;
@@ -113,22 +114,26 @@ public class amendCourseServlet extends HttpServlet {
             // No course types selected, display an alert message
             PrintWriter out = response.getWriter();
             out.println("<script>alert('Please select at least one programme!');</script>");
-            out.println("<script>window.location.href = '" + request.getContextPath() + "/createCourseServlet';</script>");
+            out.println("<script>window.location.href = '" + request.getContextPath() + "/amendCourseServlet';</script>");
             out.close();
             return; // Exit the method
         }
 
+        String f = request.getParameter("facultyName");
+        // Get the faculty object using the name
+        Faculty facultyName = CourseDao.findfacultiesByName(f);
+        
         String avail = request.getParameter("available");
         int available = Integer.parseInt(avail);
 
         // Create a new Course object with the provided data
-        Course c = new Course(id, name, details, selectedCTypes, creditHours, tutorName, programmes, available);
+        Course c = new Course(id, name, details, selectedCTypes, creditHours, tutorName, programmes,facultyName, available);
 
         // Check if studentList is empty
         if (cList.isEmpty()) {
             // Handle the case where studentList is empty
             PrintWriter out = response.getWriter();
-            out.println("<script>alert('No students found!');</script>");
+            out.println("<script>alert('No Course found!');</script>");
             out.println("<script>window.location.replace('amendCourseServlet');</script>");
             out.close();
             return;
@@ -159,10 +164,10 @@ public class amendCourseServlet extends HttpServlet {
                 out.close();
             }
         } else {
-            // Student with the provided ID does not exist, display an error message
+            // Course with the provided ID does not exist, display an error message
             PrintWriter out = response.getWriter();
-            out.println("<script>alert('Student with ID " + id + " does not exist!');</script>");
-            out.println("<script>window.location.replace('studentAmendServlet');</script>");
+            out.println("<script>alert('Course with ID " + id + " does not exist!');</script>");
+            out.println("<script>window.location.replace('amendCourseServlet');</script>");
             out.close();
         }
     }

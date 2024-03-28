@@ -4,6 +4,7 @@
     Author     : Zy
 --%>
 
+<%@page import="Dao.ProgrammeCourseDao"%>
 <%@page import="adt.LinkedListInterface"%>
 <%@page import="adt.*"%>
 <%@page import="Entity.Course"%>
@@ -20,10 +21,6 @@
             <h1>Programmes</h1>
         </header>
         <main>
-            <form style="padding-bottom:10px" action="courseSearchingServlet" method="post">
-                <input type="search" id="search" name="search" placeholder="Search Names" autofocus>
-            </form>
-
             <%
                 LinkedListInterface<Course> cList = CourseDao.getAllCourses();
                 LinkedListInterface<Programme> pList = (LinkedListInterface<Programme>) request.getAttribute("programme");
@@ -51,8 +48,8 @@
                     boolean courseFound = false; // Flag to track if any courses are found
                     for (int j = 1; j <= cList.getTotalNumberOfData(); j++) {
                         Course c = cList.getData(j);
-                        if (CourseDao.getCourseById(c.getId(), p.getId()) != null) {
-                            String cName = CourseDao.getCourseById(c.getId(), p.getId());
+                        if (ProgrammeCourseDao.getCourseNameById(c.getId(), p.getId()) != null) {
+                            String cName = ProgrammeCourseDao.getCourseNameById(c.getId(), p.getId());
                 %>
                 <tr>
                     <td colspan="2"><%= cName%></td>

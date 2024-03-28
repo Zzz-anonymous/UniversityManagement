@@ -27,21 +27,6 @@ public class courseSearchingServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Get the programmeId parameter from the request
-        //String programmeId = request.getParameter("programId");
-
-        // If programmeId is null or empty, retrieve all students
-//        if (programmeId == null || programmeId.isEmpty()) {
-       //     Course course = CourseDao.getAvailableCourses();
-  //          request.setAttribute("course", course);
-//        } else {
-//            // Retrieve students based on the specified programmeId
-//            LinkedListInterface<Course> mergedList = CourseDao.getCourseById();
-//            request.setAttribute("mergedList", mergedList);
-//        }
-
-     //   RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/displayCourses.jsp");
-     //   dispatcher.forward(request, response);
     }
 
     // display the search result
@@ -52,7 +37,7 @@ public class courseSearchingServlet extends HttpServlet {
         String name = request.getParameter("search");
 
         // Search for students with the given name
-        LinkedListInterface<Course> searchResults = CourseDao.searchStudent(name);
+        LinkedListInterface<Course> searchResults = CourseDao.searchCourses(name);
 
         // Forward the search results to a JSP for display
         request.setAttribute("searchResults", searchResults);

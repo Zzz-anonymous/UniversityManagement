@@ -37,10 +37,7 @@
                     <th>Programme Name</th>
                     <td><%= p.getName()%></td>
                 </tr>
-                <tr>
-                    <th>Faculty Name</th>
-                    <td><%= p.getFacultyName()%></td>
-                </tr>
+                
                 <tr >
                     <th colspan="2">CourseName</th>
                 </tr>

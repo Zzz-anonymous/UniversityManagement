@@ -4,6 +4,7 @@
     Author     : Zy
 --%>
 
+<%@page import="Entity.Faculty"%>
 <%@page import = "adt.*"%>
 <%@page import = "Entity.Course"%>
 <%@page import = "Entity.Programme"%>
@@ -22,12 +23,25 @@
             <form style="padding-bottom:10px" action="courseSearchingServlet" method="post">
                 <input type="search" id="search" name="search" placeholder="Search Names" autofocus>        
             </form>
-
             <%
+                ListInterface<Faculty> fList = (ListInterface<Faculty>) Tools.initializeFaculties();
                 LinkedListInterface<Course> cList = (LinkedListInterface<Course>) request.getAttribute("cList");
                 LinkedListInterface<Course> cr = (LinkedListInterface<Course>) request.getAttribute("searchResults");
                 boolean showSearchResults = cr != null && !cr.isEmpty();
             %>
+
+            <div>
+                <a href="?">All</a>
+
+                <% for (int i = 1; i <= fList.getTotalNumberOfData(); i++) {
+                        Faculty f = fList.getData(i);
+                %>
+                <span>|</span>
+                <a href="courseSearchingServlet?facultyId=<%= f.getId()%>"><%= f.getId()%></a>
+                <% } %>
+            </div>
+
+
             <table border="1" style="width:80%;" class="table">
                 <thead>
                     <tr>
@@ -38,6 +52,7 @@
                         <th>Credit Hours</th>
                         <th>Tutors</th>
                         <th>Programmes</th>
+                        <th>Faculties</th>
                         <th>Course Status</th>
                         <th>Edit</th>
                         <th>Delete</th>
@@ -56,7 +71,7 @@
                             <%
                                 LinkedListInterface<String> courseTypes = c.getCourseTypes();
                                 for (int j = 1; j <= courseTypes.getTotalNumberOfData(); j++) {
-                                        String courseType = courseTypes.getData(j);
+                                    String courseType = courseTypes.getData(j);
                             %>
                             <%= courseType%><br>
                             <% }%>
@@ -68,6 +83,9 @@
                         </td>
                         <td>
                             <%= c.getProgramme()%>
+                        </td>
+                        <td>
+                            <%= c.getFaculty().getName()%>
                         </td>
                         <td><%= c.getAvailability() == 1 ? "Available" : "Not Available"%></td>
 
@@ -88,7 +106,7 @@
                             <%
                                 LinkedListInterface<String> courseTypes = c.getCourseTypes();
                                 for (int j = 1; j <= courseTypes.getTotalNumberOfData(); j++) {
-                                        String courseType = courseTypes.getData(j);
+                                    String courseType = courseTypes.getData(j);
                             %>
                             <%= courseType%><br>
                             <% }%>
@@ -102,12 +120,14 @@
                             <%
                                 LinkedListInterface<Programme> programmes = c.getProgramme();
                                 for (int j = 1; j <= programmes.getTotalNumberOfData(); j++) {
-                                        Programme p = programmes.getData(j);
+                                    Programme p = programmes.getData(j);
                             %>
-                            <%= j + ") " + p.getName() %><br>
+                            <%= j + ") " + p.getName()%><br>
                             <% }%>
                         </td>
-
+                        <td>
+                            <%= c.getFaculty().getName()%>
+                        </td>
                         <td><%= c.getAvailability() == 1 ? "Available" : "Not Available"%></td>
                         <!--TODO-->
                         <!-- delete and modification havent done  -->
@@ -119,7 +139,7 @@
                     } else {
                     %>
                     <tr>
-                        <td colspan="10">No Course records found</td>
+                        <td colspan="11">No Course records found</td>
                     </tr>
                     <% }%>
                 </tbody>

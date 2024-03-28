@@ -23,12 +23,27 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/courseSearchingServlet")
 public class courseSearchingServlet extends HttpServlet {
 
-   @Override
+   // filtering course based on faculty
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-    }
+        // Get the programmeId parameter from the request
+        String facultyId = request.getParameter("facultyId");
 
+        // If programmeId is null or empty, retrieve all students
+        if (facultyId == null || facultyId.isEmpty()) {
+            LinkedListInterface<Course> cList = CourseDao.getAllCourses();
+            request.setAttribute("cList", cList);
+        } else {
+            // Retrieve students based on the specified programmeId
+            LinkedListInterface<Course> cList = CourseDao.getCoursesByFid(facultyId);
+            request.setAttribute("cList", cList);
+        }
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/displayCourses.jsp");
+        dispatcher.forward(request, response);
+    }
     // display the search result
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

@@ -32,20 +32,38 @@ public class Tools {
     
     
     //  Method to return a collection of with hard-coded programme values
+    public static ListInterface<Faculty> initializeFaculties() {
+        ListInterface<Faculty> fList = new ArrayList<>();
+        fList.add(new Faculty( "FCCI","Faculty of Communication and Creative Industries"));
+
+        fList.add(new Faculty( "FSSH","Faculty of Social Science and Humanities"));
+       
+        fList.add(new Faculty( "FOCS","Faculty of Computing and Information Technology"));
+
+        fList.add(new Faculty( "FOAS","Faculty of Applied Sciences"));
+ 
+        fList.add(new Faculty( "FOBE","Faculty of Built Environment"));
+
+        fList.add(new Faculty( "FAFB","Faculty of Accountancy, Finance and Business"));
+  
+        return fList;
+    }
+    
+    //  Method to return a collection of with hard-coded programme values
     public static ListInterface<Programme> initializeProgrammes() {
         ListInterface<Programme> pList = new ArrayList<>();
-        pList.add(new Programme("RML", "Creative Multimedia", "FCCI"));
-        pList.add(new Programme("RBC", "Broadcasting", "FCCI"));
-        pList.add(new Programme("RPY", "Psychology", "FSSH"));
-        pList.add(new Programme("REU", "English Studies", "FSSH"));
-        pList.add(new Programme("RSD", "Sofware System Development", "FOCS"));
-        pList.add(new Programme("RIT", "Internet Techonology", "FOCS"));
-        pList.add(new Programme("RSP", "Sports Coaching and Performance", "FOAS"));
-        pList.add(new Programme("RSE", "Sports and Exercise Science", "FOAS"));
-        pList.add(new Programme("RES", "Real Estate Management", "FOBE"));
-        pList.add(new Programme("RBD", "Construction Management and Economics", "FOBE"));
-        pList.add(new Programme("RAC", "Accounting", "FAFB"));
-        pList.add(new Programme("RFI", "Finance and Investment", "FAFB"));
+        pList.add(new Programme("RML", "Creative Multimedia"));
+        pList.add(new Programme("RBC", "Broadcasting"));
+        pList.add(new Programme("RPY", "Psychology"));
+        pList.add(new Programme("REU", "English Studies"));
+        pList.add(new Programme("RSD", "Sofware System Development"));
+        pList.add(new Programme("RIT", "Internet Techonology"));
+        pList.add(new Programme("RSP", "Sports Coaching and Performance"));
+        pList.add(new Programme("RSE", "Sports and Exercise Science"));
+        pList.add(new Programme("RES", "Real Estate Management"));
+        pList.add(new Programme("RBD", "Construction Management and Economics"));
+        pList.add(new Programme("RAC", "Accounting"));
+        pList.add(new Programme("RFI", "Finance and Investment"));
         return pList;
     }
 

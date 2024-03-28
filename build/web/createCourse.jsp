@@ -3,6 +3,7 @@
     Created on : 10 Mar 2024, 2:58:01 pm
     Author     : Zy
 --%>
+<%@page import="Entity.Faculty"%>
 <%@include file = "/shared/header.jsp"%>
 <%@ page import = "Entity.Programme"%>
 <%@ page import = "Entity.Tutor"%>
@@ -96,8 +97,32 @@
                             </td>
                         </tr>
 
+                        <%
+                            ListInterface<Faculty> fList = Tools.initializeFaculties();
+                            if (fList != null && !fList.isEmpty()) {
 
+                        %>           
+                              
+                        <tr>
+                            <td><label for="facultyName">Faculty Names:</label> </td>
+                            <td>
+                                <select name="facultyName" id="facultyName">
+                                    <%      for (int i = 1; i <= fList.getTotalNumberOfData(); i++) {
+                                            Faculty f = fList.getData(i);
+                                    %>
+                                    <option value="<%= f.getName()%>">
+                                        <%= f.getName()%>
+                                    </option>
+                                    <%
+                                        }
+                                    %>
+                                </select>
+                            </td>
+                        </tr>
 
+                        <%
+                            }
+                        %>
                         <tr>
                             <td><label for="avail">Availability:</label> </td>
                             <td><select name="avail" id="avail">

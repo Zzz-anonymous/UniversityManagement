@@ -24,8 +24,10 @@ public class Course {
     private int availability;
     private int maxCapacity = 200;
     private Tutor tutor;
-
-    public Course(String Id, String name, String details,LinkedListInterface<String> courseTypes, int creditHours,Tutor tutor, LinkedListInterface<Programme>  programme, int availability) {
+    private Faculty faculty;
+    
+    
+    public Course(String Id, String name, String details,LinkedListInterface<String> courseTypes, int creditHours,Tutor tutor, LinkedListInterface<Programme>  programme,Faculty faculty, int availability) {
         this.Id = Id;
         this.name = name;
         this.details = details;
@@ -34,6 +36,7 @@ public class Course {
         setFeesAutomatically(creditHours);
         this.tutor = tutor;
         this.programme = programme;
+        this.faculty = faculty;
         this.availability = availability;
     }
 
@@ -133,6 +136,14 @@ public class Course {
             default:
                 break;
         }
+    }
+
+    public Faculty getFaculty() {
+        return faculty;
+    }
+
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
     }
     
 

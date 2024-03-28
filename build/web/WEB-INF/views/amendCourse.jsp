@@ -3,6 +3,7 @@
     Created on : 19 Mar 2024, 6:52:51 pm
     Author     : Zy
 --%>
+<%@page import="Entity.Faculty"%>
 <%@page import="Entity.Course"%>
 <%@page import="Dao.CourseDao"%>
 <%@include file = "/shared/header.jsp"%>
@@ -120,6 +121,33 @@
                             </td>
                         </tr>
 
+                        <%
+                            ListInterface<Faculty> fList = Tools.initializeFaculties();
+                            if (fList != null && !fList.isEmpty()) {
+
+                        %>           
+                              
+                        <tr>
+                            <td><label for="facultyName">Faculty Names:</label> </td>
+                            <td>
+                                <select name="facultyName" id="facultyName">
+                                    <%      for (int i = 1; i <= fList.getTotalNumberOfData(); i++) {
+                                            Faculty f = fList.getData(i);
+                                    %>
+                                    <option value="<%= f.getName()%>"<% if (f.getName().equals(request.getAttribute("facultyName"))) { %> selected <% }%>>
+                                        <%= f.getName()%>
+                                    </option>
+                                    <%
+                                        }
+                                    %>
+                                </select>
+                            </td>
+                        </tr>
+
+                        <%
+                            }
+                        %>
+                        
                         <tr>
                             <td><label for="available">Availability:</label> </td>
                             <td>

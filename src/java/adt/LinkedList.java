@@ -39,6 +39,18 @@ public class LinkedList<T> implements LinkedListInterface<T> {
         return matchingData;
     }
 
+    public int countNode() {
+        return countNodes(firstNode);
+    }
+
+    public int countNodes(Node passInFirstNode) {
+        if (passInFirstNode == null) {
+            return 0;
+        } else {
+            return 1 + countNodes(passInFirstNode.next);
+        }
+    }
+
     @Override
     public Iterator<T> getIterator() {
         return new LinkedListIterator();

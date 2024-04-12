@@ -33,8 +33,8 @@ public class studentAmendServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String id = request.getParameter("id");
         // Retrieve student information based on the ID
+        String id = request.getParameter("id");
         Student student = StudentDao.getStudentById(id);
         // Retrieve the gender of the student's 
         String gender = student.getGender();

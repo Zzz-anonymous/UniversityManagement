@@ -38,27 +38,20 @@
                 <% } %>
             </div>
             <div style="display:flex; margin-top: 10px;">
-                <button data-check="ids">Check All</button>
-                <button data-uncheck="ids">Uncheck All</button>
                 <form action="studentDeleteServlet" method="post">
                     <button>Inactive List</button>
-                </form>
-                <form id="studentsForm" action="addToCourseServlet" method="post">
-                    <button id="addToCourseBtn">Add to course</button>
-                    <input type="hidden" id="ids" name="ids">
                 </form>
             </div>
             <table border="1" style="width:80%; margin-top: 10px" class="table">
                 <thead>
                     <tr>
-                        <th></th>
                         <th>Student ID</th>
                         <th>Name</th>      
-                        <th>Gender</th>
-                        <th>Email</th>
                         <th>Student Status</th>
                         <th>Payment Status</th>
                         <th>Programme ID</th>
+                        <th>Assign Courses</th>
+                        <th>Details</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -68,17 +61,14 @@
                             for (int i = 1; i <= sr.getTotalNumberOfData(); i++) {
                                 Student s = sr.getData(i);
                     %>
-                    <tr data-checkable>
-                        <td>
-                            <input type="checkbox" class="studentCheckbox" name="ids" value="<%= s.getId()%>" >
-                        </td>
+                    <tr>
                         <td><%= s.getId()%></td>
                         <td><%= s.getName()%></td>
-                        <td><%= s.getGender()%></td>
-                        <td><%= s.getEmail()%></td>
                         <td><%= s.getStatus() == 1 ? "Active" : "Inactive"%></td>
                         <td><%= s.getPaymentStatus()%></td>
                         <td><%= s.getProgrammeId()%></td>
+                        <td><a href="/UniversityManagement/addToCourseServlet?id=<%= s.getId()%>">Assign Courses</a></td>
+                        <td><a href="/UniversityManagement/studentDetailsServlet?id=<%= s.getId()%>">Details</a></td>
                         <td><a href="/UniversityManagement/studentAmendServlet?id=<%= s.getId()%>">Edit</a></td>
                         <td><a href="/UniversityManagement/studentDeleteServlet?id=<%= s.getId()%>">Delete</a></td>                           
                     </tr>
@@ -88,17 +78,14 @@
                         for (int i = 1; i <= mergedList.getTotalNumberOfData(); i++) {
                             Student s = mergedList.getData(i);
                     %>
-                    <tr data-checkable>
-                        <td>
-                            <input type="checkbox" name="ids" class="studentCheckbox" value="<%= s.getId()%>">
-                        </td>
+                    <tr>
                         <td><%= s.getId()%></td>
                         <td><%= s.getName()%></td>
-                        <td><%= s.getGender()%></td>
-                        <td><%= s.getEmail()%></td>
                         <td><%= s.getStatus() == 1 ? "Active" : "Inactive"%></td>
                         <td><%= s.getPaymentStatus()%></td>
                         <td><%= s.getProgrammeId()%></td>
+                        <td><a href="/UniversityManagement/addToCourseServlet?id=<%= s.getId()%>">Assign Courses</a></td>
+                        <td><a href="/UniversityManagement/studentDetailsServlet?id=<%= s.getId()%>">Details</a></td>
                         <td><a href="/UniversityManagement/studentAmendServlet?id=<%= s.getId()%>">Edit</a></td>
                         <td><a href="/UniversityManagement/studentDeleteServlet?id=<%= s.getId()%>">Delete</a></td>                           
                     </tr>

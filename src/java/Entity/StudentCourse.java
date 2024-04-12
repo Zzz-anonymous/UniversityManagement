@@ -4,34 +4,44 @@
  */
 package Entity;
 
+import adt.LinkedListInterface;
+
 /**
  *
  * @author Zy
  */
 public class StudentCourse {
-    private String status;
-    private double fees;
+    private String studentId;
+    private LinkedListInterface<String> courseId;
+    private String courseStatus; 
 
-    public StudentCourse(String status, double fees) {
-        this.status = status;
-        this.fees = fees;
+    public StudentCourse(String studentId, LinkedListInterface<String> courseId, String courseStatus) {
+        this.studentId = studentId;
+        this.courseId = courseId;
+        this.courseStatus = courseStatus;
     }
 
-    public double getFees() {
-        return fees;
+    public String getStudentId() {
+        return studentId;
     }
 
-    public void setFees(double fees) {
-        this.fees = fees;
-    }
-    
-    
-    
-    public String getStatus() {
-        return status;
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public LinkedListInterface<String> getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(LinkedListInterface<String> courseId) {
+        this.courseId = courseId;
+    }
+
+    public String getCourseStatus() {
+        return courseStatus;
+    }
+
+    public void setCourseStatus(String courseStatus) {
+        this.courseStatus = courseStatus;
     }
 }

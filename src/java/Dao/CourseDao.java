@@ -5,7 +5,9 @@
 package Dao;
 
 import Entity.Course;
+import Entity.Faculty;
 import Entity.Programme;
+import Utility.Tools;
 import adt.*;
 import java.util.Iterator;
 
@@ -30,7 +32,7 @@ public class CourseDao {
         return cList;
     }
 
-    // delete student
+    // delete course
     public static boolean deleteCourse(String id, LinkedListInterface<Course> list) {
         // Check if the student ID is available
         int index = getIndex(id, list);
@@ -43,7 +45,7 @@ public class CourseDao {
         }
     }
 
-    // update student
+    // update course
     public static boolean updateStudent(String id, Course updatedCourse, LinkedListInterface<Course> list) {
         // Find the index of the student with the given ID
         int index = getIndex(id, list);
@@ -106,41 +108,115 @@ public class CourseDao {
         return null;
     }
 
-    public static String getCourseById(String courseId, String programmeId) {
-        // Iterate over the list of courses
-        for (int i = 1; i <= cList.getTotalNumberOfData(); i++) {
-            Course c = cList.getData(i);
-            // Check if the courseId matches
-            if (c.getId().equals(courseId)) {
-                // Retrieve the associated Programme object
-                LinkedListInterface<Programme> programmeList = c.getProgramme();
-                // Iterate over the programmeList
-                for (int j = 1; j <= programmeList.getTotalNumberOfData(); j++) {
-                    Programme programme = programmeList.getData(j);
-                    // Check if the programmeId of the Programme object matches
-                    if (programme != null && programme.getId().equals(programmeId)) {
-                        // Return the course if both courseId and programmeId match
-                        return c.getName();
-                    }
-                }
-            }
+    
+    // get course info by id(array)
+    public static LinkedListInterface<Course> validateCourseIds(String[] ids) {
+    LinkedListInterface<Course> validCourses = new LinkedList<>(); // Create a list to store valid courses
+
+    // Iterate over the array of course IDs
+    for (String id : ids) {
+        Course course = CourseDao.getCourseById(id); // Get the course object corresponding to the ID
+        if (course != null) {
+            validCourses.add(course); // If course object is not null, add it to the list of valid courses
         }
-        // Return null if no course with the given courseId and programmeId is found
-        return null;
     }
 
-    // search students name
-    public static ListInterface<Course> searchStudent(String name) {
-        ListInterface<Course> searchResults = new ArrayList<>();
-        // Loop through all students to find matches
+    return validCourses; // Return the list of valid courses
+}
+
+    
+
+    public static Course findCourseByName(String name) {
         for (int i = 1; i <= cList.getTotalNumberOfData(); i++) {
-            Course s = cList.getData(i);
-            // Check if the student's name contains the search term (case-insensitive)
-            if (s.getName().toLowerCase().contains(name.toLowerCase())) {
-                searchResults.add(s);
+            Course c = cList.getData(i);
+            if (c.getName().equals(name)) {
+                return c;
             }
         }
+
+        // If no matching programme is found, return null or throw an exception
+        return null;
+    }
+    
+    // use course object to get all available course
+    public static Course getAvailableCourses() {
+        for (int i = 1; i <= cList.getTotalNumberOfData(); i++) {
+            Course c = cList.getData(i);
+            if (c.getAvailability() == 1) {
+                return c;
+            }
+        }
+
+        // If no matching programme is found, return null or throw an exception
+        return null;
+        
+    }
+    
+    // use course object to get all available course
+    public static LinkedListInterface<Course> getAllAvailableCourses() {
+        LinkedListInterface<Course> availableCourses = new LinkedList<>();
+
+        // Iterate through the mergedList and add students with matching programmeId
+        Iterator<Course> iterator = cList.getIterator();
+        while (iterator.hasNext()) {
+            Course c = iterator.next();
+            if (c.getAvailability()== 1 ){
+                availableCourses.add(c);
+            }
+        }
+
+        return availableCourses;
+    
+        
+    }
+    
+    
+    // search courses name
+    public static LinkedListInterface<Course> searchCourses(String name) {
+        LinkedListInterface<Course> searchResults = new LinkedList<>(); // Using LinkedList instead of ArrayList
+
+        Iterator<Course> iterator = cList.getIterator(); // Assuming displaySList is an instance of ListInterface<Student>
+
+        while (iterator.hasNext()) {
+            Course c = iterator.next();
+            // Check if the student's name contains the search term (case-insensitive)
+            if (c.getName().toLowerCase().contains(name.toLowerCase()) && c.getAvailability() == 1 ) {
+                searchResults.add(c);
+            }
+        }
+
         return searchResults;
+    }
+    
+    // find faculties name
+    public static Faculty findfacultiesByName(String name) {
+        ListInterface<Faculty> faculty = Tools.initializeFaculties();
+
+        for (int i = 1; i <= faculty.getTotalNumberOfData(); i++) {
+            Faculty f = faculty.getData(i);
+            if (f.getName().equals(name)) {
+                return f;
+            }
+        }
+
+        // If no matching programme is found, return null or throw an exception
+        return null;
+    }
+    
+        // get Course info by FacultyId
+    public static LinkedListInterface<Course> getCoursesByFid(String fid) {
+        LinkedListInterface<Course> filterResult = new LinkedList<>();
+
+        // Iterate through the mergedList and add students with matching programmeId
+        Iterator<Course> iterator = cList.getIterator();
+        while (iterator.hasNext()) {
+            Course c = iterator.next();
+            if (c.getFaculty().getId().equals(fid)) {
+                filterResult.add(c);
+            }
+        }
+
+        return filterResult;
     }
 
 }

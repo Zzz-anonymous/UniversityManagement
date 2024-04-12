@@ -13,12 +13,14 @@ public class Student extends Person{
     
     private int paymentStatus;
     private String programmeId;
+//     private LinkedListInterface<Course> enrolledCourses; 
 
     
     public Student(String id, String name,  String gender, String email, int status, int paymentStatus, String programmeId) {
         super(id,name,gender,email,status);
         this.paymentStatus = paymentStatus;
         this.programmeId = programmeId;
+//        this.enrolledCourses = new LinkedList<>(); // Initialize the list of enrolled courses
     }
     
 
@@ -37,6 +39,14 @@ public class Student extends Person{
     public void setProgrammeId(String programmeId) {
         this.programmeId = programmeId;
     }
+//
+//    public LinkedListInterface<Course> getEnrolledCourses() {
+//        return enrolledCourses;
+//    }
+//
+//    public void setEnrolledCourses(LinkedListInterface<Course> enrolledCourses) {
+//        this.enrolledCourses = enrolledCourses;
+//    }
     
     
     

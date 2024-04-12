@@ -128,11 +128,15 @@ public class createCourseServlet extends HttpServlet {
             return; // Exit the method
         }
 
+        String f = request.getParameter("facultyName");
+        // Get the faculty object using the name
+        Faculty facultyName = CourseDao.findfacultiesByName(f);
+        
         String avail = request.getParameter("avail");
         int available = Integer.parseInt(avail);
 
         // Create a new Course object with the provided data
-        Course c = new Course(id, name, details, selectedCTypes, creditHours, tutorName, programmes, available);
+        Course c = new Course(id, name, details, selectedCTypes, creditHours, tutorName, programmes,facultyName, available);
 
         try {
             // Attempt to add the course

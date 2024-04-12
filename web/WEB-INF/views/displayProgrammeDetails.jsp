@@ -22,7 +22,7 @@
         </header>
         <main>
             <%
-                LinkedListInterface<Course> cList = CourseDao.getAllCourses();
+                LinkedListInterface<Course> cList = CourseDao.getAllAvailableCourses();
                 LinkedListInterface<Programme> pList = (LinkedListInterface<Programme>) request.getAttribute("programme");
                 if (pList != null && !pList.isEmpty()) {
                     for (int i = 1; i <= pList.getTotalNumberOfData(); i++) {

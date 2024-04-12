@@ -3,6 +3,8 @@
     Created on : 10 Mar 2024, 3:17:20 pm
     Author     : Zy
 --%>
+<%@page import="Entity.Student"%>
+<%@page import="Dao.ProgrammeCourseDao"%>
 <%@page import = "adt.*"%>
 <%@page import = "Entity.Course"%>
 <%@page import = "Dao.CourseDao"%>
@@ -13,55 +15,83 @@
     <div class="home-content">
         <i class='bx bx-menu'></i>
         <header>
-            <!--Throw programme Id into the Header-->
+            <!--Credit hours cannot > 23-->
             <h1>Student Course Registration</h1>
         </header>
         <main>
-            <form method="post" action="addCourseServlet">
+            <form method="post" action="addToCourseServlet">
+                <input type="hidden" name="id" value="${student.id}">
                 <div>
-                    <table width="100%">
-
-
+                    <table width="100%" class="table">
                         <tr>
-                            <td><label for="name">Course Name:</label><br> </td>
-                            <%
-                                LinkedListInterface<Course> cList = (LinkedListInterface<Course>) CourseDao.getAllCourses();
-
-                                if (cList != null && !cList.isEmpty()) {
-                                    for (int i = 1; i <= cList.getTotalNumberOfData(); i++) {
-                                        Course c = cList.getData(i);
-                            %>
-                            
-                            <td style="display:inline-block;">
-                                <input name="name" ID="name" type="checkbox"/>
-                                <%= c.getName() %>
+                            <th><label for="id">Student ID:</label></th>
+                            <td>
+                                <span>${student.id}</span>
                             </td>
+
                         </tr>
-                        <% }
-                        }%>
                         <tr>
-                            <td><label for="creditHours">Credit Hours:</label> </td>
-                            <td><select name="creditHours" id="creditHours">
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
+                            <th><label for="name">Student Name:</label></th>
+                            <td>
+                                <span>${student.name}</span>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <th><label for="courseId">Course Name:</label><br> </th>
+                            <th><label for="status">Course Status:</label> </th>
+                        </tr>
+
+                        <%
+                            LinkedListInterface<Course> cList = (LinkedListInterface<Course>) CourseDao.getAllAvailableCourses();
+                            Student student = (Student) request.getAttribute("student");
+                            String programmeId = student.getProgrammeId();
+                            LinkedListInterface<String> existingCourses = (LinkedListInterface<String>) request.getAttribute("existingCourses");
+                            LinkedListInterface<String> courseStatuses = (LinkedListInterface<String>) request.getAttribute("courseStatuses"); // Retrieve courseStatuses from request attribute
+
+                            if (cList != null && !cList.isEmpty()) {
+                                for (int j = 1; j <= cList.getTotalNumberOfData(); j++) {
+                                    Course c = cList.getData(j);
+                                    String courseId = c.getId();
+                                    String cName = ProgrammeCourseDao.getCourseNameById(courseId, programmeId);
+
+                                    // Check if the current course is already selected by the student
+                                    boolean isCourseSelected = existingCourses != null && existingCourses.contains(courseId);
+                                    // Retrieve status for the current courseId
+                                    String status = courseStatuses != null ? courseStatuses.getData(j) : "Main"; // Use "Main" as default if status is not available
+
+                        %>
+                        <tr>
+                            <td>
+                                <input name="courseId" type="checkbox" value="<%= courseId%>" <%= isCourseSelected ? "checked" : ""%> />
+                                <%= cName + "\n"%>
+                            </td>
+                            <td>
+                                <!-- Display course status options -->
+                                <select name="<%= courseId%>_status" id="<%= courseId%>_status">
+                                    <option value="Main" <%= status != null && status.equals("Main") ? "selected" : ""%>>Main</option>
+                                    <option value="Elective" <%= status != null && status.equals("Elective") ? "selected" : ""%>>Elective</option>
+                                    <option value="Resit" <%= status != null && status.equals("Resit") ? "selected" : ""%>>Resit</option>
+                                    <option value="Repeat" <%= status != null && status.equals("Repeat") ? "selected" : ""%>>Repeat</option>
                                 </select>
+
                             </td>
                         </tr>
+                        <%
+                            }
+                        } else {
+                        %>
                         <tr>
-                            <td><label for="status">Course Status:</label> </td>
-                            <td><select name="status" id="status">
-                                    <option value="Main">Main</option>
-                                    <option value="Elective">Elective</option>
-                                    <option value="Resit">Resit</option>
-                                    <option value="Repeat">Repeat</option>
-                                </select>
-                            </td>
+                            <td colspan="2">No Available courses</td>
                         </tr>
-                        <td></td>
-                        <td>
-                            <input type="submit" value="Insert"/>
-                        </td>
+                        <%
+                            }
+                        %>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <input type="submit" value="Insert"/>
+                            </td>
                         </tr>
                     </table>
                 </div>

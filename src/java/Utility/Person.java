@@ -64,7 +64,5 @@ public abstract class Person {
         this.status = status;
     }
 
-    public boolean nameMatches(String name) {
-        return this.name.equals(name);
-    }
+    
 }

@@ -45,7 +45,7 @@
 
                                     if (courseTypes != null && courseTypes.getTotalNumberOfData() > 0) {
                                         for (int i = 1; i <= courseTypes.getTotalNumberOfData(); i++) {
-                                            String c = courseTypes.getData(i); // Adjust index for LinkedList starting from 0
+                                            String c = courseTypes.getData(i); 
                                 %>
                                 <label>
                                     <input type="checkbox" 

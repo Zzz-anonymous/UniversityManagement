@@ -4,6 +4,7 @@
  */
 package Entity;
 
+import adt.LinkedListInterface;
 import java.util.Objects;
 
 /**
@@ -13,15 +14,14 @@ import java.util.Objects;
 public class Programme {
     private String id;
     private String name;
-    private String facultyName;
-
+    private LinkedListInterface<Course> courses;
+    
     public Programme() {
     }
 
-    public Programme(String id, String name, String facultyName) {
+    public Programme(String id, String name) {
         this.id = id;
         this.name = name;
-        this.facultyName = facultyName;
     }
 
     public String getId() {
@@ -40,12 +40,13 @@ public class Programme {
         this.name = name;
     }
 
-    public String getFacultyName() {
-        return facultyName;
+
+    public LinkedListInterface<Course> getCourses() {
+        return courses;
     }
 
-    public void setFacultyName(String facultyName) {
-        this.facultyName = facultyName;
+    public void setCourses(LinkedListInterface<Course> course) {
+        this.courses = course;
     }
 
     @Override

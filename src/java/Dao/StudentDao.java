@@ -33,19 +33,7 @@ public class StudentDao {
 
     // Retrieve all student records
     public static LinkedListInterface<Student> getAllStudents() {
-        // Create a new list to avoid modifying the original mergedList
-        //LinkedListInterface<Student> resultList = new LinkedList<>();
-
-        // Merge student lists into the new list
         mergeStudent(mergedList);
-
-        // Clear mergedList and add all elements from resultList
-        //mergedList.clear();
-//        Iterator<Student> iterator = resultList.getIterator();
-//        while (iterator.hasNext()) {
-//            mergedList.add(iterator.next());
-//        }
-        // Return the new list
         return mergedList;
     }
 
@@ -182,27 +170,27 @@ public class StudentDao {
         return searchResults;
     }
 
-    public static LinkedList<Student> validateStudentIds(String[] selectedIds) {
-        LinkedList<Student> selectedStudents = new LinkedList<>();
-
-        // Get an iterator for the LinkedList
-        Iterator<Student> iterator = mergedList.getIterator();
-
-        // Iterate through the LinkedList
-        while (iterator.hasNext()) {
-            Student student = iterator.next();
-            String id = student.getId(); // Assuming getId() returns the student ID
-
-            // Check if the student ID is in the selected IDs array
-            for (String selectedId : selectedIds) {
-                if (id.equals(selectedId)) {
-                    selectedStudents.add(student);
-                    break; // Move to the next student once found
-                }
-            }
-        }
-
-        return selectedStudents;
-    }
+//    public static LinkedList<Student> validateStudentIds(String[] selectedIds) {
+//        LinkedList<Student> selectedStudents = new LinkedList<>();
+//
+//        // Get an iterator for the LinkedList
+//        Iterator<Student> iterator = mergedList.getIterator();
+//
+//        // Iterate through the LinkedList
+//        while (iterator.hasNext()) {
+//            Student student = iterator.next();
+//            String id = student.getId(); // Assuming getId() returns the student ID
+//
+//            // Check if the student ID is in the selected IDs array
+//            for (String selectedId : selectedIds) {
+//                if (id.equals(selectedId)) {
+//                    selectedStudents.add(student);
+//                    break; // Move to the next student once found
+//                }
+//            }
+//        }
+//
+//        return selectedStudents;
+//    }
 
 }

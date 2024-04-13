@@ -105,36 +105,59 @@ public class addToCourseServlet extends HttpServlet {
             return;
         }
 
+        int totalCreditHours = 0; // Initialize total credit hours counter
+
+        for (String courseId : courseIds) {
+            String status = request.getParameter(courseId + "_status"); // Retrieve status for the current courseId
+            if (status != null) {
+                Course c = CourseDao.getCourseById(courseId);
+                int creditHours = c.getCreditHours();
+                totalCreditHours += creditHours; // Increment total credit hours
+
+                if (totalCreditHours > 23) {
+                    // If total credit hours exceed 23, display an error message
+                    PrintWriter out = response.getWriter();
+                    out.println("<script>alert('Total credit hours cannot exceed 23.');</script>");
+                    out.println("<script>window.location.href = '" + request.getContextPath() + "/studentServlet';</script>");
+                    out.close();
+                    return;
+                }
+            }
+        }
+
         try {
-            for (String courseId : courseIds) {
-                String status = request.getParameter(courseId + "_status"); // Retrieve status for the current courseId
-                if (status != null) {
-                    StudentCourse studentCourse = StudentCourseDao.getStudentCourseByIdAndCourseId(id, courseId);
+            for (String cId : courseIds) {
+                String type = request.getParameter(cId + "_status"); // Retrieve status for the current courseId
+                if (type != null) {
+
+                    StudentCourse studentCourse = StudentCourseDao.getStudentCourseByIdAndCourseId(id, cId);
                     if (studentCourse == null) {
                         // If no course exists for the student and course ID, mark it for addition
                         LinkedListInterface<String> newCourses = new LinkedList<>();
-                        newCourses.add(courseId);
-                        StudentCourse newStudentCourse = new StudentCourse(id, newCourses, status); // Add status to the new course
+                        newCourses.add(cId);
+                        StudentCourse newStudentCourse = new StudentCourse(id, newCourses, type); // Add status to the new course
                         StudentCourseDao.addCourse(newStudentCourse);
                     } else {
                         // If a course already exists, update its status
-                        studentCourse.setCourseStatus(status); // Update the status of the existing course
-                        StudentCourseDao.updateStudentCourse(id, courseId, status); // Update the status in the database
+                        studentCourse.setCourseStatus(type); // Update the status of the existing course
+                        StudentCourseDao.updateStudentCourse(id, cId, type); // Update the status in the database
                     }
                 }
             }
-            // If the update was successful
+
+            // If the loop completes successfully (total credit hours <= 23), show success message
             PrintWriter out = response.getWriter();
             out.println("<script>alert('Record updated successfully!');</script>");
             out.println("<script>window.location.href = '" + request.getContextPath() + "/studentDetailsServlet?id=" + id + "';</script>");
             out.close();
         } catch (Exception e) {
-            // If the update failed
+            // If any exception occurs during processing, show error message
             PrintWriter out = response.getWriter();
             out.println("<script>alert('Failed to update student course: " + e.getMessage() + "');</script>");
-            out.println("<script>window.location.replace('students.jsp');</script>");
+            out.println("<script>window.location.href = '" + request.getContextPath() + "/studentServlet';</script>");
             out.close();
         }
+
     }
 
 }

@@ -36,12 +36,18 @@
                         Student p = initializeStudent.getData(i);
                 %>
                 <span>|</span>
-                <a href="studentSearchServlet?programId=<%= p.getProgrammeId()%>"><%= p.getProgrammeId()%></a>
+                <a href="filterInactiveStudentServlet?programId=<%= p.getProgrammeId()%>"><%= p.getProgrammeId()%></a>
                 <% } %>
             </div>
             <form action="studentServlet" method="get" style="margin-top: 10px">
                 <button>Active List</button>
             </form>
+            <div style=" margin-top: 10px;">
+               <%
+                   int records = inactiveList.getTotalNumberOfData();
+               %>
+               <%= records %> record(s)
+            </div>
             <table border="1" style="width:80%; margin-top: 10px;" class="table">
                 <thead>
                     <tr>

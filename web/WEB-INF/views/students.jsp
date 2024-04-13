@@ -12,7 +12,7 @@
     <div class="home-content">
         <i class='bx bx-menu'></i>
         <header>
-            <h1>Student Details</h1>
+            <h1>Student Lists</h1>
         </header>
         <main>
             <form style="padding-bottom:10px" action="studentSearchServlet" method="post">
@@ -37,10 +37,16 @@
                     <a href="studentSearchServlet?programId=<%= p.getProgrammeId()%>"><%= p.getProgrammeId()%></a>
                 <% } %>
             </div>
-            <div style="display:flex; margin-top: 10px;">
+            <div style=" margin-top: 10px;">
                 <form action="studentDeleteServlet" method="post">
                     <button>Inactive List</button>
                 </form>
+            </div>
+            <div style=" margin-top: 10px;">
+               <%
+                   int records = mergedList.getTotalNumberOfData();
+               %>
+               <%= records %> record(s)
             </div>
             <table border="1" style="width:80%; margin-top: 10px" class="table">
                 <thead>
@@ -84,7 +90,7 @@
                         <td><%= s.getStatus() == 1 ? "Active" : "Inactive"%></td>
                         <td><%= s.getPaymentStatus()%></td>
                         <td><%= s.getProgrammeId()%></td>
-                        <td><a href="/UniversityManagement/addToCourseServlet?id=<%= s.getId()%>">Assign Courses</a></td>
+                        <td><a href="/UniversityManagement/addToCourseServlet?id=<%= s.getId()%>&status=<%= s.getStatus() %>">Assign Courses</a></td>
                         <td><a href="/UniversityManagement/studentDetailsServlet?id=<%= s.getId()%>">Details</a></td>
                         <td><a href="/UniversityManagement/studentAmendServlet?id=<%= s.getId()%>">Edit</a></td>
                         <td><a href="/UniversityManagement/studentDeleteServlet?id=<%= s.getId()%>">Delete</a></td>                           

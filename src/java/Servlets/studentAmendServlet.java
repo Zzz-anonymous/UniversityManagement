@@ -64,14 +64,10 @@ public class studentAmendServlet extends HttpServlet {
         String name = request.getParameter("name");
         String gender = request.getParameter("gender");
         String email = request.getParameter("email");
-
-        String stat = request.getParameter("status");
-        int sStatus = Integer.parseInt(stat);
-
         String programme = request.getParameter("programmeId");
 
         // Create a new Student object with the provided data
-        Student s = new Student(id, name, gender, email, sStatus, 0, programme);
+        Student s = new Student(id, name, gender, email, 1, 0, programme);
 
         // Check if studentList is empty
         if (mergedList.isEmpty()) {

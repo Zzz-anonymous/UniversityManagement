@@ -39,16 +39,7 @@
                         <td><label for="email">Email:</label> </td>
                         <td><input name="email" ID="email" type="email"  value="${student.email}"/></td>
                     </tr>
-                    <tr>   
-                        <td>
-                            <label for="status">Status:</label></td>
-                        <td>     
-                            <select name="status" id="status">
-                                <option value="1">Active</option>
-                                <option value="0">Inactive</option>
-                            </select>
-                        </td>
-
+                    
                         <%
                             ListInterface<Programme> pList = Tools.initializeProgrammes();
                             if (pList != null && !pList.isEmpty()) {

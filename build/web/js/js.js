@@ -89,26 +89,3 @@ document.querySelectorAll('[data-checkable]').forEach(element => {
         });
     });
 });
-
-// handle add to course button
-
-//document.getElementById("addToCourseBtn").addEventListener("click", function (event) {
-//    
-//     event.preventDefault();
-//    
-//    // Collect selected student IDs
-//    var selectedIds = [];
-//    var checkboxes = document.getElementsByClassName("studentCheckbox");
-//    for (var i = 0; i < checkboxes.length; i++) {
-//        if (checkboxes[i].checked) {
-//            selectedIds.push(checkboxes[i].value);
-//        }
-//    }
-//
-//    // Set the value of the hidden input field with selected IDs
-//    document.getElementById("ids").value = selectedIds.join(",");
-//
-//    // Submit the form
-//    document.getElementById("studentsForm").submit();
-//});
-

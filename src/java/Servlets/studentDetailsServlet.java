@@ -38,13 +38,14 @@ public class studentDetailsServlet extends HttpServlet {
 
         if (pathInfo == null || pathInfo.equals("/")) {
             //LinkedListInterface<StudentCourse> scList = StudentCourse.getAllCourses();
-            if (scList.isEmpty()) {
-                // Display alert message if no students were found
-                PrintWriter out = response.getWriter();
-                out.println("<script>alert('No Course were found.');</script>");
-                out.println("<script>window.location.href = 'createCourse.jsp';</script>");
-                out.close();
-            } else {
+//            if (scList.isEmpty()) {
+//                // Display alert message if no students were found
+//                PrintWriter out = response.getWriter();
+//                out.println("<script>alert('No Course were found.');</script>");
+//                out.println("<script>window.location.href = 'createCourse.jsp';</script>");
+//                out.close();
+//            } else 
+{
                 request.setAttribute("student", student);
                 request.setAttribute("scList", scList);
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/displayStudentDetails.jsp?id="+id);

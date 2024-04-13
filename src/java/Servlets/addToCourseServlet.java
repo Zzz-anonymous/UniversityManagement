@@ -36,6 +36,19 @@ public class addToCourseServlet extends HttpServlet {
             throws ServletException, IOException {
         // student id 
         String id = request.getParameter("id");
+        // student status
+        String statusStr = request.getParameter("status");
+        int status = Integer.parseInt(statusStr);
+
+        if (status == 0) {
+            // Handle case where no course is selected
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('Student is inactive! Cannot assign courses !');</script>");
+            out.println("<script>window.location.href = '" + request.getContextPath() + "/studentServlet';</script>");
+            out.close();
+            return;
+        }
+
         // Retrieve course information based on the ID
         Student student = StudentDao.getStudentById(id);
 

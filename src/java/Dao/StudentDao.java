@@ -137,7 +137,7 @@ public class StudentDao {
         return null; // Return null if no student with the given ID is found
     }
 
-    // get student info by ProgrammeId
+    // get active student info by ProgrammeId
     public static LinkedListInterface<Student> getStudentsByPid(String pid) {
         LinkedListInterface<Student> filterResult = new LinkedList<>();
 
@@ -153,6 +153,22 @@ public class StudentDao {
         return filterResult;
     }
 
+    // get inactive student info by ProgrammeId
+    public static LinkedListInterface<Student> getInactiveStudentsByPid(String pid) {
+        LinkedListInterface<Student> filterResult = new LinkedList<>();
+
+        // Iterate through the mergedList and add students with matching programmeId
+        Iterator<Student> iterator = inactiveList.getIterator();
+        while (iterator.hasNext()) {
+            Student s = iterator.next();
+            if (s.getProgrammeId().equals(pid)) {
+                filterResult.add(s);
+            }
+        }
+
+        return filterResult;
+    }
+    
     // search students name
     public static LinkedListInterface<Student> searchStudent(String name) {
         LinkedListInterface<Student> searchResults = new LinkedList<>(); // Using LinkedList instead of ArrayList

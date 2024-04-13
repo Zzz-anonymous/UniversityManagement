@@ -25,8 +25,8 @@
             </form>
             <%
                 ListInterface<Faculty> fList = (ListInterface<Faculty>) Tools.initializeFaculties();
-                LinkedListInterface<Course> cList = (LinkedListInterface<Course>) request.getAttribute("cList");
-                LinkedListInterface<Course> cr = (LinkedListInterface<Course>) request.getAttribute("searchResults");
+                ListInterface<Course> cList = (ListInterface<Course>) request.getAttribute("cList");
+                ListInterface<Course> cr = (ListInterface<Course>) request.getAttribute("searchResults");
                 boolean showSearchResults = cr != null && !cr.isEmpty();
             %>
 
@@ -69,7 +69,7 @@
                         <td><%= c.getDetails()%></td>
                         <td>
                             <%
-                                LinkedListInterface<String> courseTypes = c.getCourseTypes();
+                                ListInterface<String> courseTypes = c.getCourseTypes();
                                 for (int j = 1; j <= courseTypes.getTotalNumberOfData(); j++) {
                                     String courseType = courseTypes.getData(j);
                             %>
@@ -104,7 +104,7 @@
                         <td><%= c.getDetails()%></td>
                         <td>
                             <%
-                                LinkedListInterface<String> courseTypes = c.getCourseTypes();
+                                ListInterface<String> courseTypes = c.getCourseTypes();
                                 for (int j = 1; j <= courseTypes.getTotalNumberOfData(); j++) {
                                     String courseType = courseTypes.getData(j);
                             %>
@@ -118,7 +118,7 @@
                         </td>
                         <td>
                             <%
-                                LinkedListInterface<Programme> programmes = c.getProgramme();
+                                ListInterface<Programme> programmes = c.getProgramme();
                                 for (int j = 1; j <= programmes.getTotalNumberOfData(); j++) {
                                     Programme p = programmes.getData(j);
                             %>

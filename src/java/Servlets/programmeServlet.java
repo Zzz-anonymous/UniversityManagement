@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/programmeServlet")
 public class programmeServlet extends HttpServlet {
 
-    private static LinkedListInterface<Course> cList = CourseDao.getAllCourses();
+    private static ListInterface<Course> cList = CourseDao.getAllCourses();
     private static ListInterface<Programme> pList = Tools.initializeProgrammes();
 
     @Override
@@ -42,8 +42,8 @@ public class programmeServlet extends HttpServlet {
             programme = pList.getData(index);
         }
         
-         // Create a new LinkedListInterface and add the programme to it
-        LinkedListInterface<Programme> programmeList = new LinkedList<>();
+         // Create a new ListInterface and add the programme to it
+        ListInterface<Programme> programmeList = new LinkedList<>();
         programmeList.add(programme);
         // Pass the student object to the JSP page
         request.setAttribute("programme", programmeList);

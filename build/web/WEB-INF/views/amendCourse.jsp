@@ -40,8 +40,8 @@
                             <td>Course Types</td>
                             <td>
                                 <%
-                                    LinkedListInterface<String> selectedCTypes = (LinkedListInterface<String>) request.getAttribute("selectedCTypes");
-                                    LinkedListInterface<String> courseTypes = Tools.initializeCourseTypes(); // Load course types
+                                    ListInterface<String> selectedCTypes = (ListInterface<String>) request.getAttribute("selectedCTypes");
+                                    ListInterface<String> courseTypes = Tools.initializeCourseTypes(); // Load course types
 
                                     if (courseTypes != null && courseTypes.getTotalNumberOfData() > 0) {
                                         for (int i = 1; i <= courseTypes.getTotalNumberOfData(); i++) {
@@ -102,7 +102,7 @@
                             <td><label for="programmeName">programme Names:</label></td>
                             <td>
                                 <%
-                                    LinkedListInterface<Programme> selectedProgrammes = (LinkedListInterface<Programme>) request.getAttribute("selectedProgrammes");
+                                    ListInterface<Programme> selectedProgrammes = (ListInterface<Programme>) request.getAttribute("selectedProgrammes");
                                     ListInterface<Programme> pList = Tools.initializeProgrammes();
                                     if (pList != null && !pList.isEmpty()) {
                                         for (int i = 1; i <= pList.getTotalNumberOfData(); i++) {

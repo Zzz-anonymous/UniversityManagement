@@ -21,8 +21,8 @@
 
             <%
                 ListInterface<Student> initializeStudent = Tools.initializeStudents();
-                LinkedListInterface<Student> mergedList = (LinkedListInterface<Student>) request.getAttribute("mergedList");
-                LinkedListInterface<Student> sr = (LinkedListInterface<Student>) request.getAttribute("searchResults");
+                ListInterface<Student> mergedList = (ListInterface<Student>) request.getAttribute("mergedList");
+                ListInterface<Student> sr = (ListInterface<Student>) request.getAttribute("searchResults");
                 boolean showSearchResults = sr != null && !sr.isEmpty();
             %>
 

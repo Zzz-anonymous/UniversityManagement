@@ -7,7 +7,7 @@ package Servlets;
 import Dao.StudentDao;
 import Entity.Student;
 import adt.LinkedList;
-import adt.LinkedListInterface;
+import adt.ListInterface;
 
 
 import java.io.IOException;
@@ -25,13 +25,13 @@ import javax.servlet.RequestDispatcher;
  */
 @WebServlet("/studentDeleteServlet")
 public class studentDeleteServlet extends HttpServlet {
-        private final static LinkedListInterface<Student> inactiveList = StudentDao.getInactiveStudents() ;
+        private final static ListInterface<Student> inactiveList = StudentDao.getInactiveStudents() ;
         
     // delete student
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        LinkedListInterface<Student> mergedList = StudentDao.getAllStudents();
+        ListInterface<Student> mergedList = StudentDao.getAllStudents();
         // Get the student ID from the request
         String id = request.getParameter("id");
 

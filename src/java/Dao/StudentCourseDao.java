@@ -8,7 +8,7 @@ import Entity.Course;
 import Entity.Student;
 import Entity.StudentCourse;
 import adt.LinkedList;
-import adt.LinkedListInterface;
+import adt.ListInterface;
 import java.util.Iterator;
 
 /**
@@ -18,8 +18,8 @@ import java.util.Iterator;
 public class StudentCourseDao {
     // Create an LinkedList to store course objects
 
-    private static LinkedListInterface<StudentCourse> scList = new LinkedList<>();
-    private static LinkedListInterface<Student> sList = StudentDao.getAllStudents();
+    private static ListInterface<StudentCourse> scList = new LinkedList<>();
+    private static ListInterface<Student> sList = StudentDao.getAllStudents();
 
     // add new course
     public static void addCourse(StudentCourse sc) {
@@ -27,7 +27,7 @@ public class StudentCourseDao {
     }
 
     // get all course details
-    public static LinkedListInterface<StudentCourse> getAllCourses() {
+    public static ListInterface<StudentCourse> getAllCourses() {
         return scList;
     }
 
@@ -88,7 +88,7 @@ public class StudentCourseDao {
     }
 
     // check the index number based on student id
-    public static int getIndex(String id, LinkedListInterface<StudentCourse> list) {
+    public static int getIndex(String id, ListInterface<StudentCourse> list) {
         // Trim the provided ID to remove leading and trailing whitespace
         String trimmedId = id.trim();
 
@@ -115,7 +115,7 @@ public class StudentCourseDao {
         return -1;
     }
 
-    public static int getIndex(String studentId, String courseId, LinkedListInterface<StudentCourse> list) {
+    public static int getIndex(String studentId, String courseId, ListInterface<StudentCourse> list) {
         // Trim the provided IDs to remove leading and trailing whitespace
         String trimmedStudentId = studentId.trim();
         String trimmedCourseId = courseId.trim();
@@ -170,7 +170,7 @@ public class StudentCourseDao {
     }
 
     // delete course
-    public static boolean deleteStudentCourse(String studentId, String courseId, LinkedListInterface<StudentCourse> list) {
+    public static boolean deleteStudentCourse(String studentId, String courseId, ListInterface<StudentCourse> list) {
         // Find the index of the student course with the given student ID and course ID
         int index = getIndex(studentId, courseId, list);
         if (index != -1) {

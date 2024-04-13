@@ -6,7 +6,7 @@ package Servlets;
 
 import Dao.CourseDao;
 import Entity.Course;
-import adt.LinkedListInterface;
+import adt.ListInterface;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -33,11 +33,11 @@ public class courseSearchingServlet extends HttpServlet {
 
         // If programmeId is null or empty, retrieve all students
         if (facultyId == null || facultyId.isEmpty()) {
-            LinkedListInterface<Course> cList = CourseDao.getAllCourses();
+            ListInterface<Course> cList = CourseDao.getAllCourses();
             request.setAttribute("cList", cList);
         } else {
             // Retrieve students based on the specified programmeId
-            LinkedListInterface<Course> cList = CourseDao.getCoursesByFid(facultyId);
+            ListInterface<Course> cList = CourseDao.getCoursesByFid(facultyId);
             request.setAttribute("cList", cList);
         }
 
@@ -52,7 +52,7 @@ public class courseSearchingServlet extends HttpServlet {
         String name = request.getParameter("search");
 
         // Search for students with the given name
-        LinkedListInterface<Course> searchResults = CourseDao.searchCourses(name);
+        ListInterface<Course> searchResults = CourseDao.searchCourses(name);
 
         // Forward the search results to a JSP for display
         request.setAttribute("searchResults", searchResults);

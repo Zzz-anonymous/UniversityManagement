@@ -44,11 +44,11 @@
                         </tr>
 
                         <%
-                            LinkedListInterface<Course> cList = (LinkedListInterface<Course>) CourseDao.getAllAvailableCourses();
+                            ListInterface<Course> cList = (ListInterface<Course>) CourseDao.getAllAvailableCourses();
                             Student student = (Student) request.getAttribute("student");
                             String programmeId = student.getProgrammeId();
-                            LinkedListInterface<String> existingCourses = (LinkedListInterface<String>) request.getAttribute("existingCourses");
-                            LinkedListInterface<String> courseStatuses = (LinkedListInterface<String>) request.getAttribute("courseStatuses"); // Retrieve courseStatuses from request attribute
+                            ListInterface<String> existingCourses = (ListInterface<String>) request.getAttribute("existingCourses");
+                            ListInterface<String> courseStatuses = (ListInterface<String>) request.getAttribute("courseStatuses"); // Retrieve courseStatuses from request attribute
 
                             // Check if there are available courses
                             if (cList != null && !cList.isEmpty()) {

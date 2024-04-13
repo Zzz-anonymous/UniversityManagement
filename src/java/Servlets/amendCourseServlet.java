@@ -12,7 +12,7 @@ import Entity.Faculty;
 import Entity.Programme;
 import Entity.Tutor;
 import adt.LinkedList;
-import adt.LinkedListInterface;
+import adt.ListInterface;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/amendCourseServlet")
 public class amendCourseServlet extends HttpServlet {
-    LinkedListInterface<Course> cList = CourseDao.getAllCourses();
+    ListInterface<Course> cList = CourseDao.getAllCourses();
     
     // display amendCourse.jsp to do modification of course
     @Override
@@ -42,8 +42,8 @@ public class amendCourseServlet extends HttpServlet {
          int creditHours = course.getCreditHours();
 
         // Retrieve selected course types
-        LinkedListInterface<String> selectedCTypes = course.getCourseTypes();
-        LinkedListInterface<Programme> selectedProgrammes = course.getProgramme();
+        ListInterface<String> selectedCTypes = course.getCourseTypes();
+        ListInterface<Programme> selectedProgrammes = course.getProgramme();
         String tutorName = course.getTutor().getName();
         int available = course.getAvailability();
 
@@ -69,7 +69,7 @@ public class amendCourseServlet extends HttpServlet {
 
         
         // to store selected courseType (T,P,L)
-        LinkedListInterface<String> selectedCTypes = new LinkedList<>();
+        ListInterface<String> selectedCTypes = new LinkedList<>();
         // Obtain the selected course types from the request parameters
         String[] courseTypes = request.getParameterValues("courseTypes");
         
@@ -95,7 +95,7 @@ public class amendCourseServlet extends HttpServlet {
         // Get the tutor object using the name
         Tutor tutorName = TutorDao.findTutorByName(t);
 
-        LinkedListInterface<Programme> programmes = new LinkedList<>();
+        ListInterface<Programme> programmes = new LinkedList<>();
         // Obtain the selected programme names from the request parameters
         String[] programmeNames = request.getParameterValues("programmeName");
          

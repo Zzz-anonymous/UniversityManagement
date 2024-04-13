@@ -5,7 +5,7 @@
 package Entity;
 
 import Utility.Tools;
-import adt.LinkedListInterface;
+import adt.ListInterface;
 
 /**
  *
@@ -16,10 +16,10 @@ public class Course {
     private String Id;
     private String name;
     private String details;
-    private LinkedListInterface<String> courseTypes;
+    private ListInterface<String> courseTypes;
     
     private int creditHours;
-    private LinkedListInterface<Programme> programme;
+    private ListInterface<Programme> programme;
     private double fees;
     private int availability;
     private int maxCapacity = 200;
@@ -27,7 +27,7 @@ public class Course {
     private Faculty faculty;
     
     
-    public Course(String Id, String name, String details,LinkedListInterface<String> courseTypes, int creditHours,Tutor tutor, LinkedListInterface<Programme>  programme,Faculty faculty, int availability) {
+    public Course(String Id, String name, String details,ListInterface<String> courseTypes, int creditHours,Tutor tutor, ListInterface<Programme>  programme,Faculty faculty, int availability) {
         this.Id = Id;
         this.name = name;
         this.details = details;
@@ -64,11 +64,11 @@ public class Course {
         this.details = details;
     }
 
-    public LinkedListInterface<String> getCourseTypes() {
+    public ListInterface<String> getCourseTypes() {
         return courseTypes;
     }
 
-    public void setCourseTypes(LinkedListInterface<String> courseTypes) {
+    public void setCourseTypes(ListInterface<String> courseTypes) {
         this.courseTypes = courseTypes;
     }
 
@@ -98,11 +98,11 @@ public class Course {
         this.fees = fees;
     }
 
-    public LinkedListInterface<Programme> getProgramme() {
+    public ListInterface<Programme> getProgramme() {
         return programme;
     }
 
-    public void setProgramme(LinkedListInterface<Programme> programme) {
+    public void setProgramme(ListInterface<Programme> programme) {
         this.programme = programme;
     }
 

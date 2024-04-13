@@ -4,7 +4,7 @@
  */
 package Entity;
 
-import adt.LinkedListInterface;
+import adt.ListInterface;
 import java.util.Objects;
 
 /**
@@ -14,7 +14,7 @@ import java.util.Objects;
 public class Programme {
     private String id;
     private String name;
-    private LinkedListInterface<Course> courses;
+    private ListInterface<Course> courses;
     
     public Programme() {
     }
@@ -41,11 +41,11 @@ public class Programme {
     }
 
 
-    public LinkedListInterface<Course> getCourses() {
+    public ListInterface<Course> getCourses() {
         return courses;
     }
 
-    public void setCourses(LinkedListInterface<Course> course) {
+    public void setCourses(ListInterface<Course> course) {
         this.courses = course;
     }
 

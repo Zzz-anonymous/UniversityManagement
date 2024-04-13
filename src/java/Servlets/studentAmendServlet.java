@@ -25,8 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/studentAmendServlet")
 public class studentAmendServlet extends HttpServlet {
 
-    private final static LinkedListInterface<Student> mergedList = StudentDao.getAllStudents();
-    private final static LinkedListInterface<Student> inactiveList = StudentDao.getInactiveStudents();
+    private final static ListInterface<Student> mergedList = StudentDao.getAllStudents();
+    private final static ListInterface<Student> inactiveList = StudentDao.getInactiveStudents();
 
     // pass id to amendStudent.jsp to modify that particular student
     @Override

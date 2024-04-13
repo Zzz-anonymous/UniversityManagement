@@ -4,7 +4,7 @@
  */
 package Entity;
 
-import adt.LinkedListInterface;
+import adt.ListInterface;
 
 /**
  *
@@ -12,10 +12,10 @@ import adt.LinkedListInterface;
  */
 public class StudentCourse {
     private String studentId;
-    private LinkedListInterface<String> courseId;
+    private ListInterface<String> courseId;
     private String courseStatus; 
 
-    public StudentCourse(String studentId, LinkedListInterface<String> courseId, String courseStatus) {
+    public StudentCourse(String studentId, ListInterface<String> courseId, String courseStatus) {
         this.studentId = studentId;
         this.courseId = courseId;
         this.courseStatus = courseStatus;
@@ -29,11 +29,11 @@ public class StudentCourse {
         this.studentId = studentId;
     }
 
-    public LinkedListInterface<String> getCourseId() {
+    public ListInterface<String> getCourseId() {
         return courseId;
     }
 
-    public void setCourseId(LinkedListInterface<String> courseId) {
+    public void setCourseId(ListInterface<String> courseId) {
         this.courseId = courseId;
     }
 

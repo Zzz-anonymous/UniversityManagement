@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/createCourseServlet")
 public class createCourseServlet extends HttpServlet {
-    LinkedListInterface<Course> cList = CourseDao.getAllCourses();
+    ListInterface<Course> cList = CourseDao.getAllCourses();
     
     // check courses availability + display courses
     @Override
@@ -35,7 +35,7 @@ public class createCourseServlet extends HttpServlet {
         String pathInfo = request.getPathInfo();
 
         if (pathInfo == null || pathInfo.equals("/")) {
-            LinkedListInterface<Course> cList = CourseDao.getAllCourses();
+            ListInterface<Course> cList = CourseDao.getAllCourses();
             if (cList.isEmpty()) {
                 // Display alert message if no students were found
                 PrintWriter out = response.getWriter();
@@ -78,7 +78,7 @@ public class createCourseServlet extends HttpServlet {
 
         
         // to store selected courseType (T,P,L)
-        LinkedListInterface<String> selectedCTypes = new LinkedList<>();
+        ListInterface<String> selectedCTypes = new LinkedList<>();
         // Obtain the selected course types from the request parameters
         String[] courseTypes = request.getParameterValues("courseTypes");
         
@@ -104,7 +104,7 @@ public class createCourseServlet extends HttpServlet {
         // Get the tutor object using the name
         Tutor tutorName = TutorDao.findTutorByName(t);
 
-        LinkedListInterface<Programme> programmes = new LinkedList<>();
+        ListInterface<Programme> programmes = new LinkedList<>();
         // Obtain the selected programme names from the request parameters
         String[] programmeNames = request.getParameterValues("programmeName[]");
          

@@ -23,8 +23,8 @@
 
             <%
                 ListInterface<Student> initializeStudent = Tools.initializeStudents();
-                LinkedListInterface<Student> inactiveList = (LinkedListInterface<Student>) request.getAttribute("inactiveList");
-                LinkedListInterface<Student> sr = (LinkedListInterface<Student>) request.getAttribute("searchResults");
+                ListInterface<Student> inactiveList = (ListInterface<Student>) request.getAttribute("inactiveList");
+                ListInterface<Student> sr = (ListInterface<Student>) request.getAttribute("searchResults");
                 boolean showSearchResults = sr != null && !sr.isEmpty();
             %>
 

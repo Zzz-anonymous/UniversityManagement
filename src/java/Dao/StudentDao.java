@@ -19,9 +19,9 @@ import java.util.Iterator;
 public class StudentDao {
 
     // Create an ArrayList to store Student objects
-    private static LinkedListInterface<Student> inactiveList = new LinkedList<>();
+    private static ListInterface<Student> inactiveList = new LinkedList<>();
     private final static ListInterface<Student> initialzeStudents = Tools.initializeStudents();
-    private final static LinkedListInterface<Student> mergedList = new LinkedList<>();
+    private final static ListInterface<Student> mergedList = new LinkedList<>();
     private static boolean isInitializeStudents = false;
 
     // add new student
@@ -32,20 +32,20 @@ public class StudentDao {
     }
 
     // Retrieve all student records
-    public static LinkedListInterface<Student> getAllStudents() {
+    public static ListInterface<Student> getAllStudents() {
         mergeStudent(mergedList);
         return mergedList;
     }
 
         // Retrieve all student records
-    public static LinkedListInterface<Student> getInactiveStudents() {
+    public static ListInterface<Student> getInactiveStudents() {
         
         // Return the inactive list
         return inactiveList;
     }
     
     // Merge student lists into the provided list
-    public static void mergeStudent(LinkedListInterface<Student> resultList) {
+    public static void mergeStudent(ListInterface<Student> resultList) {
         if (!isInitializeStudents && !initialzeStudents.isEmpty()) {
             for (int i = 1; i <= initialzeStudents.getTotalNumberOfData(); i++) {
                 resultList.add(initialzeStudents.getData(i));
@@ -56,7 +56,7 @@ public class StudentDao {
 
     // delete student
     // cannot directly student but move it into withdraw List
-    public static boolean deleteStudent(String id, LinkedListInterface<Student> list) {
+    public static boolean deleteStudent(String id, ListInterface<Student> list) {
         // Check if the student ID is available in the given list
         int index = getIndex(id, list);
         if (index != -1) {
@@ -76,7 +76,7 @@ public class StudentDao {
     }
 
     // update student
-    public static boolean updateStudent(String id, Student updatedStudent, LinkedListInterface<Student> list) {
+    public static boolean updateStudent(String id, Student updatedStudent, ListInterface<Student> list) {
         // Find the index of the student with the given ID
         int index = getIndex(id, list);
 
@@ -92,13 +92,13 @@ public class StudentDao {
     }
 
     // check the availability of the id 
-    public static boolean availableId(String id, LinkedListInterface<Student> list) {
+    public static boolean availableId(String id, ListInterface<Student> list) {
         // return value if the index number is available
         return getIndex(id, list) >= 0;
     }
 
     // check the index number based on id
-    public static int getIndex(String id, LinkedListInterface<Student> list) {
+    public static int getIndex(String id, ListInterface<Student> list) {
         // Trim the provided ID to remove leading and trailing whitespace
         String trimmedId = id.trim();
 
@@ -138,8 +138,8 @@ public class StudentDao {
     }
 
     // get active student info by ProgrammeId
-    public static LinkedListInterface<Student> getStudentsByPid(String pid) {
-        LinkedListInterface<Student> filterResult = new LinkedList<>();
+    public static ListInterface<Student> getStudentsByPid(String pid) {
+        ListInterface<Student> filterResult = new LinkedList<>();
 
         // Iterate through the mergedList and add students with matching programmeId
         Iterator<Student> iterator = mergedList.getIterator();
@@ -154,8 +154,8 @@ public class StudentDao {
     }
 
     // get inactive student info by ProgrammeId
-    public static LinkedListInterface<Student> getInactiveStudentsByPid(String pid) {
-        LinkedListInterface<Student> filterResult = new LinkedList<>();
+    public static ListInterface<Student> getInactiveStudentsByPid(String pid) {
+        ListInterface<Student> filterResult = new LinkedList<>();
 
         // Iterate through the mergedList and add students with matching programmeId
         Iterator<Student> iterator = inactiveList.getIterator();
@@ -170,8 +170,8 @@ public class StudentDao {
     }
     
     // search students name
-    public static LinkedListInterface<Student> searchStudent(String name) {
-        LinkedListInterface<Student> searchResults = new LinkedList<>(); // Using LinkedList instead of ArrayList
+    public static ListInterface<Student> searchStudent(String name) {
+        ListInterface<Student> searchResults = new LinkedList<>(); // Using LinkedList instead of ArrayList
 
         Iterator<Student> iterator = mergedList.getIterator(); // Assuming displaySList is an instance of ListInterface<Student>
 

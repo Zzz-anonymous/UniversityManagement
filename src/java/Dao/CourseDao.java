@@ -18,9 +18,9 @@ import java.util.Iterator;
 public class CourseDao {
 
     // Create an LinkedList to store course objects
-    private static LinkedListInterface<Course> cList = new LinkedList<>();
+    private static ListInterface<Course> cList = new LinkedList<>();
 
-    private static LinkedListInterface<Programme> pList = new LinkedList<>();
+    private static ListInterface<Programme> pList = new LinkedList<>();
 
     // add new course
     public static void addCourse(Course s) {
@@ -28,12 +28,12 @@ public class CourseDao {
     }
 
     // get all course details
-    public static LinkedListInterface<Course> getAllCourses() {
+    public static ListInterface<Course> getAllCourses() {
         return cList;
     }
 
     // delete course
-    public static boolean deleteCourse(String id, LinkedListInterface<Course> list) {
+    public static boolean deleteCourse(String id, ListInterface<Course> list) {
         // Check if the student ID is available
         int index = getIndex(id, list);
         if (index != -1) {
@@ -46,7 +46,7 @@ public class CourseDao {
     }
 
     // update course
-    public static boolean updateStudent(String id, Course updatedCourse, LinkedListInterface<Course> list) {
+    public static boolean updateStudent(String id, Course updatedCourse, ListInterface<Course> list) {
         // Find the index of the student with the given ID
         int index = getIndex(id, list);
 
@@ -62,13 +62,13 @@ public class CourseDao {
     }
 
     // check the availability of the id 
-    public static boolean availableId(String id, LinkedListInterface<Course> list) {
+    public static boolean availableId(String id, ListInterface<Course> list) {
         // return value if the index number is available
         return getIndex(id, list) >= 0;
     }
 
     // check the index number based on id
-    public static int getIndex(String id, LinkedListInterface<Course> list) {
+    public static int getIndex(String id, ListInterface<Course> list) {
         // Trim the provided ID to remove leading and trailing whitespace
         String trimmedId = id.trim();
 
@@ -110,8 +110,8 @@ public class CourseDao {
 
     
     // get course info by id(array)
-    public static LinkedListInterface<Course> validateCourseIds(String[] ids) {
-    LinkedListInterface<Course> validCourses = new LinkedList<>(); // Create a list to store valid courses
+    public static ListInterface<Course> validateCourseIds(String[] ids) {
+    ListInterface<Course> validCourses = new LinkedList<>(); // Create a list to store valid courses
 
     // Iterate over the array of course IDs
     for (String id : ids) {
@@ -153,8 +153,8 @@ public class CourseDao {
     }
     
     // use course object to get all available course
-    public static LinkedListInterface<Course> getAllAvailableCourses() {
-        LinkedListInterface<Course> availableCourses = new LinkedList<>();
+    public static ListInterface<Course> getAllAvailableCourses() {
+        ListInterface<Course> availableCourses = new LinkedList<>();
 
         // Iterate through the mergedList and add students with matching programmeId
         Iterator<Course> iterator = cList.getIterator();
@@ -172,8 +172,8 @@ public class CourseDao {
     
     
     // search courses name
-    public static LinkedListInterface<Course> searchCourses(String name) {
-        LinkedListInterface<Course> searchResults = new LinkedList<>(); // Using LinkedList instead of ArrayList
+    public static ListInterface<Course> searchCourses(String name) {
+        ListInterface<Course> searchResults = new LinkedList<>(); // Using LinkedList instead of ArrayList
 
         Iterator<Course> iterator = cList.getIterator(); // Assuming displaySList is an instance of ListInterface<Student>
 
@@ -204,8 +204,8 @@ public class CourseDao {
     }
     
         // get Course info by FacultyId
-    public static LinkedListInterface<Course> getCoursesByFid(String fid) {
-        LinkedListInterface<Course> filterResult = new LinkedList<>();
+    public static ListInterface<Course> getCoursesByFid(String fid) {
+        ListInterface<Course> filterResult = new LinkedList<>();
 
         // Iterate through the mergedList and add students with matching programmeId
         Iterator<Course> iterator = cList.getIterator();

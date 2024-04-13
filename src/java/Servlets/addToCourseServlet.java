@@ -11,7 +11,7 @@ import Entity.Course;
 import Entity.Student;
 import Entity.StudentCourse;
 import adt.LinkedList;
-import adt.LinkedListInterface;
+import adt.ListInterface;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -28,8 +28,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/addToCourseServlet")
 public class addToCourseServlet extends HttpServlet {
 
-    private final static LinkedListInterface<Student> mergedList = StudentDao.getAllStudents();
-    private static final LinkedListInterface<StudentCourse> scList = StudentCourseDao.getAllCourses();
+    private final static ListInterface<Student> mergedList = StudentDao.getAllStudents();
+    private static final ListInterface<StudentCourse> scList = StudentCourseDao.getAllCourses();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -62,14 +62,14 @@ public class addToCourseServlet extends HttpServlet {
         // request.setAttribute("courseStatus", courseStatus);
         // Pass the course object and other necessary attributes to the JSP page
         request.setAttribute("student", student);
-        LinkedListInterface<StudentCourse> studentCourseList = StudentCourseDao.getStudentCourseListById(id);
+        ListInterface<StudentCourse> studentCourseList = StudentCourseDao.getStudentCourseListById(id);
 
-        LinkedListInterface<String> existingCourses = new LinkedList<>();
-        LinkedListInterface<String> courseStatuses = new LinkedList<>();
+        ListInterface<String> existingCourses = new LinkedList<>();
+        ListInterface<String> courseStatuses = new LinkedList<>();
         if (studentCourseList != null && !studentCourseList.isEmpty()) {
             for (int i = 1; i <= studentCourseList.getTotalNumberOfData(); i++) {
                 StudentCourse sc = studentCourseList.getData(i);
-                LinkedListInterface<String> courseIds = sc.getCourseId();
+                ListInterface<String> courseIds = sc.getCourseId();
                 if (courseIds != null && !courseIds.isEmpty()) {
                     for (int j = 1; j <= courseIds.getTotalNumberOfData(); j++) {
                         existingCourses.add(courseIds.getData(j));
@@ -133,7 +133,7 @@ public class addToCourseServlet extends HttpServlet {
                     StudentCourse studentCourse = StudentCourseDao.getStudentCourseByIdAndCourseId(id, cId);
                     if (studentCourse == null) {
                         // If no course exists for the student and course ID, mark it for addition
-                        LinkedListInterface<String> newCourses = new LinkedList<>();
+                        ListInterface<String> newCourses = new LinkedList<>();
                         newCourses.add(cId);
                         StudentCourse newStudentCourse = new StudentCourse(id, newCourses, type); // Add status to the new course
                         StudentCourseDao.addCourse(newStudentCourse);

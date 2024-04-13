@@ -11,7 +11,7 @@ package adt;
 import java.util.Iterator;
 import java.util.function.Predicate;
 
-public class LinkedList<T> implements LinkedListInterface<T> {
+public class LinkedList<T> implements ListInterface<T> {
 
     private Node firstNode; // reference to first node
     private int totalNumberData;  	// number of data in list
@@ -27,8 +27,8 @@ public class LinkedList<T> implements LinkedListInterface<T> {
     }
 
     @Override
-    public LinkedListInterface<T> search(Predicate<T> criteria) {
-        LinkedListInterface<T> matchingData = new LinkedList<>();
+    public ListInterface<T> search(Predicate<T> criteria) {
+        ListInterface<T> matchingData = new LinkedList<>();
         Node currentNode = firstNode;
         while (currentNode != null) {
             if (criteria.test(currentNode.data)) {

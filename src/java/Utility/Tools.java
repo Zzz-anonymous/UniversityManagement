@@ -14,12 +14,12 @@ import Entity.*;
 public class Tools {
 
     // Define cTypesList as a class-level variable
-    private static LinkedListInterface<String> cTypesList = new LinkedList<>();
+    private static ListInterface<String> cTypesList = new LinkedList<>();
     // Create a list of courses for the programme
-    private static LinkedListInterface<Course> courses = new LinkedList<>();
+    private static ListInterface<Course> courses = new LinkedList<>();
 
     // Method to initialize courseTypes with course types
-    public static LinkedListInterface<String> initializeCourseTypes() {
+    public static ListInterface<String> initializeCourseTypes() {
         cTypesList.clear();
         // Populate cTypesList with some example course types
         cTypesList.add("Tutorial");

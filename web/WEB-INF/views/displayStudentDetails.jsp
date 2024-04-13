@@ -25,9 +25,9 @@
         </header>
         <main>
             <%
-                LinkedListInterface<Student> sList = StudentDao.getAllStudents();
-                LinkedListInterface<StudentCourse> scList = (LinkedListInterface<StudentCourse>) request.getAttribute("scList");
-                LinkedListInterface<Course> cList = (LinkedListInterface<Course>) CourseDao.getAllAvailableCourses();
+                ListInterface<Student> sList = StudentDao.getAllStudents();
+                ListInterface<StudentCourse> scList = (ListInterface<StudentCourse>) request.getAttribute("scList");
+                ListInterface<Course> cList = (ListInterface<Course>) CourseDao.getAllAvailableCourses();
                 String studentId = request.getParameter("id");
                 Student student = StudentDao.getStudentById(studentId);
                 if (student != null && scList != null && cList != null) {

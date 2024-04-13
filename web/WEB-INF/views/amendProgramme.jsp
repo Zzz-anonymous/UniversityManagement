@@ -7,7 +7,7 @@
 <%@page import="Dao.ProgrammeCourseDao"%>
 <%@page import="Dao.ProgrammeDao"%>
 <%@page import="Entity.ProgrammeCourse"%>
-<%@page import="adt.LinkedListInterface"%>
+<%@page import="adt.ListInterface"%>
 <%@page import="Entity.Course"%>
 <%@page import="Entity.Programme"%>
 <%@page import="Dao.CourseDao"%>
@@ -28,7 +28,7 @@
                 <div>
                     <table width="100%" class="table">
                         <%
-                            LinkedListInterface<Programme> pList = (LinkedListInterface<Programme>) request.getAttribute("programme");
+                            ListInterface<Programme> pList = (ListInterface<Programme>) request.getAttribute("programme");
                             if (pList != null && !pList.isEmpty()) {
                                 for (int i = 1; i <= pList.getTotalNumberOfData(); i++) {
                                     Programme p = pList.getData(i);
@@ -47,8 +47,8 @@
                             <th><label for="courseName">Chosen Course Names:</label></th>
                             <td>
                                 <%
-                                    LinkedListInterface<Course> courseList = (LinkedListInterface<Course>) request.getAttribute("cList");
-                                    LinkedListInterface<ProgrammeCourse> pcourse = (LinkedListInterface<ProgrammeCourse>) request.getAttribute("pcList");
+                                    ListInterface<Course> courseList = (ListInterface<Course>) request.getAttribute("cList");
+                                    ListInterface<ProgrammeCourse> pcourse = (ListInterface<ProgrammeCourse>) request.getAttribute("pcList");
 
                                     if (courseList != null && !courseList.isEmpty()) {
                                         for (int j = 1; j <= courseList.getTotalNumberOfData(); j++) {
@@ -79,7 +79,7 @@
     <th><label for="unchosenCourses">Unchosen Courses</label></th>
     <td>
         <%
-            LinkedListInterface<ProgrammeCourse> pcList = (LinkedListInterface<ProgrammeCourse>) request.getAttribute("pcList");
+            ListInterface<ProgrammeCourse> pcList = (ListInterface<ProgrammeCourse>) request.getAttribute("pcList");
 
             // Check if pcList is not null and not empty
             if (pcList != null && !pcList.isEmpty()) {

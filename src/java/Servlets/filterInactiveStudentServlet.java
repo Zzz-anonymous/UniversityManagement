@@ -6,7 +6,7 @@ package Servlets;
 
 import Dao.StudentDao;
 import Entity.Student;
-import adt.LinkedListInterface;
+import adt.ListInterface;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -33,11 +33,11 @@ public class filterInactiveStudentServlet extends HttpServlet {
 
         // If programmeId is null or empty, retrieve all students
         if (programmeId == null || programmeId.isEmpty()) {
-            LinkedListInterface<Student> inactiveList = StudentDao.getInactiveStudents();
+            ListInterface<Student> inactiveList = StudentDao.getInactiveStudents();
             request.setAttribute("inactiveList", inactiveList);
         } else {
             // Retrieve students based on the specified programmeId
-            LinkedListInterface<Student> inactiveList = StudentDao.getInactiveStudentsByPid(programmeId);
+            ListInterface<Student> inactiveList = StudentDao.getInactiveStudentsByPid(programmeId);
             request.setAttribute("inactiveList", inactiveList);
         }
 

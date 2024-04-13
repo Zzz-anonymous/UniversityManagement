@@ -6,7 +6,7 @@ package Dao;
 
 import Entity.Programme;
 import static Utility.Tools.initializeProgrammes;
-import adt.LinkedListInterface;
+import adt.ListInterface;
 import adt.ListInterface;
 import java.util.Iterator;
 

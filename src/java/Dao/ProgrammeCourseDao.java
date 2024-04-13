@@ -8,7 +8,7 @@ import Entity.Course;
 import Entity.Programme;
 import Entity.ProgrammeCourse;
 import adt.LinkedList;
-import adt.LinkedListInterface;
+import adt.ListInterface;
 import adt.ListInterface;
 import java.util.Iterator;
 import java.util.function.Predicate;
@@ -20,9 +20,9 @@ import java.util.stream.Collectors;
  */
 public class ProgrammeCourseDao {
 
-    private static final LinkedListInterface<ProgrammeCourse> programmeCourses = new LinkedList<>();
-    private static LinkedListInterface<Course> cList = CourseDao.getAllCourses();
-    private static LinkedListInterface<ProgrammeCourse> unchosenList = new LinkedList<>();
+    private static final ListInterface<ProgrammeCourse> programmeCourses = new LinkedList<>();
+    private static ListInterface<Course> cList = CourseDao.getAllCourses();
+    private static ListInterface<ProgrammeCourse> unchosenList = new LinkedList<>();
 
     // Create operation
     public static void addProgrammeCourse(Programme programme, Course course) {
@@ -32,12 +32,12 @@ public class ProgrammeCourseDao {
         programmeCourses.add(programmeCourse);
     }
 
-    public static LinkedListInterface<ProgrammeCourse> getProgrammeCourse() {
+    public static ListInterface<ProgrammeCourse> getProgrammeCourse() {
         return programmeCourses;
     }
 
     // Read unchosen list by programmeId and course id
-    public static LinkedListInterface<ProgrammeCourse> getUnchosenListById(String courseId, String programmeId) {
+    public static ListInterface<ProgrammeCourse> getUnchosenListById(String courseId, String programmeId) {
         // Iterate over the programmeCourses list
         for (int i = 1; i <= programmeCourses.getTotalNumberOfData(); i++) {
             ProgrammeCourse pc = programmeCourses.getData(i);
@@ -60,7 +60,7 @@ public class ProgrammeCourseDao {
             // Check if the courseId matches
             if (c.getId().equals(courseId)) {
                 // Retrieve the associated Programme object
-                LinkedListInterface<Programme> programmeList = c.getProgramme();
+                ListInterface<Programme> programmeList = c.getProgramme();
                 // Iterate over the programmeList
                 for (int j = 1; j <= programmeList.getTotalNumberOfData(); j++) {
                     Programme programme = programmeList.getData(j);
@@ -109,7 +109,7 @@ public class ProgrammeCourseDao {
         }
     }
 
-    public static int getIndex(String id, LinkedListInterface<Programme> list) {
+    public static int getIndex(String id, ListInterface<Programme> list) {
         // Trim the provided ID to remove leading and trailing whitespace
         String trimmedId = id.trim();
 
@@ -137,7 +137,7 @@ public class ProgrammeCourseDao {
     }
 
     // Helper method to get a Course object by ID from a list of courses
-    public static Course getCourseById(LinkedListInterface<Course> courseList, String courseId) {
+    public static Course getCourseById(ListInterface<Course> courseList, String courseId) {
         for (int i = 1; i <= courseList.getTotalNumberOfData(); i++) {
             Course course = courseList.getData(i);
             if (course.getId().equals(courseId)) {
@@ -148,7 +148,7 @@ public class ProgrammeCourseDao {
     }
 
     // Helper method to check if a course is chosen
-    public static boolean isCourseChosen(LinkedListInterface<ProgrammeCourse> pcourse, String courseId) {
+    public static boolean isCourseChosen(ListInterface<ProgrammeCourse> pcourse, String courseId) {
         for (int i = 1; i <= pcourse.getTotalNumberOfData(); i++) {
             ProgrammeCourse pc = pcourse.getData(i);
             if (pc.getCourseId().equals(courseId)) {

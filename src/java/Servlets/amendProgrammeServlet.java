@@ -30,8 +30,8 @@ import javax.servlet.http.HttpServletResponse;
 public class amendProgrammeServlet extends HttpServlet {
 
     private static ListInterface<Programme> pList = Tools.initializeProgrammes();
-    private static LinkedListInterface<Course> cList = CourseDao.getAllCourses();
-    private static final LinkedListInterface<ProgrammeCourse> programmeCourses = ProgrammeCourseDao.getProgrammeCourse();
+    private static ListInterface<Course> cList = CourseDao.getAllCourses();
+    private static final ListInterface<ProgrammeCourse> programmeCourses = ProgrammeCourseDao.getProgrammeCourse();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -46,17 +46,17 @@ public class amendProgrammeServlet extends HttpServlet {
             programme = pList.getData(index);
         }
 
-        // Create a new LinkedListInterface and add the programme to it
-        LinkedListInterface<Programme> programmeList = new LinkedList<>();
+        // Create a new ListInterface and add the programme to it
+        ListInterface<Programme> programmeList = new LinkedList<>();
         programmeList.add(programme);
 
         // Create pcList to store ProgrammeCourses that are in unchosenList
-        LinkedListInterface<ProgrammeCourse> pcList = new LinkedList<>();
+        ListInterface<ProgrammeCourse> pcList = new LinkedList<>();
 
         // Retrieve the ids from cList and get corresponding unchosenList for each course
         for (int i = 1; i <= cList.getTotalNumberOfData(); i++) {
             Course course = cList.getData(i);
-            LinkedListInterface<ProgrammeCourse> unchosenList = ProgrammeCourseDao.getUnchosenListById(programme.getId(), course.getId());
+            ListInterface<ProgrammeCourse> unchosenList = ProgrammeCourseDao.getUnchosenListById(programme.getId(), course.getId());
 
             // Check if unchosenList is not null before using it
             if (unchosenList != null) {
@@ -125,10 +125,10 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
     }
 
     // Now update the pcList with unchosen courses
-    LinkedListInterface<ProgrammeCourse> pcList = new LinkedList<>();
+    ListInterface<ProgrammeCourse> pcList = new LinkedList<>();
     for (int i = 1; i <= programmeCourses.getTotalNumberOfData(); i++) {
         ProgrammeCourse course = programmeCourses.getData(i);
-        LinkedListInterface<ProgrammeCourse> unchosenList = ProgrammeCourseDao.getUnchosenListById(course.getCourseId(), course.getProgrammeId());
+        ListInterface<ProgrammeCourse> unchosenList = ProgrammeCourseDao.getUnchosenListById(course.getCourseId(), course.getProgrammeId());
         if (unchosenList != null && unchosenList.contains(course)) {
             pcList.add(course);
         }

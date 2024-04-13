@@ -25,7 +25,7 @@ import Utility.Tools;
  */
 @WebServlet("/studentServlet")
 public class studentServlet extends HttpServlet {
-    private final static LinkedListInterface<Student> mergedList = StudentDao.getAllStudents();
+    private final static ListInterface<Student> mergedList = StudentDao.getAllStudents();
     
     // check students availability, display students records if not empty
     @Override
@@ -83,7 +83,7 @@ public class studentServlet extends HttpServlet {
             StudentDao.addStudent(s);
             
             // If no exceptions are thrown, the addition was successful
-            //LinkedListInterface<Student> updatedStudentList = StudentDao.getAllStudents();     
+            //ListInterface<Student> updatedStudentList = StudentDao.getAllStudents();     
             // If no exceptions are thrown, the addition was successful
             PrintWriter out = response.getWriter();
             out.println("<script>alert('Record saved successfully!');</script>");

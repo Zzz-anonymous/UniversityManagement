@@ -6,6 +6,7 @@ package adt;
  */
 import java.util.Iterator;
 import java.io.Serializable;
+import java.util.function.Predicate;
 
 public class ArrayList<T> implements ListInterface<T>, Serializable {
 
@@ -220,5 +221,13 @@ public String toString() {
         return isSuccessful;
     }
     
+    @Override
+    public boolean update(int position, T newData){
+        throw new UnsupportedOperationException();
+    }
     
+    @Override
+    public ListInterface<T> search(Predicate<T> criteria){
+        throw new UnsupportedOperationException();
+    };
 }

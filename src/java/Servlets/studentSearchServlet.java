@@ -6,7 +6,7 @@ package Servlets;
 
 import Dao.StudentDao;
 import Entity.Student;
-import adt.LinkedListInterface;
+import adt.ListInterface;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -33,11 +33,11 @@ public class studentSearchServlet extends HttpServlet {
 
         // If programmeId is null or empty, retrieve all students
         if (programmeId == null || programmeId.isEmpty()) {
-            LinkedListInterface<Student> mergedList = StudentDao.getAllStudents();
+            ListInterface<Student> mergedList = StudentDao.getAllStudents();
             request.setAttribute("mergedList", mergedList);
         } else {
             // Retrieve students based on the specified programmeId
-            LinkedListInterface<Student> mergedList = StudentDao.getStudentsByPid(programmeId);
+            ListInterface<Student> mergedList = StudentDao.getStudentsByPid(programmeId);
             request.setAttribute("mergedList", mergedList);
         }
 
@@ -53,7 +53,7 @@ public class studentSearchServlet extends HttpServlet {
         String name = request.getParameter("search");
 
         // Search for students with the given name
-        LinkedListInterface<Student> searchResults = StudentDao.searchStudent(name);
+        ListInterface<Student> searchResults = StudentDao.searchStudent(name);
 
         // Forward the search results to a JSP for display
         request.setAttribute("searchResults", searchResults);

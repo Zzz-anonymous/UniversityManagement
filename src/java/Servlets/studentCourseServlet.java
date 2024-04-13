@@ -6,7 +6,7 @@ package Servlets;
 
 import Dao.StudentCourseDao;
 import Entity.StudentCourse;
-import adt.LinkedListInterface;
+import adt.ListInterface;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/studentCourseServlet")
 public class studentCourseServlet extends HttpServlet {
 
-    private static final LinkedListInterface<StudentCourse> scList = StudentCourseDao.getAllCourses();
+    private static final ListInterface<StudentCourse> scList = StudentCourseDao.getAllCourses();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -32,7 +32,7 @@ public class studentCourseServlet extends HttpServlet {
         String pathInfo = request.getPathInfo();
 
         if (pathInfo == null || pathInfo.equals("/")) {
-            //LinkedListInterface<StudentCourse> scList = StudentCourse.getAllCourses();
+            //ListInterface<StudentCourse> scList = StudentCourse.getAllCourses();
             if (scList.isEmpty()) {
                 // Display alert message if no students were found
                 PrintWriter out = response.getWriter();

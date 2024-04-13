@@ -8,7 +8,7 @@ import Dao.StudentCourseDao;
 import Dao.StudentDao;
 import Entity.Student;
 import Entity.StudentCourse;
-import adt.LinkedListInterface;
+import adt.ListInterface;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/toolsServlet")
 public class toolsServlet extends HttpServlet {
-    private final static LinkedListInterface<Student> mergedList = StudentDao.getAllStudents();
+    private final static ListInterface<Student> mergedList = StudentDao.getAllStudents();
 //    @Override
 //    protected void doGet(HttpServletRequest request, HttpServletResponse response)
 //            throws ServletException, IOException {

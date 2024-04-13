@@ -4,16 +4,15 @@
     Author     : Zy
 --%>
 
-<%@page import="Entity.StudentCourse"%>
 <%@page import="Dao.ProgrammeDao"%>
 <%@page import="Dao.StudentDao"%>
-<%@page import="Entity.Student"%>
 <%@page import="Dao.ProgrammeCourseDao"%>
-<%@page import="adt.LinkedListInterface"%>
+<%@page import="Dao.CourseDao"%>
 <%@page import="adt.*"%>
+<%@page import="Entity.Student"%>
+<%@page import="Entity.StudentCourse"%>
 <%@page import="Entity.Course"%>
 <%@page import="Entity.Programme"%>
-<%@page import="Dao.CourseDao"%>
 <%@page import="Utility.Tools"%>
 
 <%@include file="/shared/header.jsp"%>
@@ -38,23 +37,23 @@
                 <div>
                     <table border="1" style="width:100%;" class="table">
                         <tr>
-                            <th colspan="6">Student's Information</th>
+                            <th colspan="7">Student's Information</th>
                         </tr>
                         <tr>
                             <th>Student ID</th> 
                             <td colspan="2">${student.id}</td>
                             <th>Student Name</th>
-                            <td colspan="2">${student.name}</td>
+                            <td colspan="3">${student.name}</td>
                         </tr>
                         <tr>
                             <th>Email</th>
-                            <td colspan='5'>${student.email}</td>
+                            <td colspan='6'>${student.email}</td>
                         </tr>
                         <tr>
                             <th>Gender</th>
                             <td colspan="2">${student.gender}</td>
                             <th>Student Status</th>
-                            <td colspan="2">
+                            <td colspan="3">
                                 <% if (student.getStatus() == 1) { %>
                                 Active
                                 <% } else { %>
@@ -63,12 +62,13 @@
                             </td>
                         </tr>
                         <tr>
-                            <th colspan="6">Student's Course Information</th>
+                            <th colspan="7">Student's Course Information</th>
                         </tr>
                         <tr>
                             <th></th>
                             <th colspan="2">Course Name</th>
                             <th colspan="2">Course Status</th>
+                            <th>Credit Hours</th>
                             <th>Fees</th>
                         </tr>
                         <%
@@ -88,6 +88,7 @@
                             <td><%= courseIndex%></td> 
                             <td colspan="2"><%= c.getName()%></td>
                             <td colspan="2"><%= sc.getCourseStatus()%></td>
+                            <td><%= c.getCreditHours()%></td>
                             <td>RM <%= c.getFees()%></td>
                         </tr>
                         <%
@@ -101,17 +102,15 @@
                             if (!courseTaken) {
                         %>
                         <tr>
-                            <th colspan="6">No Course Assigned</th>
+                            <th colspan="7">No Course Assigned</th>
                         </tr>
                         <%
                             }
                         %>
                         <tr>
-                            <th colspan="5">Total Fees</th>
+                            <th colspan="6">Total Fees</th>
                             <td>RM <%= totalFees%></td>
                         </tr>
-
-
                     </table>
                 </div>
             </form>

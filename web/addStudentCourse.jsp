@@ -25,14 +25,14 @@
                     <table width="100%" class="table">
                         <tr>
                             <th><label for="id">Student ID:</label></th>
-                            <td>
+                            <td colspan="2">
                                 <span>${student.id}</span>
                             </td>
 
                         </tr>
                         <tr>
                             <th><label for="name">Student Name:</label></th>
-                            <td>
+                            <td colspan="2">
                                 <span>${student.name}</span>
                             </td>
 
@@ -40,6 +40,7 @@
                         <tr>
                             <th><label for="courseId">Course Name:</label><br> </th>
                             <th><label for="status">Course Status:</label> </th>
+                            <th><label for="status">Credit Hours:</label> </th>
                         </tr>
 
                         <%
@@ -49,19 +50,21 @@
                             LinkedListInterface<String> existingCourses = (LinkedListInterface<String>) request.getAttribute("existingCourses");
                             LinkedListInterface<String> courseStatuses = (LinkedListInterface<String>) request.getAttribute("courseStatuses"); // Retrieve courseStatuses from request attribute
 
+                            // Check if there are available courses
                             if (cList != null && !cList.isEmpty()) {
+                                // Iterate over the list of courses
                                 for (int j = 1; j <= cList.getTotalNumberOfData(); j++) {
                                     Course c = cList.getData(j);
                                     String courseId = c.getId();
+                                    int creditHours = c.getCreditHours();
                                     String cName = ProgrammeCourseDao.getCourseNameById(courseId, programmeId);
-
-                                    // Check if the current course is already selected by the student
-                                    boolean isCourseSelected = existingCourses != null && existingCourses.contains(courseId);
-                                    // Retrieve status for the current courseId
-                                    String status = courseStatuses != null ? courseStatuses.getData(j) : "Main"; // Use "Main" as default if status is not available
-
+                                    if (cName != null) {
+                                        // Check if the current course is already selected by the student
+                                        boolean isCourseSelected = existingCourses != null && existingCourses.contains(courseId);
+                                        // Retrieve status for the current courseId
+                                        String status = courseStatuses != null ? courseStatuses.getData(j) : "Main"; // Use "Main" as default if status is not available
                         %>
-                        <tr>
+                        <tr data-checkable>
                             <td>
                                 <input name="courseId" type="checkbox" value="<%= courseId%>" <%= isCourseSelected ? "checked" : ""%> />
                                 <%= cName + "\n"%>
@@ -74,24 +77,35 @@
                                     <option value="Resit" <%= status != null && status.equals("Resit") ? "selected" : ""%>>Resit</option>
                                     <option value="Repeat" <%= status != null && status.equals("Repeat") ? "selected" : ""%>>Repeat</option>
                                 </select>
-
+                            </td>
+                            <td>
+                                <%= creditHours%>
                             </td>
                         </tr>
                         <%
+                        } else {
+                        %>
+                        <tr>
+                            <td colspan="3">No Available courses</td>
+                        </tr>
+                        <%
+                                }
                             }
                         } else {
                         %>
                         <tr>
-                            <td colspan="2">No Available courses</td>
+                            <td colspan="3">No Available courses</td>
                         </tr>
                         <%
                             }
                         %>
+
                         <tr>
                             <td></td>
                             <td>
                                 <input type="submit" value="Insert"/>
                             </td>
+                            <td></td>
                         </tr>
                     </table>
                 </div>

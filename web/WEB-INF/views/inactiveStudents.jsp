@@ -56,7 +56,6 @@
                         <th>Gender</th>
                         <th>Email</th>
                         <th>Student Status</th>
-                        <th>Payment Status</th>
                         <th>Programme ID</th>
                     </tr>
                 </thead>    
@@ -70,8 +69,7 @@
                         <td><%= s.getName()%></td>
                         <td><%= s.getGender()%></td>
                         <td><%= s.getEmail()%></td>
-                        <td><%= s.getStatus() == 1 ? "Active" : "Inactive"%></td>
-                        <td><%= s.getPaymentStatus()%></td>
+                        <td><%= s.getStatus() == 1 ? "Active" : "Inactive"%></td>  
                         <td><%= s.getProgrammeId()%></td>
                     </tr>
                     <%
@@ -85,8 +83,7 @@
                         <td><%= s.getName()%></td>
                         <td><%= s.getGender()%></td>
                         <td><%= s.getEmail()%></td>
-                        <td><%= s.getStatus() == 1 ? "Active" : "Inactive"%></td>
-                        <td><%= s.getPaymentStatus()%></td>
+                        <td><%= s.getStatus() == 1 ? "Active" : "Inactive"%></td>     
                         <td><%= s.getProgrammeId()%></td>
                     </tr>
                     <%

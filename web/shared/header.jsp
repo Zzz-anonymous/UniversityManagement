@@ -97,7 +97,7 @@
                         <span class="link_name">Analytics</span>
                     </a>
                     <ul class="sub-menu blank">
-                        <li><a class="link_name" href="#">Analytics</a></li>
+                        <li><a href="#">Analytics</a></li>
                     </ul>
                 </li>
                 <li>
@@ -105,9 +105,13 @@
                         <i class='bx bx-line-chart'></i>
                         <span class="link_name">Chart</span>
                     </a>
-                    <ul class="sub-menu blank">
+                   
+                    <ul class="sub-menu">
                         <li><a class="link_name" href="#">Chart</a></li>
+                        <li><a href="/UniversityManagement/studentChart">Student Chart</a></li>
+                        
                     </ul>
+
                 </li>
                 
                 

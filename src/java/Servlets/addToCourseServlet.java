@@ -126,34 +126,40 @@ public class addToCourseServlet extends HttpServlet {
         }
 
         try {
-            for (String cId : courseIds) {
-                String type = request.getParameter(cId + "_status"); // Retrieve status for the current courseId
-                if (type != null) {
+            // Create a new list to store the updated courses
+            ListInterface<StudentCourse> updatedCourses = new LinkedList<>();
 
+            // Update or add courses
+            for (String cId : courseIds) {
+                String status = request.getParameter(cId + "_status"); // Retrieve status for the current courseId
+                if (status != null) {
                     StudentCourse studentCourse = StudentCourseDao.getStudentCourseByIdAndCourseId(id, cId);
                     if (studentCourse == null) {
                         // If no course exists for the student and course ID, mark it for addition
                         ListInterface<String> newCourses = new LinkedList<>();
                         newCourses.add(cId);
-                        StudentCourse newStudentCourse = new StudentCourse(id, newCourses, type); // Add status to the new course
-                        StudentCourseDao.addCourse(newStudentCourse);
+                        StudentCourse newStudentCourse = new StudentCourse(id, newCourses, status); // Add status to the new course
+                        updatedCourses.add(newStudentCourse);
                     } else {
                         // If a course already exists, update its status
-                        studentCourse.setCourseStatus(type); // Update the status of the existing course
-                        StudentCourseDao.updateStudentCourse(id, cId, type); // Update the status in the database
+                        studentCourse.setCourseStatus(status); // Update the status of the existing course
+                        updatedCourses.add(studentCourse); // Add the updated course to the list
                     }
                 }
             }
 
+            // Replace the existing list of courses with the updated one
+            StudentCourseDao.replaceCourseList(id, updatedCourses);
+
             // If the loop completes successfully (total credit hours <= 23), show success message
             PrintWriter out = response.getWriter();
-            out.println("<script>alert('Record updated successfully!');</script>");
+            out.println("<script>alert('Record added successfully!');</script>");
             out.println("<script>window.location.href = '" + request.getContextPath() + "/studentDetailsServlet?id=" + id + "';</script>");
             out.close();
         } catch (Exception e) {
             // If any exception occurs during processing, show error message
             PrintWriter out = response.getWriter();
-            out.println("<script>alert('Failed to update student course: " + e.getMessage() + "');</script>");
+            out.println("<script>alert('Failed to added student course: " + e.getMessage() + "');</script>");
             out.println("<script>window.location.href = '" + request.getContextPath() + "/studentServlet';</script>");
             out.close();
         }

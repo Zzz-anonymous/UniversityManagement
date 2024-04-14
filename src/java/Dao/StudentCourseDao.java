@@ -26,6 +26,14 @@ public class StudentCourseDao {
         scList.add(sc);
     }
 
+    public static void addCourse(ListInterface<StudentCourse> courses) {
+        // Iterate over the courses list and add each course individually
+        for (int i = 1; i <= courses.getTotalNumberOfData(); i++) {
+            StudentCourse course = courses.getData(i);
+            scList.add(course);
+        }
+    }
+
     // get all course details
     public static ListInterface<StudentCourse> getAllCourses() {
         return scList;
@@ -71,78 +79,20 @@ public class StudentCourseDao {
         return null;
     }
 
-    // update course
-    public static boolean updateStudentCourse(String studentId, String courseId, String status) {
-        // Find the index of the student course with the given student ID and course ID
-        for (int i = 1; i <= scList.getTotalNumberOfData(); i++) {
-            StudentCourse sc = scList.getData(i);
-            // Check if both student ID and course ID match
-            if (sc.getStudentId().equals(studentId) && sc.getCourseId().contains(courseId)) {
-                // Update the status of the found student course
-                sc.setCourseStatus(status);
-                return true; // Return true to indicate a successful update
-            }
-        }
-        // If the student course is not found, return false
-        return false;
+    // delete course
+    public static void deleteStudentCourse() {
+        scList.clear();
     }
 
-    // check the index number based on student id
-    public static int getIndex(String id, ListInterface<StudentCourse> list) {
-        // Trim the provided ID to remove leading and trailing whitespace
-        String trimmedId = id.trim();
-
-        // Get an iterator for the LinkedList
-        Iterator<StudentCourse> iterator = list.getIterator();
-
-        // Initialize index counter
-        int index = 1;
-
-        // Iterate over the list
-        while (iterator.hasNext()) {
-            StudentCourse sc = iterator.next();
-            if (sc != null) {
-                if (sc.getStudentId().equals(trimmedId)) {
-                    // If student ID matches, return the index
-                    return index;
-                }
-            }
-            // Increment index counter
-            index++;
-        }
-
-        // If student ID is not found, return -1
-        return -1;
+    // update Course
+    public static void replaceCourseList(String studentId, ListInterface<StudentCourse> updatedCourses) {
+        // Perform database operations to replace the existing list of courses with the updated one
+        // For example, you might delete all existing courses associated with the student and then add the new courses
+        deleteStudentCourse();
+        addCourse(updatedCourses);
     }
 
-    public static int getIndex(String studentId, String courseId, ListInterface<StudentCourse> list) {
-        // Trim the provided IDs to remove leading and trailing whitespace
-        String trimmedStudentId = studentId.trim();
-        String trimmedCourseId = courseId.trim();
-
-        // Get an iterator for the LinkedList
-        Iterator<StudentCourse> iterator = list.getIterator();
-
-        // Initialize index counter
-        int index = 1;
-
-        // Iterate over the list
-        while (iterator.hasNext()) {
-            StudentCourse sc = iterator.next();
-            if (sc != null) {
-                if (sc.getStudentId().equals(trimmedStudentId) && sc.getCourseId().contains(trimmedCourseId)) {
-                    // If both student ID and course ID match, return the index
-                    return index;
-                }
-            }
-            // Increment index counter
-            index++;
-        }
-
-        // If student course is not found, return -1
-        return -1;
-    }
-
+   
     // retrieve course status by using courseId
     public static String getStudentCourseStatusById(String courseId) {
         // Iterate over the list of students to find the one with the matching ID
@@ -150,6 +100,19 @@ public class StudentCourseDao {
             StudentCourse sc = scList.getData(i);
             if (sc.getCourseId().contains(courseId)) {
                 return sc.getCourseStatus();
+            }
+        }
+        // Return null if no student with the given ID is found
+        return null;
+    }
+
+    // retrieve course id by using studentId
+    public static ListInterface<String> getCourseIdById(String studentId) {
+        // Iterate over the list of students to find the one with the matching ID
+        for (int i = 1; i <= scList.getTotalNumberOfData(); i++) {
+            StudentCourse sc = scList.getData(i);
+            if (sc.getStudentId().contains(studentId)) {
+                return sc.getCourseId();
             }
         }
         // Return null if no student with the given ID is found
@@ -169,27 +132,5 @@ public class StudentCourseDao {
         return null;
     }
 
-    // delete course
-    public static boolean deleteStudentCourse(String studentId, String courseId, ListInterface<StudentCourse> list) {
-        // Find the index of the student course with the given student ID and course ID
-        int index = getIndex(studentId, courseId, list);
-        if (index != -1) {
-            // Remove the student course from the list
-            list.remove(index);
-            return true; // Deletion successful
-        } else {
-            return false; // Student course not found
-        }
-    }
-
-    // Method to check if the course ID is present in the selected course IDs array
-    public static boolean containsCourseId(String courseId, String[] courseIds) {
-        for (String id : courseIds) {
-            if (id.equals(courseId)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
 }

@@ -54,7 +54,6 @@
                         <th>Student ID</th>
                         <th>Name</th>      
                         <th>Student Status</th>
-                        <th>Payment Status</th>
                         <th>Programme ID</th>
                         <th>Assign Courses</th>
                         <th>Details</th>
@@ -70,8 +69,7 @@
                     <tr>
                         <td><%= s.getId()%></td>
                         <td><%= s.getName()%></td>
-                        <td><%= s.getStatus() == 1 ? "Active" : "Inactive"%></td>
-                        <td><%= s.getPaymentStatus()%></td>
+                        <td><%= s.getStatus() == 1 ? "Active" : "Inactive"%></td>          
                         <td><%= s.getProgrammeId()%></td>
                         <td><a href="/UniversityManagement/addToCourseServlet?id=<%= s.getId()%>">Assign Courses</a></td>
                         <td><a href="/UniversityManagement/studentDetailsServlet?id=<%= s.getId()%>">Details</a></td>
@@ -88,7 +86,6 @@
                         <td><%= s.getId()%></td>
                         <td><%= s.getName()%></td>
                         <td><%= s.getStatus() == 1 ? "Active" : "Inactive"%></td>
-                        <td><%= s.getPaymentStatus()%></td>
                         <td><%= s.getProgrammeId()%></td>
                         <td><a href="/UniversityManagement/addToCourseServlet?id=<%= s.getId()%>&status=<%= s.getStatus() %>">Assign Courses</a></td>
                         <td><a href="/UniversityManagement/studentDetailsServlet?id=<%= s.getId()%>">Details</a></td>

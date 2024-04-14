@@ -76,7 +76,7 @@ public class studentServlet extends HttpServlet {
         String programmeId = request.getParameter("programmeId");
 
         // Create a new Student object with the provided data
-        Student s = new Student(id, name, gender, email, 1, 0, programmeId);
+        Student s = new Student(id, name, gender, email, 1,  programmeId);
 
         try {
             // Attempt to add the student

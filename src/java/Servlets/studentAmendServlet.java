@@ -67,7 +67,7 @@ public class studentAmendServlet extends HttpServlet {
         String programme = request.getParameter("programmeId");
 
         // Create a new Student object with the provided data
-        Student s = new Student(id, name, gender, email, 1, 0, programme);
+        Student s = new Student(id, name, gender, email, 1, programme);
 
         // Check if studentList is empty
         if (mergedList.isEmpty()) {

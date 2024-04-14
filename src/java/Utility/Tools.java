@@ -88,18 +88,18 @@ public class Tools {
     //  Method to return a collection of with hard-coded entity values
     public static ListInterface<Student> initializeStudents() {
         ListInterface<Student> sList = new ArrayList<>();
-        sList.add(new Student("S0001", "Bennett", "Male", "abc@123.com", 1, 0, "RSE"));
-        sList.add(new Student("S0002", "Amber", "Female", "abc@123.com", 1, 0, "RSP"));
-        sList.add(new Student("S0003", "Dori", "Female", "abc@123.com", 1, 0, "RAC"));
-        sList.add(new Student("S0004", "Kaveh", "Male", "abc@123.com", 1, 0, "RES"));
-        sList.add(new Student("S0005", "Qiqi", "Female", "abc@123.com", 1, 0, "RPY"));
-        sList.add(new Student("S0006", "Tighnari", "Male", "abc@123.com", 1, 0, "RML"));
-        sList.add(new Student("S0007", "Xiangling", "Female", "abc@123.com", 1, 0, "RSD"));
-        sList.add(new Student("S0008", "Xingqiu", "Male", "abc@123.com", 1, 0, "REU"));
-        sList.add(new Student("S0009", "Chongyun", "Male", "abc@123.com", 1, 0, "RBD"));
-        sList.add(new Student("S0010", "Collei", "Female", "abc@123.com", 1, 0, "RAC"));
-        sList.add(new Student("S0011", "Furina", "Female", "abc@123.com", 1, 0, "RBC"));
-        sList.add(new Student("S0012", "Kirara", "Female", "abc@123.com", 1, 0, "RIT"));
+        sList.add(new Student("S0001", "Bennett", "Male", "abc@123.com", 1,  "RSE"));
+        sList.add(new Student("S0002", "Amber", "Female", "abc@123.com", 1, "RSP"));
+        sList.add(new Student("S0003", "Dori", "Female", "abc@123.com", 1,  "RAC"));
+        sList.add(new Student("S0004", "Kaveh", "Male", "abc@123.com", 1,"RES"));
+        sList.add(new Student("S0005", "Qiqi", "Female", "abc@123.com", 1, "RPY"));
+        sList.add(new Student("S0006", "Tighnari", "Male", "abc@123.com", 1, "RML"));
+        sList.add(new Student("S0007", "Xiangling", "Female", "abc@123.com", 1,  "RSD"));
+        sList.add(new Student("S0008", "Xingqiu", "Male", "abc@123.com", 1,  "REU"));
+        sList.add(new Student("S0009", "Chongyun", "Male", "abc@123.com", 1, "RBD"));
+        sList.add(new Student("S0010", "Collei", "Female", "abc@123.com", 1,  "RAC"));
+        sList.add(new Student("S0011", "Furina", "Female", "abc@123.com", 1,  "RBC"));
+        sList.add(new Student("S0012", "Kirara", "Female", "abc@123.com", 1,  "RIT"));
         return sList;
     }
 }

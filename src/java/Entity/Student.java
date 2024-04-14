@@ -11,24 +11,16 @@ package Entity;
 import Utility.Person;
 public class Student extends Person{
     
-    private int paymentStatus;
+   
     private String programmeId;
 
     
-    public Student(String id, String name,  String gender, String email, int status, int paymentStatus, String programmeId) {
+    public Student(String id, String name,  String gender, String email, int status, String programmeId) {
         super(id,name,gender,email,status);
-        this.paymentStatus = paymentStatus;
+       
         this.programmeId = programmeId;
     }
     
-
-    public int getPaymentStatus() {
-        return paymentStatus;
-    }
-
-    public void setPaymentStatus(int paymentStatus) {
-        this.paymentStatus = paymentStatus;
-    }
 
     public String getProgrammeId() {
         return programmeId;

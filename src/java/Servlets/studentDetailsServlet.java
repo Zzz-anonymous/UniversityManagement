@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Zy
  */
-@WebServlet(name = "studentDetailsServlet", urlPatterns = {"/studentDetailsServlet"})
+@WebServlet("/studentDetailsServlet")
 public class studentDetailsServlet extends HttpServlet {
 
     private static final ListInterface<StudentCourse> scList = StudentCourseDao.getAllCourses();
@@ -37,20 +37,11 @@ public class studentDetailsServlet extends HttpServlet {
         String pathInfo = request.getPathInfo();
 
         if (pathInfo == null || pathInfo.equals("/")) {
-            //ListInterface<StudentCourse> scList = StudentCourse.getAllCourses();
-//            if (scList.isEmpty()) {
-//                // Display alert message if no students were found
-//                PrintWriter out = response.getWriter();
-//                out.println("<script>alert('No Course were found.');</script>");
-//                out.println("<script>window.location.href = 'createCourse.jsp';</script>");
-//                out.close();
-//            } else 
-{
-                request.setAttribute("student", student);
-                request.setAttribute("scList", scList);
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/displayStudentDetails.jsp?id="+id);
-                dispatcher.forward(request, response);
-            }
+            request.setAttribute("student", student);
+            request.setAttribute("scList", scList);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/studentReport1.jsp?id=" + id);
+            dispatcher.forward(request, response);
+
         } else {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
         }

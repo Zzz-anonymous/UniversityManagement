@@ -4,19 +4,21 @@
  */
 package Entity;
 
+import adt.ListInterface;
+
 /**
  *
  * @author Zy
  */
 public class ProgrammeCourse {
     private String programmeId;
-    private String courseId;
+    private ListInterface<String> courseId;
 
     public ProgrammeCourse() {
     }
 
     // Constructor
-    public ProgrammeCourse(String programmeId, String courseId) {
+    public ProgrammeCourse(String programmeId, ListInterface<String> courseId) {
         this.programmeId = programmeId;
         this.courseId = courseId;
     }
@@ -30,11 +32,11 @@ public class ProgrammeCourse {
         this.programmeId = programmeId;
     }
 
-    public String getCourseId() {
+    public ListInterface<String> getCourseId() {
         return courseId;
     }
 
-    public void setCourseId(String courseId) {
+    public void setCourseId(ListInterface<String> courseId) {
         this.courseId = courseId;
     }
 }

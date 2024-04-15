@@ -72,7 +72,7 @@
                         <td><%= s.getName()%></td>
                         <td><%= s.getStatus() == 1 ? "Active" : "Inactive"%></td>          
                         <td><%= s.getProgrammeId()%></td>
-                        <td><a href="/UniversityManagement/addToCourseServlet?id=<%= s.getId()%>">Assign Courses</a></td>
+                        <td><a href="/UniversityManagement/addToCourseServlet?id=<%= s.getId()%>&status=<%= s.getStatus()%>">Assign Courses</a></td>
                         <td><a href="/UniversityManagement/studentBillServlet?id=<%= s.getId()%>">Billing</a></td>
                         <td><a href="/UniversityManagement/studentDetailsServlet?id=<%= s.getId()%>">Details</a></td>
                         <td><a href="/UniversityManagement/studentAmendServlet?id=<%= s.getId()%>">Edit</a></td>

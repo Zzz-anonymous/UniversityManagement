@@ -31,119 +31,101 @@ public class amendProgrammeServlet extends HttpServlet {
 
     private static ListInterface<Programme> pList = Tools.initializeProgrammes();
     private static ListInterface<Course> cList = CourseDao.getAllCourses();
-    private static final ListInterface<ProgrammeCourse> programmeCourses = ProgrammeCourseDao.getProgrammeCourse();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // programme id
         String id = request.getParameter("id");
 
         // Retrieve programme information
         Programme programme = ProgrammeDao.findProgrammeById(id); // Assuming this method exists in your ProgrammeDao class
         int index = ProgrammeDao.getIndex(id, pList);
         if (index != -1) {
-            // If not found in mergedList, check in inactiveList
             programme = pList.getData(index);
         }
 
         // Create a new ListInterface and add the programme to it
         ListInterface<Programme> programmeList = new LinkedList<>();
         programmeList.add(programme);
-
-        // Create pcList to store ProgrammeCourses that are in unchosenList
-        ListInterface<ProgrammeCourse> pcList = new LinkedList<>();
-
-        // Retrieve the ids from cList and get corresponding unchosenList for each course
-        for (int i = 1; i <= cList.getTotalNumberOfData(); i++) {
-            Course course = cList.getData(i);
-            ListInterface<ProgrammeCourse> unchosenList = ProgrammeCourseDao.getUnchosenListById(programme.getId(), course.getId());
-
-            // Check if unchosenList is not null before using it
-            if (unchosenList != null) {
-                // Iterate through unchosenList and add each element to pcList
-                for (int j = 1; j <= unchosenList.getTotalNumberOfData(); j++) {
-                    ProgrammeCourse programmeCourse = unchosenList.getData(j);
-                    pcList.add(programmeCourse);
-                }
-            } else {
-                for (int j = 1; j <= programmeCourses.getTotalNumberOfData(); j++) {
-                    ProgrammeCourse pc = programmeCourses.getData(j);
-                    pcList.add(pc);
-                }
-                
-            }
-        }
-
-        // Pass the programme, course list, and pcList to the JSP page
         request.setAttribute("programme", programmeList);
-        request.setAttribute("cList", cList);
-        request.setAttribute("pcList", pcList);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/amendProgramme.jsp");
+        // Retrieve the availableCourses for the program
+        ListInterface<ProgrammeCourse> availableCourses = ProgrammeCourseDao.getProgrammeCoursesByCourseId(id);
+        ListInterface<String> existingCourses = new LinkedList<>();
+
+        if (availableCourses != null && !availableCourses.isEmpty()) {
+            for (int i = 1; i <= availableCourses.getTotalNumberOfData(); i++) {
+                ProgrammeCourse pc = availableCourses.getData(i);
+                ListInterface<String> courseIds = pc.getCourseId();
+                if (courseIds != null && !courseIds.isEmpty()) {
+                    for (int j = 1; j <= courseIds.getTotalNumberOfData(); j++) {
+                        existingCourses.add(courseIds.getData(j));
+                    }
+                }
+            }
+            // Set attributes and forward request only if availableCourses is not null and not empty
+            request.setAttribute("existingCourses", existingCourses);
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/addCourseProgramme.jsp");
+            dispatcher.forward(request, response);
+        }
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/addCourseProgramme.jsp");
         dispatcher.forward(request, response);
+
     }
 
     @Override
-protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
-    String id = request.getParameter("id");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // programme id
+        String id = request.getParameter("id");
 
-    // Retrieve programme information based on the ID
-    Programme programme = ProgrammeDao.findProgrammeById(id);
+        // Retrieve programme information based on the ID
+        // Obtain the selected course IDs from the request parameters
+        String[] courseIds = request.getParameterValues("courseName");
 
-    int index = ProgrammeDao.getIndex(id, pList);
-    if (index != -1) {
-        // If not found in mergedList, check in inactiveList
-        programme = pList.getData(index);
-    }
+        // Validate the selected course IDs
+        if (courseIds == null) {
+            // Handle case where no course is selected
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('Please select at least 1 course!');</script>");
+            out.println("<script>window.location.href = '" + request.getContextPath() + "/amendProgrammeServlet?id=" + id + "';</script>");
+            out.close();
+            return;
+        }
 
-    // Obtain the selected course IDs from the request parameters
-    String[] courseIds = request.getParameterValues("courseName");
+        try {
+            // Create a new list to store the updated courses
+            ListInterface<ProgrammeCourse> updatedCourses = new LinkedList<>();
 
-    // Check if any course IDs are selected
-    if (courseIds != null && courseIds.length > 0) {
-        // Iterate over the selected course IDs
-        for (String courseId : courseIds) {
-            // Remove the association between the course and the program
-            ProgrammeCourseDao.removeCourseFromProgramme(courseId, id);
+            // Update or add courses
+            for (String courseId : courseIds) {
+                // Retrieve the course object corresponding to the course ID
+                ProgrammeCourse pc = ProgrammeCourseDao.getCourseById(courseId,id);
 
-            // Retrieve the course object corresponding to the course ID
-            Course course = ProgrammeCourseDao.getCourseById(courseId,id);
-
-            // If the course object is not null, add it to the programme's course list
-            if (course != null) {
-                ProgrammeCourseDao.addProgrammeCourse(programme, course);
+                if (pc == null) {
+                    // If no course exists for the student and course ID, mark it for addition
+                    ListInterface<String> coursesIds = new LinkedList<>();
+                    coursesIds.add(courseId);
+                    ProgrammeCourse programmeCourse = new ProgrammeCourse(id, coursesIds);
+                    updatedCourses.add(programmeCourse);
+                }
+                ProgrammeCourseDao.replaceCourseList(updatedCourses);
             }
-        }
-    } else {
-        // No course types selected, display an alert message
-        PrintWriter out = response.getWriter();
-        out.println("<script>alert('Please select at least one course!');</script>");
-        out.println("<script>window.location.href = '" + request.getContextPath() + "/amendProgrammeServlet?id=" + id + "';</script>");
-        out.close();
-        return; // Exit the method
-    }
 
-    // Now update the pcList with unchosen courses
-    ListInterface<ProgrammeCourse> pcList = new LinkedList<>();
-    for (int i = 1; i <= programmeCourses.getTotalNumberOfData(); i++) {
-        ProgrammeCourse course = programmeCourses.getData(i);
-        ListInterface<ProgrammeCourse> unchosenList = ProgrammeCourseDao.getUnchosenListById(course.getCourseId(), course.getProgrammeId());
-        if (unchosenList != null && unchosenList.contains(course)) {
-            pcList.add(course);
+            // Redirect back to the page with a success message or any other necessary action
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('Record saved successfully!');</script>");
+            out.println("<script>window.location.href = '" + request.getContextPath() + "/programmeServlet?id=" + id + "';</script>");
+            out.close();
+
+        } catch (Exception e) {
+            // If any exception occurs during processing, show error message
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('Failed to add program course: " + e.getMessage() + "');</script>");
+            out.println("<script>window.location.href = '" + request.getContextPath() + "/amendProgrammeServlet?id=" + id + "';</script>");
+            out.close();
         }
     }
-
-    // Set the courseIds attribute for the JSP page
-    request.setAttribute("courseIds", courseIds);
-    // Pass the updated pcList to the JSP page
-    request.setAttribute("pcList", pcList);
-
-    // Redirect back to the page with a success message or any other necessary action
-    PrintWriter out = response.getWriter();
-    out.println("<script>alert('Record saved successfully!');</script>");
-    out.println("<script>window.location.href = '" + request.getContextPath() + "/amendProgrammeServlet?id=" + id + "';</script>");
-    out.close();
-}
-
 }

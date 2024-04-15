@@ -25,11 +25,12 @@ public class ProgrammeCourseDao {
     private static ListInterface<ProgrammeCourse> unchosenList = new LinkedList<>();
 
     // Create operation
-    public static void addProgrammeCourse(Programme programme, Course course) {
-        String programmeId = programme.getId();  // Assuming getId() returns the programme's identifier
-        String courseId = course.getId();        // Assuming getId() returns the course's identifier
-        ProgrammeCourse programmeCourse = new ProgrammeCourse(programmeId, courseId);
-        programmeCourses.add(programmeCourse);
+    public static void addProgrammeCourse(ListInterface<ProgrammeCourse> courses) {
+        // Iterate over the courses list and add each course individually
+        for (int i = 1; i <= courses.getTotalNumberOfData(); i++) {
+            ProgrammeCourse programmeCourse = courses.getData(i);
+            programmeCourses.add(programmeCourse);
+        }
     }
 
     public static ListInterface<ProgrammeCourse> getProgrammeCourse() {
@@ -37,22 +38,18 @@ public class ProgrammeCourseDao {
     }
 
     // Read unchosen list by programmeId and course id
-    public static ListInterface<ProgrammeCourse> getUnchosenListById(String courseId, String programmeId) {
-        // Iterate over the programmeCourses list
+    public static ListInterface<ProgrammeCourse> getProgrammeCoursesByCourseId( String programmeId) {
+        ListInterface<ProgrammeCourse> filteredList = new LinkedList<>();
         for (int i = 1; i <= programmeCourses.getTotalNumberOfData(); i++) {
             ProgrammeCourse pc = programmeCourses.getData(i);
-            // Check if the current ProgrammeCourse's IDs match the specified courseId and programmeId
-            // If they don't match, add the ProgrammeCourse to the unchosenList
-            if (!pc.getCourseId().equals(courseId) || !pc.getProgrammeId().equals(programmeId)) {
-                unchosenList.add(pc);
+            if (pc.getProgrammeId().equals(programmeId)) {
+                filteredList.add(pc);
             }
         }
-
-        // Return the unchosenList
-        return unchosenList;
+        return filteredList;
     }
 
-    // dont modify !!!!!!!!
+    // get course name from cList
     public static String getCourseNameById(String courseId, String programmeId) {
         // Iterate over the list of courses
         for (int i = 1; i <= cList.getTotalNumberOfData(); i++) {
@@ -76,37 +73,21 @@ public class ProgrammeCourseDao {
         return null;
     }
 
-    public static Course getCourseById(String courseId, String programmeId) {
+    public static ProgrammeCourse getCourseById(String courseId, String programmeId) {
         for (int i = 1; i <= programmeCourses.getTotalNumberOfData(); i++) {
             ProgrammeCourse pc = programmeCourses.getData(i);
             // Check if the current ProgrammeCourse's IDs match the specified courseId and programmeId
-            if (pc.getCourseId().equals(courseId) && pc.getProgrammeId().equals(programmeId)) {
+            if (pc.getCourseId().contains(courseId) && pc.getProgrammeId().equals(programmeId)) {
                 // Retrieve the course name using the courseId
-                Course course = CourseDao.getCourseById(courseId);
-                if (course != null) {
-                    // Return the course name
-                    return course;
+                    return pc;
                 }
-
-            }
         }
         // Return null if no course with the given courseId and programmeId is found
         return null;
     }
 
-    public static void removeCourseFromProgramme(String courseId, String programmeId) {
-        // Iterate through the programmeCourses list
-        Iterator<ProgrammeCourse> iterator = programmeCourses.getIterator();
-        while (iterator.hasNext()) {
-            ProgrammeCourse pc = iterator.next();
-            // Check if the current ProgrammeCourse's IDs match the specified courseId and programmeId
-            if (pc.getCourseId().equals(courseId) && pc.getProgrammeId().equals(programmeId)) {
-                // Remove the ProgrammeCourse from the programmeCourses list
-                iterator.remove(); // Safe removal using Iterator
-                // No need to add the removed course back to the unchosen list
-                break; // Exit loop after first occurrence is removed
-            }
-        }
+    public static void removeCourseFromProgramme() {
+        programmeCourses.clear();
     }
 
     public static int getIndex(String id, ListInterface<Programme> list) {
@@ -136,26 +117,22 @@ public class ProgrammeCourseDao {
         return -1;
     }
 
-    // Helper method to get a Course object by ID from a list of courses
-    public static Course getCourseById(ListInterface<Course> courseList, String courseId) {
-        for (int i = 1; i <= courseList.getTotalNumberOfData(); i++) {
-            Course course = courseList.getData(i);
-            if (course.getId().equals(courseId)) {
-                return course;
-            }
-        }
-        return null;
-    }
 
     // Helper method to check if a course is chosen
     public static boolean isCourseChosen(ListInterface<ProgrammeCourse> pcourse, String courseId) {
         for (int i = 1; i <= pcourse.getTotalNumberOfData(); i++) {
             ProgrammeCourse pc = pcourse.getData(i);
-            if (pc.getCourseId().equals(courseId)) {
+            if (pc.getCourseId().contains(courseId)) {
                 return true;
             }
         }
         return false;
+    }
+
+    public static void replaceCourseList(ListInterface<ProgrammeCourse> updatedCourses) {
+        // replace the existing list of courses with the updated one
+        removeCourseFromProgramme();
+        addProgrammeCourse(updatedCourses);
     }
 
 }

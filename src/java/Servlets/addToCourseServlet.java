@@ -29,7 +29,6 @@ import javax.servlet.http.HttpServletResponse;
 public class addToCourseServlet extends HttpServlet {
 
     private final static ListInterface<Student> mergedList = StudentDao.getAllStudents();
-    private static final ListInterface<StudentCourse> scList = StudentCourseDao.getAllCourses();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

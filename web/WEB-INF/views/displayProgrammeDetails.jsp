@@ -4,6 +4,7 @@
     Author     : Zy
 --%>
 
+<%@page import="Entity.ProgrammeCourse"%>
 <%@page import="Dao.ProgrammeCourseDao"%>
 <%@page import="adt.ListInterface"%>
 <%@page import="adt.*"%>
@@ -23,6 +24,7 @@
         <main>
             <%
                 ListInterface<Course> cList = CourseDao.getAllAvailableCourses();
+                ListInterface<ProgrammeCourse> pcList = ProgrammeCourseDao.getProgrammeCourse();
                 ListInterface<Programme> pList = (ListInterface<Programme>) request.getAttribute("programme");
                 if (pList != null && !pList.isEmpty()) {
                     for (int i = 1; i <= pList.getTotalNumberOfData(); i++) {
@@ -37,26 +39,36 @@
                     <th>Programme Name</th>
                     <td><%= p.getName()%></td>
                 </tr>
-                
+
                 <tr >
                     <th colspan="2">CourseName</th>
                 </tr>
                 <%
-                    boolean courseFound = false; // Flag to track if any courses are found
-                    for (int j = 1; j <= cList.getTotalNumberOfData(); j++) {
-                        Course c = cList.getData(j);
-                        if (ProgrammeCourseDao.getCourseNameById(c.getId(), p.getId()) != null) {
-                            String cName = ProgrammeCourseDao.getCourseNameById(c.getId(), p.getId());
+                    boolean courseTaken = false;
+
+                    int courseIndex = 1; // Initialize courseIndex variable
+                    if (pcList != null) {
+                        for (int k = 1; k <= pcList.getTotalNumberOfData(); k++) {
+                            ProgrammeCourse pc = pcList.getData(k);
+                            if (pc.getProgrammeId().equals(p.getId())) {
+                                courseTaken = true;
+                                for (int j = 1; j <= cList.getTotalNumberOfData(); j++) {
+                                    Course c = cList.getData(j);
+                                    String cName = ProgrammeCourseDao.getCourseNameById(c.getId(), p.getId());
+                                    if (pc.getCourseId().contains(c.getId())) {
                 %>
                 <tr>
-                    <td colspan="2"><%= cName%></td>
+                    <td colspan="2"><%= courseIndex + ") "%><%= cName%></td>
                 </tr>
                 <%
-                            courseFound = true; // Set flag to true since a course is found
+                                        courseIndex++; // Increment courseIndex after displaying each course
+
+                                    }
+                                }
+                            }
                         }
                     }
-                    // If no course is found, display "No Course"
-                    if (!courseFound) {
+                    if (!courseTaken) {
                 %>
                 <tr>
                     <td colspan="2">No Course</td>
@@ -66,7 +78,7 @@
                 %>
             </table>
             <%}
-            }%>
+                }%>
 
         </main>
         <%@include file="/shared/footer.jsp"%>

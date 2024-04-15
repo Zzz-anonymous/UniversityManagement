@@ -22,7 +22,6 @@ public class Course {
     private ListInterface<Programme> programme;
     private double fees;
     private int availability;
-    private int maxCapacity = 200;
     private Tutor tutor;
     private Faculty faculty;
     
@@ -114,14 +113,7 @@ public class Course {
         this.availability = availability;
     }
 
-    public int getMaxCapacity() {
-        return maxCapacity;
-    }
-
-    public void setMaxCapacity(int maxCapacity) {
-        this.maxCapacity = maxCapacity;
-    }
-
+   
     private void setFeesAutomatically(int creditHours){
         switch (creditHours) {
             case 2:

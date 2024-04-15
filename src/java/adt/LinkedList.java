@@ -208,6 +208,11 @@ public class LinkedList<T> implements ListInterface<T> {
     public boolean isFull() {
         return false;
     }
+    
+    @Override
+    public boolean replace(int position, T newData) {
+        throw new UnsupportedOperationException();
+    }
 
     @Override
     public String toString() {

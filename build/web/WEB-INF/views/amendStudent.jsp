@@ -19,7 +19,8 @@
             <h1>Update Student Details</h1>
         </header>
         <main>
-            <form action="studentAmendServlet" method="post">
+            <form action="/UniversityManagement/studentServlet" method="post">
+                <input type="hidden" name="action" value="amendResult">
                 <input type="hidden" name="id" value="${student.id}">
                 <table width="100%">
                     <tr>

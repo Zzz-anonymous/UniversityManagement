@@ -19,9 +19,7 @@
         <main>
             <%
                 ListInterface<Student> initializeStudent = Tools.initializeStudents();
-                ListInterface<Student> inactiveList = (ListInterface<Student>) request.getAttribute("inactiveList");
-                ListInterface<Student> sr = (ListInterface<Student>) request.getAttribute("searchResults");
-                boolean showSearchResults = sr != null && !sr.isEmpty();
+                ListInterface<Student> inactiveList = (ListInterface<Student>) request.getAttribute("resultList");
             %>
 
             <div>
@@ -32,7 +30,7 @@
                         Student p = initializeStudent.getData(i);
                 %>
                 <span>|</span>
-                <a href="filterInactiveStudentServlet?programId=<%= p.getProgrammeId()%>"><%= p.getProgrammeId()%></a>
+                <a href="studentServlet?action=filterInactiveStudents&programId=<%= p.getProgrammeId()%>"><%= p.getProgrammeId()%></a>
                 <% } %>
             </div>
             <form action="studentServlet" method="get" style="margin-top: 10px">

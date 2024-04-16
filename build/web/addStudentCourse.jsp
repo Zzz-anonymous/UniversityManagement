@@ -3,6 +3,7 @@
     Created on : 10 Mar 2024, 3:17:20 pm
     Author     : Zy
 --%>
+<%@page import="Entity.ProgrammeCourse"%>
 <%@page import="Entity.Student"%>
 <%@page import="Dao.ProgrammeCourseDao"%>
 <%@page import = "adt.*"%>
@@ -15,11 +16,11 @@
     <div class="home-content">
         <i class='bx bx-menu'></i>
         <header>
-            <!--Credit hours cannot > 23-->
             <h1>Student Course Registration</h1>
         </header>
         <main>
-            <form method="post" action="addToCourseServlet">
+            <form style="padding-bottom:10px" action="/UniversityManagement/studentServlet" method="post">
+                <input type="hidden" name="action" value="assignStudentCourses">
                 <input type="hidden" name="id" value="${student.id}">
                 <div>
                     <table width="100%" class="table">
@@ -45,28 +46,31 @@
 
                         <%
                             ListInterface<Course> cList = (ListInterface<Course>) CourseDao.getAllAvailableCourses();
+                            ListInterface<ProgrammeCourse> pcList = ProgrammeCourseDao.getProgrammeCourse();
                             Student student = (Student) request.getAttribute("student");
                             String programmeId = student.getProgrammeId();
                             ListInterface<String> existingCourses = (ListInterface<String>) request.getAttribute("existingCourses");
                             ListInterface<String> courseStatuses = (ListInterface<String>) request.getAttribute("courseStatuses"); // Retrieve courseStatuses from request attribute
 
                             // Check if there are available courses
-                            if (cList != null && !cList.isEmpty()) {
-                                // Iterate over the list of courses
-                                for (int j = 1; j <= cList.getTotalNumberOfData(); j++) {
-                                    Course c = cList.getData(j);
-                                    String courseId = c.getId();
-                                    int creditHours = c.getCreditHours();
-                                    String cName = ProgrammeCourseDao.getCourseNameById(courseId, programmeId);
-                                    if (cName != null) {
-                                        // Check if the current course is already selected by the student
-                                        boolean isCourseSelected = existingCourses != null && existingCourses.contains(courseId);
-                                        // Retrieve status for the current courseId
-                                        String status = courseStatuses != null ? courseStatuses.getData(j) : "Main"; // Use "Main" as default if status is not available
-                        %>
+                            if (pcList != null) {
+                                for (int k = 1; k <= pcList.getTotalNumberOfData(); k++) {
+                                    ProgrammeCourse pc = pcList.getData(k);
+                                    if (pc.getProgrammeId().equals(programmeId)) {
+                                        for (int j = 1; j <= cList.getTotalNumberOfData(); j++) {
+                                            Course c = cList.getData(j);
+                                            String courseId = c.getId();
+                                            int creditHours = c.getCreditHours();
+                                            String cName = ProgrammeCourseDao.getCourseNameById(courseId, programmeId);
+                                            if (pc.getCourseId().contains(courseId)) {
+                                                // Check if the current course is already selected by the student
+                                                boolean isCourseSelected = existingCourses != null && existingCourses.contains(courseId);
+                                                // Retrieve status for the current courseId
+                                                String status = courseStatuses != null ? courseStatuses.getData(j) : "Main"; // Use "Main" as default if status is not available
+%>
                         <tr data-checkable>
                             <td>
-                                <input name="courseId" type="checkbox" value="<%= courseId%>" <%= isCourseSelected ? "checked" : ""%> />
+                                <input name="courseId" type="checkbox" value="<%= c.getId()%>" <%= isCourseSelected ? "checked" : ""%> />
                                 <%= cName + "\n"%>
                             </td>
                             <td>
@@ -83,12 +87,12 @@
                             </td>
                         </tr>
                         <%
-                        } else {
+                        //} else {
                         %>
-                        <tr>
-                            <td colspan="3">No Available courses</td>
-                        </tr>
+                        
                         <%
+                                        }
+                                    }
                                 }
                             }
                         } else {

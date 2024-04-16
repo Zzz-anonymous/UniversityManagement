@@ -12,13 +12,16 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/User/OneDrive/文档/NetBeansProjects/UniversityManagement/src/java/Servlets/programmeServlet.java</file>
-            <file>file:/C:/Users/User/OneDrive/文档/NetBeansProjects/UniversityManagement/web/WEB-INF/views/addCourseProgramme.jsp</file>
-            <file>file:/C:/Users/User/OneDrive/文档/NetBeansProjects/UniversityManagement/src/java/Dao/StudentCourseDao.java</file>
-            <file>file:/C:/Users/User/OneDrive/文档/NetBeansProjects/UniversityManagement/src/java/Servlets/amendProgrammeServlet.java</file>
-            <file>file:/C:/Users/User/OneDrive/文档/NetBeansProjects/UniversityManagement/src/java/Dao/ProgrammeCourseDao.java</file>
-            <file>file:/C:/Users/User/OneDrive/文档/NetBeansProjects/UniversityManagement/src/java/Servlets/addToCourseServlet.java</file>
-            <file>file:/C:/Users/User/OneDrive/文档/NetBeansProjects/UniversityManagement/web/WEB-INF/views/displayProgrammeDetails.jsp</file>
+            <file>file:/C:/Users/User/OneDrive/文档/NetBeansProjects/UniversityManagement/src/java/Servlets/studentDeleteServlet.java</file>
+            <file>file:/C:/Users/User/OneDrive/文档/NetBeansProjects/UniversityManagement/src/java/Dao/StudentDao.java</file>
+            <file>file:/C:/Users/User/OneDrive/文档/NetBeansProjects/UniversityManagement/web/WEB-INF/views/inactiveCourses.jsp</file>
+            <file>file:/C:/Users/User/OneDrive/文档/NetBeansProjects/UniversityManagement/web/WEB-INF/views/displayCourses.jsp</file>
+            <file>file:/C:/Users/User/OneDrive/文档/NetBeansProjects/UniversityManagement/src/java/Servlets/deleteCourseServlet.java</file>
+            <file>file:/C:/Users/User/OneDrive/文档/NetBeansProjects/UniversityManagement/web/WEB-INF/views/inactiveStudents.jsp</file>
+            <file>file:/C:/Users/User/OneDrive/文档/NetBeansProjects/UniversityManagement/web/WEB-INF/views/students.jsp</file>
+            <file>file:/C:/Users/User/OneDrive/文档/NetBeansProjects/UniversityManagement/web/createCourse.jsp</file>
+            <file>file:/C:/Users/User/OneDrive/文档/NetBeansProjects/UniversityManagement/src/java/Servlets/createCourseServlet.java</file>
+            <file>file:/C:/Users/User/OneDrive/文档/NetBeansProjects/UniversityManagement/src/java/Dao/CourseDao.java</file>
         </group>
     </open-files>
 </project-private>

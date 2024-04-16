@@ -53,7 +53,7 @@ public class amendCourseServlet extends HttpServlet {
         request.setAttribute("selectedCTypes", selectedCTypes);
         request.setAttribute("selectedProgrammes", selectedProgrammes);
         request.setAttribute("tutorName", tutorName);
-        request.setAttribute("available",available);
+        
         
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/amendCourse.jsp");
         dispatcher.forward(request, response);
@@ -123,11 +123,10 @@ public class amendCourseServlet extends HttpServlet {
         // Get the faculty object using the name
         Faculty facultyName = CourseDao.findfacultiesByName(f);
         
-        String avail = request.getParameter("available");
-        int available = Integer.parseInt(avail);
+        
 
         // Create a new Course object with the provided data
-        Course c = new Course(id, name, details, selectedCTypes, creditHours, tutorName, programmes,facultyName, available);
+        Course c = new Course(id, name, details, selectedCTypes, creditHours, tutorName, programmes,facultyName, 1);
 
         // Check if studentList is empty
         if (cList.isEmpty()) {

@@ -148,16 +148,7 @@
                             }
                         %>
                         
-                        <tr>
-                            <td><label for="available">Availability:</label> </td>
-                            <td>
-                                <select name="available" id="available">
-                                    <option value="1" ${available == 1 ? "selected" : ""}>Yes</option>
-                                    <option value="0" ${available == 0 ? "selected" : ""}>No</option>           
-                                </select>
-
-                            </td>
-                        </tr>
+                        
                         <tr>
                             <td></td>
                             <td>

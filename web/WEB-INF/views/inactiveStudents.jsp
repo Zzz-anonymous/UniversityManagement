@@ -14,13 +14,9 @@
     <div class="home-content">
         <i class='bx bx-menu'></i>
         <header>
-            <h1>Student Details</h1>
+            <h1>Inactive Student Details</h1>
         </header>
         <main>
-            <form style="padding-bottom:10px" action="studentSearchServlet" method="post">
-                <input type="search" id="search" name="search" placeholder="Search Names" autofocus>        
-            </form>
-
             <%
                 ListInterface<Student> initializeStudent = Tools.initializeStudents();
                 ListInterface<Student> inactiveList = (ListInterface<Student>) request.getAttribute("inactiveList");
@@ -43,10 +39,10 @@
                 <button>Active List</button>
             </form>
             <div style=" margin-top: 10px;">
-               <%
-                   int records = inactiveList.getTotalNumberOfData();
-               %>
-               <%= records %> record(s)
+                <%
+                    int records = inactiveList.getTotalNumberOfData();
+                %>
+                <%= records%> record(s)
             </div>
             <table border="1" style="width:80%; margin-top: 10px;" class="table">
                 <thead>
@@ -60,23 +56,10 @@
                     </tr>
                 </thead>    
                 <tbody>
-                    <% if (showSearchResults) {
-                            for (int i = 1; i <= sr.getTotalNumberOfData(); i++) {
-                                Student s = sr.getData(i);
-                    %>
-                    <tr>
-                        <td><%= s.getId()%></td>
-                        <td><%= s.getName()%></td>
-                        <td><%= s.getGender()%></td>
-                        <td><%= s.getEmail()%></td>
-                        <td><%= s.getStatus() == 1 ? "Active" : "Inactive"%></td>  
-                        <td><%= s.getProgrammeId()%></td>
-                    </tr>
                     <%
-                        }
-                    } else if (inactiveList != null && !inactiveList.isEmpty()) {
-                        for (int i = 1; i <= inactiveList.getTotalNumberOfData(); i++) {
-                            Student s = inactiveList.getData(i);
+                        if (inactiveList != null && !inactiveList.isEmpty()) {
+                            for (int i = 1; i <= inactiveList.getTotalNumberOfData(); i++) {
+                                Student s = inactiveList.getData(i);
                     %>
                     <tr>
                         <td><%= s.getId()%></td>
@@ -91,7 +74,7 @@
                     } else {
                     %>
                     <tr>
-                        <td colspan="7">No student records found</td>
+                        <td colspan="6">No student records found</td>
                     </tr>
                     <% }%>
                 </tbody>

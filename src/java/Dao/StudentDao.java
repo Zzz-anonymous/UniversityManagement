@@ -18,7 +18,7 @@ import java.util.Iterator;
 
 public class StudentDao {
 
-    // Create an ArrayList to store Student objects
+    // Create an LinkedList to store Student objects
     private static ListInterface<Student> inactiveList = new LinkedList<>();
     private final static ListInterface<Student> initialzeStudents = Tools.initializeStudents();
     private final static ListInterface<Student> mergedList = new LinkedList<>();
@@ -185,28 +185,5 @@ public class StudentDao {
 
         return searchResults;
     }
-
-//    public static LinkedList<Student> validateStudentIds(String[] selectedIds) {
-//        LinkedList<Student> selectedStudents = new LinkedList<>();
-//
-//        // Get an iterator for the LinkedList
-//        Iterator<Student> iterator = mergedList.getIterator();
-//
-//        // Iterate through the LinkedList
-//        while (iterator.hasNext()) {
-//            Student student = iterator.next();
-//            String id = student.getId(); // Assuming getId() returns the student ID
-//
-//            // Check if the student ID is in the selected IDs array
-//            for (String selectedId : selectedIds) {
-//                if (id.equals(selectedId)) {
-//                    selectedStudents.add(student);
-//                    break; // Move to the next student once found
-//                }
-//            }
-//        }
-//
-//        return selectedStudents;
-//    }
 
 }

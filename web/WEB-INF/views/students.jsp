@@ -100,7 +100,7 @@
                     } else {
                     %>
                     <tr>
-                        <td colspan="10">No student records found</td>
+                        <td colspan="9">No student records found</td>
                     </tr>
                     <% }%>
                 </tbody>

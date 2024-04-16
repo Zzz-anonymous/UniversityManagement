@@ -123,14 +123,7 @@
                         <%
                             }
                         %>
-                        <tr>
-                            <td><label for="avail">Availability:</label> </td>
-                            <td><select name="avail" id="avail">
-                                    <option value="1">Yes</option>
-                                    <option value="0">No</option>           
-                                </select>
-                            </td>
-                        </tr>
+                        
                         <tr>
                             <td></td>
                             <td>

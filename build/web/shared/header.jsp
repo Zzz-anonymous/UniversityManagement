@@ -103,12 +103,12 @@
                 <li>
                     <a href="#">
                         <i class='bx bx-line-chart'></i>
-                        <span class="link_name">Chart</span>
+                        <span class="link_name">Report</span>
                     </a>
                    
                     <ul class="sub-menu">
-                        <li><a class="link_name" href="#">Chart</a></li>
-                        <li><a href="/UniversityManagement/studentChart">Student Chart</a></li>
+                        <li><a class="link_name" href="#">Report</a></li>
+                        <li><a href="/UniversityManagement/studentServlet?action=studentChart">Student Chart</a></li>
                         
                     </ul>
 

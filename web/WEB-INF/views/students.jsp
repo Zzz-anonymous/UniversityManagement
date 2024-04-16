@@ -15,13 +15,14 @@
             <h1>Student Lists</h1>
         </header>
         <main>
-            <form style="padding-bottom:10px" action="studentSearchServlet" method="post">
+            <form style="padding-bottom:10px" action="/UniversityManagement/studentServlet" method="post">
+                <input type="hidden" name="action" value="searchStudent">
                 <input type="search" id="search" name="search" placeholder="Search Names" autofocus>        
             </form>
 
             <%
                 ListInterface<Student> initializeStudent = Tools.initializeStudents();
-                ListInterface<Student> mergedList = (ListInterface<Student>) request.getAttribute("mergedList");
+                ListInterface<Student> mergedList = (ListInterface<Student>) request.getAttribute("resultList");
                 ListInterface<Student> sr = (ListInterface<Student>) request.getAttribute("searchResults");
                 boolean showSearchResults = sr != null && !sr.isEmpty();
             %>
@@ -34,19 +35,29 @@
                         Student p = initializeStudent.getData(i);
                 %>
                 <span>|</span>
-                <a href="studentSearchServlet?programId=<%= p.getProgrammeId()%>"><%= p.getProgrammeId()%></a>
+                <a href="studentServlet?action=filterStudents&programId=<%= p.getProgrammeId()%>"><%= p.getProgrammeId()%></a>
                 <% } %>
             </div>
-            <div style=" margin-top: 10px;">
-                <form action="studentDeleteServlet" method="post">
-                    <button>Inactive List</button>
+            <div style="margin-top: 10px;">
+                <form action="/UniversityManagement/studentServlet" method="post">
+                    <input type="hidden" name="action" value="viewInactive">
+                    <button type="submit">Inactive List</button>
                 </form>
             </div>
+
             <div style=" margin-top: 10px;">
                 <%
-                    int records = mergedList.getTotalNumberOfData();
+                    if (showSearchResults) {
+                        int records = sr.getTotalNumberOfData();
                 %>
                 <%= records%> record(s)
+                <%
+                } else {
+                    int records = mergedList.getTotalNumberOfData();
+
+                %>
+                <%= records%> record(s)
+                <%}%>
             </div>
             <table border="1" style="width:80%; margin-top: 10px" class="table">
                 <thead>
@@ -72,11 +83,11 @@
                         <td><%= s.getName()%></td>
                         <td><%= s.getStatus() == 1 ? "Active" : "Inactive"%></td>          
                         <td><%= s.getProgrammeId()%></td>
-                        <td><a href="/UniversityManagement/addToCourseServlet?id=<%= s.getId()%>&status=<%= s.getStatus()%>">Assign Courses</a></td>
-                        <td><a href="/UniversityManagement/studentBillServlet?id=<%= s.getId()%>">Billing</a></td>
-                        <td><a href="/UniversityManagement/studentDetailsServlet?id=<%= s.getId()%>">Details</a></td>
-                        <td><a href="/UniversityManagement/studentAmendServlet?id=<%= s.getId()%>">Edit</a></td>
-                        <td><a href="/UniversityManagement/studentDeleteServlet?id=<%= s.getId()%>">Delete</a></td>                           
+                        <td><a href="/UniversityManagement/studentServlet?action=displayStudentCourses&id=<%= s.getId()%>&status=<%= s.getStatus()%>">Assign Courses</a></td>
+                        <td><a href="/UniversityManagement/studentServlet?action=displayPaymentDetails&id=<%= s.getId()%>">Billing</a></td>
+                        <td><a href="/UniversityManagement/studentServlet?action=displayStudentDetails&id=<%= s.getId()%>">Details</a></td>
+                        <td><a href="/UniversityManagement/studentServlet?action=amendStudent&id=<%= s.getId()%>">Edit</a></td>
+                        <td><a href="/UniversityManagement/studentServlet?action=delete&id=<%= s.getId()%>">Delete</a></td>                           
                     </tr>
                     <%
                         }
@@ -89,11 +100,11 @@
                         <td><%= s.getName()%></td>
                         <td><%= s.getStatus() == 1 ? "Active" : "Inactive"%></td>
                         <td><%= s.getProgrammeId()%></td>
-                        <td><a href="/UniversityManagement/addToCourseServlet?id=<%= s.getId()%>&status=<%= s.getStatus()%>">Assign Courses</a></td>
-                        <td><a href="/UniversityManagement/studentBillServlet?id=<%= s.getId()%>">Billing</a></td>
-                        <td><a href="/UniversityManagement/studentDetailsServlet?id=<%= s.getId()%>">Details</a></td>
-                        <td><a href="/UniversityManagement/studentAmendServlet?id=<%= s.getId()%>">Edit</a></td>
-                        <td><a href="/UniversityManagement/studentDeleteServlet?id=<%= s.getId()%>">Delete</a></td>                           
+                        <td><a href="/UniversityManagement/studentServlet?action=displayStudentCourses&id=<%= s.getId()%>&status=<%= s.getStatus()%>">Assign Courses</a></td>
+                        <td><a href="/UniversityManagement/studentServlet?action=displayPaymentDetails&id=<%= s.getId()%>">Billing</a></td>
+                        <td><a href="/UniversityManagement/studentServlet?action=displayStudentDetails&id=<%= s.getId()%>">Details</a></td>
+                        <td><a href="/UniversityManagement/studentServlet?action=amendStudent&id=<%= s.getId()%>">Edit</a></td>
+                        <td><a href="/UniversityManagement/studentServlet?action=delete&id=<%= s.getId()%>">Delete</a></td>                           
                     </tr>
                     <%
                         }

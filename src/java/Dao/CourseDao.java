@@ -19,8 +19,8 @@ public class CourseDao {
 
     // Create an LinkedList to store course objects
     private static ListInterface<Course> cList = new LinkedList<>();
-
-    private static ListInterface<Programme> pList = new LinkedList<>();
+    private static ListInterface<Course> inactiveList = new LinkedList<>();
+    
 
     // add new course
     public static void addCourse(Course s) {
@@ -32,18 +32,47 @@ public class CourseDao {
         return cList;
     }
 
+    public static ListInterface<Course> getInactiveCourses() {
+        
+        // Return the inactive list
+        return inactiveList;
+    }
+    
     // delete course
     public static boolean deleteCourse(String id, ListInterface<Course> list) {
-        // Check if the student ID is available
+        // Check if the course ID is available in the given list
         int index = getIndex(id, list);
         if (index != -1) {
-            // Remove the student from the list
-            cList.remove(index);
+            // Get the course from the list
+            Course course = list.getData(index);
+
+            // Set the availability of the course to indicate deletion
+            course.setAvailability(0); // set course availability as inactive(0)
+
+            // Remove the course from the given list
+            list.remove(index);
+            inactiveList.add(course);
             return true; // Deletion successful
         } else {
-            return false; // Student not found
+            return false; // course not found
         }
     }
+
+    public static ListInterface<Course> getInactiveCoursesByFid(String fId) {
+        ListInterface<Course> filterResult = new LinkedList<>();
+
+        // Iterate through the mergedList and add students with matching programmeId
+        Iterator<Course> iterator = inactiveList.getIterator();
+        while (iterator.hasNext()) {
+            Course c = iterator.next();
+            if (c.getFaculty().getId().equals(fId)) {
+                filterResult.add(c);
+            }
+        }
+
+        return filterResult;
+    }
+    
 
     // update course
     public static boolean updateStudent(String id, Course updatedCourse, ListInterface<Course> list) {

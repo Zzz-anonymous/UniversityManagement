@@ -41,6 +41,18 @@
                 <% } %>
             </div>
 
+            <div style=" margin-top: 10px;">
+                <form action="deleteCourseServlet" method="post">
+                    <button>Inactive List</button>
+                </form>
+            </div>
+            
+            <div style=" margin-top: 10px;">
+                <%
+                    int records = cList.getTotalNumberOfData();
+                %>
+                <%= records%> record(s)
+            </div>
 
             <table border="1" style="width:80%;" class="table">
                 <thead>
@@ -132,7 +144,7 @@
                         <!--TODO-->
                         <!-- delete and modification havent done  -->
                         <td><a href="/UniversityManagement/amendCourseServlet?id=<%= c.getId()%>">Edit</a></td>
-                        <td><a href="/UniversityManagement/studentDeleteServlet?id=<%= c.getId()%>">Delete</a></td>                           
+                        <td><a href="/UniversityManagement/deleteCourseServlet?id=<%= c.getId()%>">Delete</a></td>                                                      
                     </tr>
                     <%
                         }

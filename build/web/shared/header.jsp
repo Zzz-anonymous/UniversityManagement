@@ -51,14 +51,13 @@
                     <div class="iocn-link">
                         <a href="#">
                             <i class='bx bx-collection'></i>
-                            <span class="link_name">Tutor Details</span>
+                            <span class="link_name">Tutor List</span>
                         </a>
                         <i class='bx bxs-chevron-down arrow'></i>
                     </div>
                     <ul class="sub-menu">
-                        <li><a class="link_name" href="#">Tutor Details</a></li>
-                        <li><a href="insertStudent.jsp">Add student</a></li>
-                        <li><a href="/UniversityManagement/studentServlet">View student Details</a></li>
+                        <li><a class="link_name" href="#">Tutor List</a></li>
+                        <li><a href="displayTutors.jsp">View Tutor List</a></li>
                     </ul>
                 </li>
                 <li>
@@ -72,8 +71,7 @@
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Course Management</a></li>
                         <li><a href="createCourse.jsp">Create Course</a></li>
-                        <li><a href="/UniversityManagement/createCourseServlet">View Courses</a></li>
-                        <li><a href="#">Card Design</a></li>
+                        <li><a href="/UniversityManagement/courseServlet">View Courses</a></li>
                     </ul>
                 </li>
                 <li>
@@ -87,19 +85,10 @@
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Programme Management</a></li>
                         <li><a href="programmeCourse.jsp">View Programme</a></li>
-                        <li><a href="/UniversityManagement/createCourseServlet">View Courses</a></li>
-                        <li><a href="#">Card Design</a></li>
+                        
                     </ul>
                 </li>
-                <li>
-                    <a href="#">
-                        <i class='bx bx-pie-chart-alt-2'></i>
-                        <span class="link_name">Analytics</span>
-                    </a>
-                    <ul class="sub-menu blank">
-                        <li><a href="#">Analytics</a></li>
-                    </ul>
-                </li>
+                
                 <li>
                     <a href="#">
                         <i class='bx bx-line-chart'></i>
@@ -108,8 +97,9 @@
                    
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Report</a></li>
-                        <li><a href="/UniversityManagement/studentServlet?action=studentChart">Student Chart</a></li>
-                        
+                        <li><a href="/UniversityManagement/studentServlet?action=studentChart">Students Chart</a></li>
+                        <li><a href="/UniversityManagement/courseServlet?action=showHistory">Show History</a></li>
+                        <li><a href="/UniversityManagement/courseServlet?action=courseChart">Courses Chart </a></li>
                     </ul>
 
                 </li>
@@ -121,7 +111,7 @@
                             <!--<img src="image/profile.jpg" alt="profileImg">-->
                         </div>
                         <div class="name-job">
-                            <div class="profile_name">Zibi Zhong</div>
+                            <div class="profile_name">Leong Zhi Yen</div>
                             <div class="job">Web Desginer</div>
                         </div>
                         <i class='bx bx-log-out'></i>

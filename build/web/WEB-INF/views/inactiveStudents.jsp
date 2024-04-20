@@ -38,7 +38,7 @@
             </form>
             <div style=" margin-top: 10px;">
                 <%
-                    int records = inactiveList.getTotalNumberOfData();
+                    int records = inactiveList.countNode();
                 %>
                 <%= records%> record(s)
             </div>

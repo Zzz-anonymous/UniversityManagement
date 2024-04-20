@@ -5,7 +5,7 @@
 --%>
 <html>
     <footer>
-        Developed by <b>Zi Bi Zhong</b> &middot;
+        Developed by <b>Leong Zhi Yen</b> &middot;
         Copyrighted &copy; 2024
     </footer>
         <script src="js/js.js"></script>

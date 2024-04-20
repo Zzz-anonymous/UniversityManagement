@@ -16,13 +16,13 @@
     <div class="home-content">
         <i class='bx bx-menu'></i>
         <header>
-            <h1>Inactive Course Details</h1>
+            <h1>Unavailable Courses</h1>
         </header>
         <main>
 
             <%
                 ListInterface<Faculty> fList = (ListInterface<Faculty>) Tools.initializeFaculties();
-                ListInterface<Course> inactiveList = (ListInterface<Course>) request.getAttribute("inactiveList");
+                ListInterface<Course> inactiveList = (ListInterface<Course>) request.getAttribute("resultList");
             %>
 
             <div>
@@ -32,15 +32,15 @@
                         Faculty f = fList.getData(i);
                 %>
                 <span>|</span>
-                <a href="courseSearchingServlet?facultyId=<%= f.getId()%>"><%= f.getId()%></a>
+                <a href="courseServlet?action=filterInactiveCourses&facultyId=<%= f.getId()%>"><%= f.getId()%></a>
                 <% } %>
             </div>
-            <form action="createCourseServlet" method="get" style="margin-top: 10px">
-                <button>Active List</button>
+            <form action="courseServlet" method="get" style="margin-top: 10px">
+                <button>Available Courses</button>
             </form>
             <div style=" margin-top: 10px;">
                 <%
-                    int records = inactiveList.getTotalNumberOfData();
+                    int records = inactiveList.countNode();
                 %>
                 <%= records%> record(s)
             </div>
@@ -52,10 +52,10 @@
                         <th>Course Details</th>
                         <th>Course Types</th>
                         <th>Credit Hours</th>
-                        <th>Course Status</th>
                         <th>Tutors</th>
                         <th>Programmes</th>
                         <th>Faculties</th>
+                        <th>Course Status</th>
                     </tr>
                 </thead>    
                 <tbody>

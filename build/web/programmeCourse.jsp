@@ -18,10 +18,7 @@
             <h1>Programmes</h1>
         </header>
         <main>
-            <form style="padding-bottom:10px" action="courseSearchingServlet" method="post">
-                <input type="search" id="search" name="search" placeholder="Search Names" autofocus>
-            </form>
-
+           
             <%
                 
                 ListInterface<Programme> pList = Tools.initializeProgrammes();
@@ -45,8 +42,8 @@
                     <tr>
                         <td><%= p.getId() %></td>
                         <td><%= p.getName() %></td>
-                        <td><a href="/UniversityManagement/amendProgrammeServlet?id=<%= p.getId()%>">Assign Course</a></td>
-                        <td><a href="/UniversityManagement/programmeServlet?id=<%= p.getId()%>">Details</a></td>                         
+                        <td><a href="/UniversityManagement/courseServlet?action=courseForProgramme&id=<%= p.getId()%>">Assign Course</a></td>
+                        <td><a href="/UniversityManagement/courseServlet?action=displayProgrammeCourses&id=<%= p.getId()%>">Details</a></td>                         
                     </tr>
                     <% }}%>
                 </tbody>

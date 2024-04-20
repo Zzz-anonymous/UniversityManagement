@@ -23,7 +23,8 @@
             <h1>Programme Courses</h1>
         </header>
         <main>
-            <form method="post" action="amendProgrammeServlet">
+            <form style="padding-bottom:10px" action="/UniversityManagement/courseServlet" method="post">
+                <input type="hidden" name="action" value="assignCourseForProgramme">
                 <input type="hidden" name="id" value="${programme.getData(1).getId()}">
                 <div>
                     <table width="100%" class="table">

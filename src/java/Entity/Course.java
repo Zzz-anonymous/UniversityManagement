@@ -4,7 +4,7 @@
  */
 package Entity;
 
-import Utility.Tools;
+import java.time.LocalTime;
 import adt.ListInterface;
 
 /**
@@ -23,10 +23,17 @@ public class Course {
     private double fees;
     private int availability;
     private Tutor tutor;
+    private String startTime;
+    private String endTime;
+    private int duration;
+    private String dayOfWeek;
     private Faculty faculty;
     
     
-    public Course(String Id, String name, String details,ListInterface<String> courseTypes, int creditHours,Tutor tutor, ListInterface<Programme>  programme,Faculty faculty, int availability) {
+    public Course(String Id, String name, String details,ListInterface<String> courseTypes, int creditHours,
+            Tutor tutor, String dayOfWeek, String startTime, int duration,
+            ListInterface<Programme>  programme,Faculty faculty, int availability) 
+    {
         this.Id = Id;
         this.name = name;
         this.details = details;
@@ -34,6 +41,9 @@ public class Course {
         this.creditHours = creditHours;
         setFeesAutomatically(creditHours);
         this.tutor = tutor;
+        this.dayOfWeek = dayOfWeek;
+        this.startTime = startTime;
+        this.duration = duration;
         this.programme = programme;
         this.faculty = faculty;
         this.availability = availability;
@@ -97,6 +107,30 @@ public class Course {
         this.fees = fees;
     }
 
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public String getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public void setDayOfWeek(String dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
+
     public ListInterface<Programme> getProgramme() {
         return programme;
     }
@@ -136,6 +170,33 @@ public class Course {
 
     public void setFaculty(Faculty faculty) {
         this.faculty = faculty;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+    
+    public String getEndTime() {
+        // Split the start time string into hours and minutes
+        String[] startTimeParts = startTime.split(":");
+        int startHour = Integer.parseInt(startTimeParts[0]);
+        int startMinute = Integer.parseInt(startTimeParts[1]);
+
+        // Add the duration to the start time
+        int endHour = startHour + duration;
+        int endMinute = startMinute;
+
+        // Handle the case when the addition of the duration exceeds 60 minutes
+        if (endHour >= 24) {
+            endHour -= 24; // Reset to the next day if end time exceeds 24 hours
+        }
+
+        // Format the end time as a string
+        String endHourStr = String.format("%02d", endHour); // Ensure two digits for hours
+        String endMinuteStr = String.format("%02d", endMinute); // Ensure two digits for minutes
+        endTime = endHourStr + ":" + endMinuteStr;
+
+        return endTime;
     }
     
 

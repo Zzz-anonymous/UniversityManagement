@@ -25,15 +25,15 @@
                 <div>
                     <table width="100%" class="table">
                         <tr>
-                            <th><label for="id">Student ID:</label></th>
-                            <td colspan="2">
+                            <th colspan="2"><label for="id">Student ID:</label></th>
+                            <td colspan="3">
                                 <span>${student.id}</span>
                             </td>
 
                         </tr>
                         <tr>
-                            <th><label for="name">Student Name:</label></th>
-                            <td colspan="2">
+                            <th colspan="2"><label for="name">Student Name:</label></th>
+                            <td colspan="3">
                                 <span>${student.name}</span>
                             </td>
 
@@ -42,6 +42,8 @@
                             <th><label for="courseId">Course Name:</label><br> </th>
                             <th><label for="status">Course Status:</label> </th>
                             <th><label for="status">Credit Hours:</label> </th>
+                            <th><label for="weekOfDay">Week Of Day:</label> </th>
+                            <th><label for="timeLine">Timeline:</label> </th>
                         </tr>
 
                         <%
@@ -85,6 +87,8 @@
                             <td>
                                 <%= creditHours%>
                             </td>
+                            <td><%= c.getDayOfWeek() %></td>
+                            <td><%= c.getStartTime() %> - <%= c.getEndTime()%></td>
                         </tr>
                         <%
                         //} else {
@@ -98,18 +102,18 @@
                         } else {
                         %>
                         <tr>
-                            <td colspan="3">No Available courses</td>
+                            <td colspan="5">No Available courses</td>
                         </tr>
                         <%
                             }
                         %>
 
                         <tr>
-                            <td></td>
-                            <td>
+                            
+                            <td colspan="5" style="text-align: center;">
                                 <input type="submit" value="Insert"/>
                             </td>
-                            <td></td>
+                            
                         </tr>
                     </table>
                 </div>

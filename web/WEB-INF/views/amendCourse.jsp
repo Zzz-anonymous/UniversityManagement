@@ -20,7 +20,8 @@
             <h1>Update Course Detail</h1>
         </header>
         <main>
-            <form method="post" action="amendCourseServlet">
+            <form method="post" action="courseServlet">
+                <input type="hidden" name="action" value="amendResult">
                 <input type="hidden" name="id" value="${course.id}">
                 <div>
                     <table width="100%">
@@ -68,6 +69,33 @@
                                     <option ${creditHours == 2 ? "selected" : ""}>2</option>
                                     <option ${creditHours == 3 ? "selected" : ""}>3</option>
                                     <option ${creditHours == 4 ? "selected" : ""}>4</option>
+                                </select>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td><label for="dayOfWeek">Day of Weeks:</label> </td>
+                            <td><select name="dayOfWeek" id="dayOfWeek">
+                                    <option ${dayOfWeek == "Monday" ? "selected" : ""}>Monday</option>
+                                    <option ${dayOfWeek == "Tuesday" ? "selected" : ""}>Tuesday</option>
+                                    <option ${dayOfWeek == "Wednesday" ? "selected" : ""}>Wednesday</option>
+                                    <option ${dayOfWeek == "Thursday" ? "selected" : ""}>Thursday</option>
+                                    <option ${dayOfWeek == "Friday" ? "selected" : ""}>Friday</option>
+                                </select>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td><label for="startTime">Start Time:</label></td>
+                            <td><input type="time" id="startTime" name="startTime" min="08:00" max="17:00" value="${course.startTime}"></td>
+                        </tr>
+                        
+                        <tr>
+                            <td><label for="duration">Duration:</label> </td>
+                            <td><select name="duration" id="duration">
+                                    <option ${duration == 1 ? "selected" : ""}>1</option>
+                                    <option ${duration == 2 ? "selected" : ""}>2</option>
+                                    
                                 </select>
                             </td>
                         </tr>

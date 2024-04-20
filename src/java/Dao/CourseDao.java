@@ -7,9 +7,12 @@ package Dao;
 import Entity.Course;
 import Entity.Faculty;
 import Entity.Programme;
+import Entity.StudentCourse;
+import Entity.Tutor;
 import Utility.Tools;
 import adt.*;
 import java.util.Iterator;
+import java.util.function.Predicate;
 
 /**
  *
@@ -20,7 +23,6 @@ public class CourseDao {
     // Create an LinkedList to store course objects
     private static ListInterface<Course> cList = new LinkedList<>();
     private static ListInterface<Course> inactiveList = new LinkedList<>();
-    
 
     // add new course
     public static void addCourse(Course s) {
@@ -32,12 +34,12 @@ public class CourseDao {
         return cList;
     }
 
+    // get inactive Course list
     public static ListInterface<Course> getInactiveCourses() {
-        
         // Return the inactive list
         return inactiveList;
     }
-    
+
     // delete course
     public static boolean deleteCourse(String id, ListInterface<Course> list) {
         // Check if the course ID is available in the given list
@@ -58,6 +60,7 @@ public class CourseDao {
         }
     }
 
+    // get inactive course list by faculty id
     public static ListInterface<Course> getInactiveCoursesByFid(String fId) {
         ListInterface<Course> filterResult = new LinkedList<>();
 
@@ -72,10 +75,9 @@ public class CourseDao {
 
         return filterResult;
     }
-    
 
     // update course
-    public static boolean updateStudent(String id, Course updatedCourse, ListInterface<Course> list) {
+    public static boolean updateCourse(String id, Course updatedCourse, ListInterface<Course> list) {
         // Find the index of the student with the given ID
         int index = getIndex(id, list);
 
@@ -124,7 +126,7 @@ public class CourseDao {
         return -1;
     }
 
-    // get course info by id
+    // get course info by course id
     public static Course getCourseById(String id) {
         // Iterate over the list of students to find the one with the matching ID
         for (int i = 1; i <= cList.getTotalNumberOfData(); i++) {
@@ -134,6 +136,19 @@ public class CourseDao {
             }
         }
         // Return null if no student with the given ID is found
+        return null;
+    }
+    
+    // get course by tutor id
+    public static Course getCourseBytId(String tId) {
+        // Iterate over the list of students to find the one with the matching ID
+        for (int i = 1; i <= cList.getTotalNumberOfData(); i++) {
+            Course c = cList.getData(i);
+            if (c.getTutor().getId().equals(tId)) {
+                return c;
+            }
+        }
+        // Return null if no course with the given tutor ID is found
         return null;
     }
 
@@ -196,21 +211,37 @@ public class CourseDao {
     }
 
     // search courses name
+//    public static ListInterface<Course> searchCourses(String name) {
+//        ListInterface<Course> searchResults = new LinkedList<>(); // Using LinkedList instead of ArrayList
+//
+//        Iterator<Course> iterator = cList.getIterator(); // Assuming displaySList is an instance of ListInterface<Student>
+//
+//        while (iterator.hasNext()) {
+//            Course c = iterator.next();
+//            // Check if the student's name contains the search term (case-insensitive)
+//            if (c.getName().toLowerCase().contains(name.toLowerCase())) {
+//                searchResults.add(c);
+//            }
+//        }
+//
+//        return searchResults;
+//    }
+    
     public static ListInterface<Course> searchCourses(String name) {
-        ListInterface<Course> searchResults = new LinkedList<>(); // Using LinkedList instead of ArrayList
+    ListInterface<Course> searchResults = new LinkedList<>(); // Using LinkedList instead of ArrayList
 
-        Iterator<Course> iterator = cList.getIterator(); // Assuming displaySList is an instance of ListInterface<Student>
+    // Check if cList is not null
+    if (cList != null) {
+        // Define a predicate to check if course name contains the search term
+        Predicate<Course> nameContains = course -> course.getName().toLowerCase().contains(name.toLowerCase());
 
-        while (iterator.hasNext()) {
-            Course c = iterator.next();
-            // Check if the student's name contains the search term (case-insensitive)
-            if (c.getName().toLowerCase().contains(name.toLowerCase()) && c.getAvailability() == 1) {
-                searchResults.add(c);
-            }
-        }
-
-        return searchResults;
+        // Use the search method with the defined predicate
+        searchResults = cList.search(nameContains);
     }
+
+    return searchResults;
+}
+
 
     // find faculties name
     public static Faculty findfacultiesByName(String name) {
@@ -245,26 +276,77 @@ public class CourseDao {
 
     //----------------------- programmeCourse ---------------------------------------
     // get course object by programmeId
-   public static LinkedList<Course> getCoursesByProgrammeId(String programmeId) {
-    LinkedList<Course> courses = new LinkedList<>();
+    public static LinkedList<Course> getCoursesByProgrammeId(String programmeId) {
+        LinkedList<Course> courses = new LinkedList<>();
 
-    // Iterate over the list of courses
-    for (int i = 1; i <= cList.getTotalNumberOfData(); i++) {
-        Course c = cList.getData(i);
-        // Iterate over the list of programmes for each course
-        for (int j = 1; j <= c.getProgramme().getTotalNumberOfData(); j++) {
-            Programme p = c.getProgramme().getData(j);
-            // Check if the current programme's ID matches the desired ID
-            if (p.getId().equals(programmeId)) {
-                courses.add(c); // Add the course containing the matching programme to the list
-                break; // No need to continue checking other programmes for this course
+        // Iterate over the list of courses
+        for (int i = 1; i <= cList.getTotalNumberOfData(); i++) {
+            Course c = cList.getData(i);
+            // Iterate over the list of programmes for each course
+            for (int j = 1; j <= c.getProgramme().getTotalNumberOfData(); j++) {
+                Programme p = c.getProgramme().getData(j);
+                // Check if the current programme's ID matches the desired ID
+                if (p.getId().equals(programmeId)) {
+                    courses.add(c); // Add the course containing the matching programme to the list
+                    break; // No need to continue checking other programmes for this course
+                }
             }
         }
+
+        // Return the list of courses with the given programme ID
+        return courses;
     }
 
-    // Return the list of courses with the given programme ID
-    return courses;
-}
+    // get available time for taken course
+    public static Course getCourseForTimeslotAndDay(String sId, String cId, String day, String startTime) {
+        StudentCourse sc = StudentCourseDao.getStudentCourseBysIdAndcId(sId, cId);
+        if (sc != null) {
+            for (int i = 1; i <= cList.getTotalNumberOfData(); i++) {
+                Course c = cList.getData(i);
+                // Check if the tutor name matches and the start time and day of the week match
+                if (c.getStartTime().equals(startTime) && c.getDayOfWeek().equals(day)) {
+                    return c; // Tutor is not available at this time
+                }
+            }
+        }
+            // If no conflicting course is found, course is available to assigned
+            return null;
+    }
+        //----------------------- Tutor ---------------------------------------
+        // find course by tutor id
+    public static LinkedList<Course> getCoursesBytId(String tId) {
+        LinkedList<Course> courses = new LinkedList<>();
 
+        // Iterate over the list of courses
+        for (int i = 1; i <= cList.getTotalNumberOfData(); i++) {
+            Course c = cList.getData(i);
+            // Iterate over the list of programmes for each course
+            for (int j = 1; j <= c.getProgramme().getTotalNumberOfData(); j++) {
+                Programme p = c.getProgramme().getData(j);
+                // Check if the current programme's ID matches the desired ID
+                if (p.getId().equals(tId)) {
+                    courses.add(c); // Add the course containing the matching programme to the list
+                    break; // No need to continue checking other programmes for this course
+                }
+            }
+        }
 
+        // Return the list of courses with the given programme ID
+        return courses;
+    }
+
+    // check the available time for tutor when create a course
+    public static boolean getTutorAvailableTime(String tutorName, String startTime, String day) {
+        for (int i = 1; i <= cList.getTotalNumberOfData(); i++) {
+            Course c = cList.getData(i);
+            Tutor tutor = c.getTutor();
+            // Check if the tutor name matches and the start time and day of the week match
+            if (tutor != null && tutor.getName().equals(tutorName) && c.getStartTime().equals(startTime) && c.getDayOfWeek().equals(day)) {
+                return true; // Tutor is not available at this time
+            }
+        }
+        // If no conflicting course is found, tutor is available at this time
+        return false;
+    }
+    
 }

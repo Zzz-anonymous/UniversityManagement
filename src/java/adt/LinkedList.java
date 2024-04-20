@@ -39,6 +39,7 @@ public class LinkedList<T> implements ListInterface<T> {
         return matchingData;
     }
 
+    @Override
     public int countNode() {
         return countNodes(firstNode);
     }

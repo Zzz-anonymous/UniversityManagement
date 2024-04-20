@@ -230,4 +230,9 @@ public String toString() {
     public ListInterface<T> search(Predicate<T> criteria){
         throw new UnsupportedOperationException();
     };
+    
+    @Override
+    public int countNode(){
+        throw new UnsupportedOperationException();
+    };
 }

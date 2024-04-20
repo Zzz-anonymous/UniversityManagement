@@ -12,9 +12,8 @@ import Utility.*;
 import Entity.Student;
 import adt.*;
 
-
 import java.util.Iterator;
-
+import java.util.function.Predicate;
 
 public class StudentDao {
 
@@ -37,13 +36,13 @@ public class StudentDao {
         return mergedList;
     }
 
-        // Retrieve all student records
+    // Retrieve all student records
     public static ListInterface<Student> getInactiveStudents() {
-        
+
         // Return the inactive list
         return inactiveList;
     }
-    
+
     // Merge student lists into the provided list
     public static void mergeStudent(ListInterface<Student> resultList) {
         if (!isInitializeStudents && !initialzeStudents.isEmpty()) {
@@ -168,19 +167,18 @@ public class StudentDao {
 
         return filterResult;
     }
-    
+
     // search students name
     public static ListInterface<Student> searchStudent(String name) {
         ListInterface<Student> searchResults = new LinkedList<>(); // Using LinkedList instead of ArrayList
 
-        Iterator<Student> iterator = mergedList.getIterator(); // Assuming displaySList is an instance of ListInterface<Student>
+        // Check if mergedList is null
+        if (mergedList != null) {
+            // Define a predicate to check if student's name contains the search term
+            Predicate<Student> nameContains = student -> student.getName().toLowerCase().contains(name.toLowerCase());
 
-        while (iterator.hasNext()) {
-            Student s = iterator.next();
-            // Check if the student's name contains the search term (case-insensitive)
-            if (s.getName().toLowerCase().contains(name.toLowerCase())) {
-                searchResults.add(s);
-            }
+            // Use the search method with the defined predicate
+            searchResults = mergedList.search(nameContains);
         }
 
         return searchResults;

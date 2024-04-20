@@ -33,15 +33,17 @@
             <table border="1" style="width:80%;" class="table">
                 <tr>
                     <th>Programme ID</th> 
-                    <td><%= p.getId()%></td>
+                    <td colspan="2"><%= p.getId()%></td>
                 </tr>
                 <tr>
                     <th>Programme Name</th>
-                    <td><%= p.getName()%></td>
+                    <td colspan="2"><%= p.getName()%></td>
                 </tr>
 
                 <tr >
-                    <th colspan="2">CourseName</th>
+                    <th></th>
+                    <th>Course Name</th>
+                    <th>Tutor Name</th>
                 </tr>
                 <%
                     boolean courseTaken = false;
@@ -58,7 +60,9 @@
                                     if (pc.getCourseId().contains(c.getId())) {
                 %>
                 <tr>
-                    <td colspan="2"><%= courseIndex + ") "%><%= cName%></td>
+                    <td><%= courseIndex + ") "%></td>
+                    <td><%= cName%></td>
+                    <td><%= c.getTutor().getName() %></td>
                 </tr>
                 <%
                                         courseIndex++; // Increment courseIndex after displaying each course
@@ -71,7 +75,7 @@
                     if (!courseTaken) {
                 %>
                 <tr>
-                    <td colspan="2">No Course</td>
+                    <td colspan="3" style="text-align: center;">No Course</td>
                 </tr>
                 <%
                     }

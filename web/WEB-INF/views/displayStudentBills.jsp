@@ -21,11 +21,11 @@
     <div class="home-content">
         <i class='bx bx-menu'></i>
         <header>
-            <h1>Student Details</h1>
+            <h1>Student Bills</h1>
         </header>
         <main>
             <%
-                ListInterface<Student> sList = StudentDao.getAllStudents();
+                //ListInterface<Student> sList = StudentDao.getAllStudents();
                 ListInterface<StudentCourse> scList = (ListInterface<StudentCourse>) request.getAttribute("scList");
                 ListInterface<Course> cList = (ListInterface<Course>) CourseDao.getAllAvailableCourses();
                 String studentId = request.getParameter("id");
@@ -73,7 +73,7 @@
                         </tr>
                         <%
                             boolean courseTaken = false;
-                            double totalFees = 0.0;
+                            double totalFees = 0.00;
                             int courseIndex = 1; // Initialize courseIndex variable
                             if (scList != null) {
                                 for (int k = 1; k <= scList.getTotalNumberOfData(); k++) {

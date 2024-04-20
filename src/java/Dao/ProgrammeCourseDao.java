@@ -38,7 +38,7 @@ public class ProgrammeCourseDao {
     }
 
     // Read unchosen list by programmeId and course id
-    public static ListInterface<ProgrammeCourse> getProgrammeCoursesByCourseId( String programmeId) {
+    public static ListInterface<ProgrammeCourse> getProgrammeCoursesBypId(String programmeId) {
         ListInterface<ProgrammeCourse> filteredList = new LinkedList<>();
         for (int i = 1; i <= programmeCourses.getTotalNumberOfData(); i++) {
             ProgrammeCourse pc = programmeCourses.getData(i);
@@ -79,8 +79,8 @@ public class ProgrammeCourseDao {
             // Check if the current ProgrammeCourse's IDs match the specified courseId and programmeId
             if (pc.getCourseId().contains(courseId) && pc.getProgrammeId().equals(programmeId)) {
                 // Retrieve the course name using the courseId
-                    return pc;
-                }
+                return pc;
+            }
         }
         // Return null if no course with the given courseId and programmeId is found
         return null;
@@ -117,7 +117,6 @@ public class ProgrammeCourseDao {
         return -1;
     }
 
-
     // Helper method to check if a course is chosen
     public static boolean isCourseChosen(ListInterface<ProgrammeCourse> pcourse, String courseId) {
         for (int i = 1; i <= pcourse.getTotalNumberOfData(); i++) {
@@ -133,6 +132,32 @@ public class ProgrammeCourseDao {
         // replace the existing list of courses with the updated one
         removeCourseFromProgramme();
         addProgrammeCourse(updatedCourses);
+    }
+
+    public static ListInterface<Course> filterCoursesBytId(String tutorId) {
+        ListInterface<Course> filteredCourses = new LinkedList<>();
+
+        if (cList != null && programmeCourses != null) {
+            for (int j = 1; j <= cList.getTotalNumberOfData(); j++) {
+                Course c = cList.getData(j);
+                if (c.getTutor().getId().equals(tutorId)) {
+                    for (int k = 1; k <= programmeCourses.getTotalNumberOfData(); k++) {
+                        ProgrammeCourse pc = programmeCourses.getData(k);
+                        if (pc.getCourseId().contains(c.getId())) {
+                            filteredCourses.add(c);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Check if no courses were found, return null
+        if (filteredCourses.isEmpty()) {
+            return null;
+        }
+
+        return filteredCourses;
     }
 
 }

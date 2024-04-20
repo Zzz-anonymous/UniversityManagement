@@ -17,15 +17,16 @@
     <div class="home-content">
         <i class='bx bx-menu'></i>
         <header>
-            <h1>View All Course</h1>
+            <h1>View All Courses</h1>
         </header>
         <main>
-            <form style="padding-bottom:10px" action="courseSearchingServlet" method="post">
+            <form style="padding-bottom:10px" action="courseServlet" method="post">
+                <input type="hidden" name="action" value="searchCourses">
                 <input type="search" id="search" name="search" placeholder="Search Names" autofocus>        
             </form>
             <%
                 ListInterface<Faculty> fList = (ListInterface<Faculty>) Tools.initializeFaculties();
-                ListInterface<Course> cList = (ListInterface<Course>) request.getAttribute("cList");
+                ListInterface<Course> cList = (ListInterface<Course>) request.getAttribute("resultList");
                 ListInterface<Course> cr = (ListInterface<Course>) request.getAttribute("searchResults");
                 boolean showSearchResults = cr != null && !cr.isEmpty();
             %>
@@ -37,25 +38,35 @@
                         Faculty f = fList.getData(i);
                 %>
                 <span>|</span>
-                <a href="courseSearchingServlet?facultyId=<%= f.getId()%>"><%= f.getId()%></a>
+                <a href="courseServlet?action=filterCourses&facultyId=<%= f.getId()%>"><%= f.getId()%></a>
                 <% } %>
             </div>
 
             <div style=" margin-top: 10px;">
-                <form action="deleteCourseServlet" method="post">
-                    <button>Inactive List</button>
+                <form action="courseServlet" method="post">
+                    <input type="hidden" name="action" value="viewInactive">
+                    <button>Unavailable Courses</button>
                 </form>
             </div>
-            
-                <!--havent done-->
-            <div style=" margin-top: 10px;">
+
+            <!--havent done-->
+            <div style="margin-top: 10px;">
                 <%
-                    int records = cList.getTotalNumberOfData();
+                    if (showSearchResults) {
+                        int records = cr.countNode();
+                %>
+                <%= records%> record(s) 
+                <% } else if (cList != null && !cList.isEmpty()) {
+                    int records = cList.countNode();
                 %>
                 <%= records%> record(s)
+                <% } else { %>
+                No course records found
+                <% } %>
             </div>
 
-            <table border="1" style="width:80%;" class="table">
+
+            <table border="1" class="table">
                 <thead>
                     <tr>
                         <th>Course ID</th>
@@ -64,6 +75,8 @@
                         <th>Course Types</th>
                         <th>Credit Hours</th>
                         <th>Tutors</th>
+                        <th>Day Of Week</th>
+                        <th>Start - End time</th>
                         <th>Programmes</th>
                         <th>Faculties</th>
                         <th>Course Status</th>
@@ -95,15 +108,28 @@
                             <%= c.getTutor().getName()%>
                         </td>
                         <td>
-                            <%= c.getProgramme()%>
+                            <%= c.getDayOfWeek()%>
+                        </td>
+                        <td>
+                            <%= c.getStartTime()%> - <%= c.getEndTime()%>
+                        </td>
+
+                        <td>
+                            <%
+                                ListInterface<Programme> programmes = c.getProgramme();
+                                for (int j = 1; j <= programmes.getTotalNumberOfData(); j++) {
+                                    Programme p = programmes.getData(j);
+                            %>
+                            <%= j + ") " + p.getName()%><br>
+                            <% }%>
                         </td>
                         <td>
                             <%= c.getFaculty().getName()%>
                         </td>
                         <td><%= c.getAvailability() == 1 ? "Available" : "Not Available"%></td>
 
-                        <td><a href="/UniversityManagement/amendCourseServlet?id=<%= c.getId()%>">Edit</a></td>
-                        <td><a href="/UniversityManagement/deleteCourseServlet?id=<%= c.getId()%>">Delete</a></td>                           
+                        <td><a href="/UniversityManagement/courseServlet?action=amendCourse&id=<%= c.getId()%>">Edit</a></td>
+                        <td><a href="/UniversityManagement/courseServlet?action=deleteCourse&id=<%= c.getId()%>">Delete</a></td>                           
                     </tr>
                     <%
                         }
@@ -130,6 +156,12 @@
                             <%= c.getTutor().getName()%>
                         </td>
                         <td>
+                            <%= c.getDayOfWeek()%>
+                        </td>
+                        <td>
+                            <%= c.getStartTime()%> - <%= c.getEndTime()%>
+                        </td>
+                        <td>
                             <%
                                 ListInterface<Programme> programmes = c.getProgramme();
                                 for (int j = 1; j <= programmes.getTotalNumberOfData(); j++) {
@@ -142,17 +174,15 @@
                             <%= c.getFaculty().getName()%>
                         </td>
                         <td><%= c.getAvailability() == 1 ? "Available" : "Not Available"%></td>
-                        <!--TODO-->
-                        <!-- delete and modification havent done  -->
-                        <td><a href="/UniversityManagement/amendCourseServlet?id=<%= c.getId()%>">Edit</a></td>
-                        <td><a href="/UniversityManagement/deleteCourseServlet?id=<%= c.getId()%>">Delete</a></td>                                                      
+                        <td><a href="/UniversityManagement/courseServlet?action=amendCourse&id=<%= c.getId()%>">Edit</a></td>
+                        <td><a href="/UniversityManagement/courseServlet?action=deleteCourse&id=<%= c.getId()%>">Delete</a></td>                               
                     </tr>
                     <%
                         }
                     } else {
                     %>
                     <tr>
-                        <td colspan="11">No Course records found</td>
+                        <td colspan="13">No Course records found</td>
                     </tr>
                     <% }%>
                 </tbody>

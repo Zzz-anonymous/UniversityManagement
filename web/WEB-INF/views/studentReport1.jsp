@@ -21,99 +21,155 @@
     <div class="home-content">
         <i class='bx bx-menu'></i>
         <header>
-            <h1>Student Details</h1>
+            <h1>Student Details - Student Report 1</h1>
         </header>
         <main>
             <%
-                ListInterface<Student> sList = StudentDao.getAllStudents();
-                ListInterface<StudentCourse> scList = (ListInterface<StudentCourse>) request.getAttribute("scList");
-                ListInterface<Course> cList = (ListInterface<Course>) CourseDao.getAllAvailableCourses();
+                //ListInterface<Course> cList = (ListInterface<Course>) CourseDao.getAllAvailableCourses();
+                //ListInterface<StudentCourse> scList = (ListInterface<StudentCourse>) request.getAttribute("scList");
+                ListInterface<Course> filteredCourses = (ListInterface<Course>) request.getAttribute("filteredCourses");
                 String studentId = request.getParameter("id");
                 Student student = StudentDao.getStudentById(studentId);
-                if (student != null && scList != null && cList != null) {
+
             %>
-            <form>
-                <input type="hidden" name="id" value="${student.id}">
-                <div>
-                    <table border="1" style="width:100%;" class="table">
-                        <tr>
-                            <th colspan="7">Student's Information</th>
-                        </tr>
-                        <tr>
-                            <th>Student ID</th> 
-                            <td colspan="2">${student.id}</td>
-                            <th>Student Name</th>
-                            <td colspan="3">${student.name}</td>
-                        </tr>
-                        <tr>
-                            <th>Email</th>
-                            <td colspan='6'>${student.email}</td>
-                        </tr>
-                        <tr>
-                            <th>Gender</th>
-                            <td colspan="2">${student.gender}</td>
-                            <th>Student Status</th>
-                            <td colspan="3">
-                                <% if (student.getStatus() == 1) { %>
-                                Active
-                                <% } else { %>
-                                Not Active
-                                <% } %>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th colspan="7">Student's Course Information</th>
-                        </tr>
-                        <tr>
-                            <th></th>
-                            <th colspan="2">Course Name</th>
-                            <th colspan="2">Course Status</th>
-                            <th>Credit Hours</th>
-                        </tr>
-                        <%
-                            boolean courseTaken = false;
-                            double totalFees = 0.0;
-                            int courseIndex = 1; // Initialize courseIndex variable
-                            if (scList != null) {
-                                for (int k = 1; k <= scList.getTotalNumberOfData(); k++) {
-                                    StudentCourse sc = scList.getData(k);
-                                    if (sc.getStudentId().equals(studentId)) {
-                                        courseTaken = true;
-                                        for (int j = 1; j <= cList.getTotalNumberOfData(); j++) {
-                                            Course c = cList.getData(j);
-                                            if (sc.getCourseId().contains(c.getId())) {
-                        %>
-                        <tr>
-                            <td><%= courseIndex%></td> 
-                            <td colspan="2"><%= c.getName()%></td>
-                            <td colspan="2"><%= sc.getCourseStatus()%></td>
-                            <td><%= c.getCreditHours()%></td>
-                            
-                        </tr>
-                        <%
-                                                courseIndex++; // Increment courseIndex after displaying each course
-                                                
-                                            }
+
+            <table border="1" style="width:100%;" class="table">
+                <tr>
+                    <th colspan="8">Student's Information</th>
+                </tr>
+                <tr>
+                    <th>Student ID</th> 
+                    <td colspan="3">${student.id}</td>
+                    <th>Student Name</th>
+                    <td colspan="3">${student.name}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td colspan='7'>${student.email}</td>
+                </tr>
+                <tr>
+                    <th>Gender</th>
+                    <td colspan="3">${student.gender}</td>
+                    <th>Student Status</th>
+                    <td colspan="3">
+                        <% if (student.getStatus() == 1) { %>
+                        Active
+                        <% } else { %>
+                        Not Active
+                        <% }%>
+                    </td>
+                </tr>
+            </table>
+            <%
+                if (filteredCourses == null) {
+
+            %>
+            <table border="1" class="table" style="margin-top: 10px">
+                <thead>
+                    <tr><th colspan="21"><%= student.getName()%> 's Timetable</th></tr>
+                    <tr>
+                        <th>Time</th>
+                        <!-- Loop through Monday to Friday to display the days of the week -->
+
+                        <%    String[] dayOfWeek = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};%>
+                        <%     for (int column = 8; column <= 20; column++) {%>
+                        <th>
+                            <%= String.format("%02d:00", column)%>
+                        </th>
+                        <% } %>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% // Loop through each day of the week
+                        for (int day = 0; day < 5; day++) {%>
+                    <tr>
+                        <!-- Display the day of the week -->
+                        <th><%= dayOfWeek[day]%></th>
+                            <%for (int column = 8; column <= 20; column++) {%>
+                        <td></td>
+                        <%}%>
+                    </tr>
+                    <%}%>
+                </tbody>
+            </table>
+                
+            <%} else {%>
+            
+            <table border="1" class="table" style="margin-top: 10px">
+                <thead>
+                    <tr><th colspan="21"><%= student.getName()%> 's Timetable</th></tr>
+                    <tr>
+                        <th>Time</th>
+                        <!-- Loop through Monday to Friday to display the days of the week -->
+
+                        <%    String[] dayOfWeek = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};%>
+                        <%     for (int column = 8; column <= 20; column++) {%>
+                        <th>
+                            <%= String.format("%02d:00", column)%>
+                        </th>
+                        <% } %>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% // Loop through each day of the week
+                        for (int day = 0; day < 5; day++) {%>
+                    <tr>
+                        <!-- Display the day of the week -->
+                        <th><%= dayOfWeek[day]%></th>
+                            <% // Initialize the starting column for each day
+                                int column = 8;
+                                // Loop through each hour from 8 AM to 8 PM
+                                while (column <= 20) {
+                                    // Initialize variables
+                                    boolean courseFound = false;
+                                    String courseId = "";
+                                    String courseName = "";
+                                    String cStartTime = "";
+                                    String cEndTime = "";
+                                    int duration = 0;
+                                    // Iterate through filtered courses
+                                    for (int i = 1; i <= filteredCourses.getTotalNumberOfData(); i++) {
+                                        Course c = filteredCourses.getData(i);
+                                        // Check if the course matches the current day and time slot
+                                        if (dayOfWeek[day].equals(c.getDayOfWeek()) && c.getStartTime().equals(String.format("%02d:00", column))) {
+                                            // Store the course information
+                                            courseId = c.getId();
+                                            courseName = c.getName();
+                                            duration = c.getDuration();
+                                            cStartTime = c.getStartTime();
+                                            cEndTime = c.getEndTime();
+                                            courseFound = true; // Set the flag to true
+                                            // Increment the column by duration to move to the next available time slot
+                                            column += duration + 1;
+                                            // Exit the inner loop once a course is found
+                                            break;
                                         }
                                     }
-                                }
-                            }
-                            if (!courseTaken) {
-                        %>
-                        <tr>
-                            <th colspan="7">No Course Assigned</th>
-                        </tr>
+                                    // Output table cell with course information if a course is found, otherwise, display an empty cell
+                                    if (courseFound) {%>
+                        <td style="text-align: center; background-color:#f0f0f0" colspan="<%= duration + 1%>">
+                            <%= courseId%> <br>
+                            <%= courseName%><br>
+                            <%= cStartTime%> - <%= cEndTime%>
+                        </td>
+                        <% } else { %>
+                        <td></td>
                         <%
-                            }
+                            // Increment the column by 1 if no course is found for the current time slot
+                            column++;
                         %>
-                        
-                    </table>
-                </div>
-            </form>
-            <%
-                }
-            %>
+                        <% } %>
+                        <% } // End loop for hours %>
+                    </tr>
+                    <% } // End loop for days %>
+                </tbody>
+            </table>
+            <%}%>
+            
         </main>
         <%@include file="/shared/footer.jsp"%>
     </div>
 </section>
+
+</body>
+</html>

@@ -162,16 +162,8 @@
         <%@include file = "/shared/footer.jsp"%>
     </div>
 </section>
-<script>
-    const startTimeInput = document.getElementById("startTime");
-
-    startTimeInput.addEventListener("input", function() {
-        const isValid = /^([01]\d|2[0-3]):([0-5]\d)$/.test(startTimeInput.value);
-        startTimeInput.setCustomValidity(isValid ? "" : "Please enter a valid time with minutes set to 00 or 30.");
-    });
-</script>
-
-
+    
+    
 </body>
 
 </html>

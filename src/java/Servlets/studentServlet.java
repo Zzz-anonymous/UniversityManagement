@@ -5,6 +5,7 @@
 package Servlets;
 
 import Dao.CourseDao;
+import Dao.HistoryDao;
 import Dao.ProgrammeCourseDao;
 import Dao.StudentCourseDao;
 import java.io.IOException;
@@ -35,7 +36,8 @@ public class studentServlet extends HttpServlet {
     private final static ListInterface<Student> inactiveList = StudentDao.getInactiveStudents();
     private static final ListInterface<StudentCourse> scList = StudentCourseDao.getAllCourses();
 
-    // check students availability, display students records if not empty
+    // Students Controller - servlet path navigation
+    // path for handling get request
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -93,6 +95,7 @@ public class studentServlet extends HttpServlet {
         }
     }
 
+    // path for handling post request
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -195,22 +198,30 @@ public class studentServlet extends HttpServlet {
         dispatcher.forward(request, response);
 
     }
+
     // modify student records
     private void amendStudent(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Retrieve student information based on the ID
         String id = request.getParameter("id");
         Student student = StudentDao.getStudentById(id);
-        // Retrieve the gender of the student's 
-        String gender = student.getGender();
-        String ProgrammeId = student.getProgrammeId();
 
         // Check if the student exists in the mergedList
         int index = StudentDao.getIndex(id, mergedList);
         if (index != -1) {
             // If not found in mergedList, check in inactiveList
             student = mergedList.getData(index);
+        } else {
+            // Student with the provided ID does not exist, display an error message
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('Student with ID " + id + " does not exist!');</script>");
+            out.println("<script>window.location.replace('studentServlet?action=amendResult');</script>");
+            out.close();
         }
+
+        // Retrieve the gender of the student's 
+        String gender = student.getGender();
+        String ProgrammeId = student.getProgrammeId();
 
         // Pass the student object to the JSP page
         request.setAttribute("student", student);
@@ -231,6 +242,7 @@ public class studentServlet extends HttpServlet {
 
         // Call the deleteStudent method passing the student ID and the list from which you want to delete
         boolean deletionSuccessful = StudentDao.deleteStudent(id, mergedList);
+        HistoryDao.addHistory("Student '" + id + "' has been deleted");
 
         if (deletionSuccessful) {
             // Update the studentList attribute in the request if deletion was successful
@@ -252,6 +264,7 @@ public class studentServlet extends HttpServlet {
             throws ServletException, IOException {
         // student id 
         String id = request.getParameter("id");
+
         // student status
         String statusStr = request.getParameter("status");
         int status = Integer.parseInt(statusStr);
@@ -264,6 +277,8 @@ public class studentServlet extends HttpServlet {
             out.close();
             return;
         }
+
+        String programId = request.getParameter("programId");
 
         // Retrieve course information based on the ID
         Student student = StudentDao.getStudentById(id);
@@ -278,7 +293,7 @@ public class studentServlet extends HttpServlet {
         // request.setAttribute("courseStatus", courseStatus);
         // Pass the course object and other necessary attributes to the JSP page
         request.setAttribute("student", student);
-        ListInterface<ProgrammeCourse> availableCourses = ProgrammeCourseDao.getProgrammeCoursesByCourseId(id);
+        ListInterface<ProgrammeCourse> availableCourses = ProgrammeCourseDao.getProgrammeCoursesBypId(programId);
 
         ListInterface<String> existingCourses = new LinkedList<>();
         ListInterface<String> courseStatuses = new LinkedList<>();
@@ -295,14 +310,14 @@ public class studentServlet extends HttpServlet {
                     }
                 }
             }
-        }else{
+        } else {
             PrintWriter out = response.getWriter();
             out.println("<script>alert('No available courses to assign!');</script>");
             out.println("<script>window.location.href = '" + request.getContextPath() + "/studentServlet';</script>");
             out.close();
             return;
         }
-        
+
         request.setAttribute("existingCourses", existingCourses); // Assuming existingCourses is a list of course IDs assigned to the student
         request.setAttribute("courseStatuses", courseStatuses);
 
@@ -331,22 +346,23 @@ public class studentServlet extends HttpServlet {
     // display student details (Report 1)
     private void displayStudentDetails(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("id");
+         String id = request.getParameter("id");
         Student student = StudentDao.getStudentById(id);
-        String pathInfo = request.getPathInfo();
+        ListInterface<StudentCourse> sc = StudentCourseDao.getStudentCourseListById(id);
+        ListInterface<Course> cList = CourseDao.getAllAvailableCourses();
 
-        if (pathInfo == null || pathInfo.equals("/")) {
-            request.setAttribute("student", student);
-            request.setAttribute("scList", scList);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/studentReport1.jsp?id=" + id);
-            dispatcher.forward(request, response);
+        // Filter courses if needed
+        ListInterface<Course> filteredCourses = StudentCourseDao.filterCourses(sc, cList,id);
 
-        } else {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND);
-        }
+        request.setAttribute("student", student);
+        //request.setAttribute("scList", sc);
+        request.setAttribute("filteredCourses", filteredCourses);
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/studentReport1.jsp?id=" + id);
+        dispatcher.forward(request, response);
     }
 
-    // view the total number of active students and inactive students
+    // view the total number of active students and inactive students (Report 2)
     private void studentChart(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //ListInterface<Student> inactiveList = StudentDao.getInactiveStudents();
@@ -393,6 +409,7 @@ public class studentServlet extends HttpServlet {
         try {
             // Attempt to add the student
             StudentDao.addStudent(s);
+            HistoryDao.addHistory("Student '" + name + "' has been added");
 
             // If no exceptions are thrown, the addition was successful
             //ListInterface<Student> updatedStudentList = StudentDao.getAllStudents();     
@@ -421,6 +438,8 @@ public class studentServlet extends HttpServlet {
 
         // Forward the search results to a JSP for display
         request.setAttribute("searchResults", searchResults);
+        HistoryDao.addHistory("Search '" + name + "' for student's name");
+
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/students.jsp");
         dispatcher.forward(request, response);
     }
@@ -442,7 +461,7 @@ public class studentServlet extends HttpServlet {
             // Handle the case where studentList is empty
             PrintWriter out = response.getWriter();
             out.println("<script>alert('No students found!');</script>");
-            out.println("<script>window.location.replace('studentAmendServlet');</script>");
+            out.println("<script>window.location.replace('studentServlet?action=amendResult');</script>");
             out.close();
             return;
         }
@@ -460,6 +479,7 @@ public class studentServlet extends HttpServlet {
             boolean status = StudentDao.updateStudent(id, s, mergedList);
             if (status) {
                 // Student updated successfully
+                HistoryDao.addHistory("A student with the ID '" + id + "' has been updated");
                 PrintWriter out = response.getWriter();
                 out.println("<script>alert('Record saved successfully!');</script>");
                 out.println("<script>window.location.href = '" + request.getContextPath() + "/studentServlet';</script>");
@@ -468,14 +488,14 @@ public class studentServlet extends HttpServlet {
                 // Failed to update student, display an error message
                 PrintWriter out = response.getWriter();
                 out.println("<script>alert('Failed to update student record!');</script>");
-                out.println("<script>window.location.replace('studentAmendServlet');</script>");
+                out.println("<script>window.location.replace('studentServlet?action=amendResult');</script>");
                 out.close();
             }
         } else {
             // Student with the provided ID does not exist, display an error message
             PrintWriter out = response.getWriter();
             out.println("<script>alert('Student with ID " + id + " does not exist!');</script>");
-            out.println("<script>window.location.replace('studentAmendServlet');</script>");
+            out.println("<script>window.location.replace('studentServlet?action=amendResult');</script>");
             out.close();
         }
 
@@ -503,6 +523,7 @@ public class studentServlet extends HttpServlet {
     // assign students to available courses
     private void assignStudentCourses(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Student id
         String id = request.getParameter("id");
 
         // Retrieve selected courses (assuming checkboxes are used for course selection)
@@ -524,6 +545,8 @@ public class studentServlet extends HttpServlet {
             String status = request.getParameter(courseId + "_status"); // Retrieve status for the current courseId
             if (status != null) {
                 Course c = CourseDao.getCourseById(courseId);
+                //String dayOfWeek = c.getDayOfWeek();
+                //String startTime = c.getStartTime();
                 int creditHours = c.getCreditHours();
                 totalCreditHours += creditHours; // Increment total credit hours
 
@@ -535,6 +558,7 @@ public class studentServlet extends HttpServlet {
                     out.close();
                     return;
                 }
+
             }
         }
 
@@ -546,16 +570,38 @@ public class studentServlet extends HttpServlet {
             for (String cId : courseIds) {
                 String status = request.getParameter(cId + "_status"); // Retrieve status for the current courseId
                 if (status != null) {
-                    StudentCourse studentCourse = StudentCourseDao.getStudentCourseByIdAndCourseId(id, cId);
+                    StudentCourse studentCourse = StudentCourseDao.getStudentCourseBysIdAndcId(id, cId);
+                    Course c = CourseDao.getCourseById(cId);
+                    String dayOfWeek = c.getDayOfWeek();
+                    String startTime = c.getStartTime();
                     if (studentCourse == null) {
                         // If no course exists for the student and course ID, mark it for addition
+
                         ListInterface<String> newCourses = new LinkedList<>();
                         newCourses.add(cId);
                         StudentCourse newStudentCourse = new StudentCourse(id, newCourses, status); // Add status to the new course
+                        boolean invalid = StudentCourseDao.checkValidCourseTime(updatedCourses, id, dayOfWeek, startTime);
+                        if (invalid) {
+                            PrintWriter out = response.getWriter();
+                            out.println("<script>alert('Time conflict. Please choose a different course or time slot.');</script>");
+                            out.println("<script>window.location.href = '" + request.getContextPath() + "/studentServlet';</script>");
+                            out.close();
+                            return;
+                        }
                         updatedCourses.add(newStudentCourse);
+                        //StudentCourseDao.addCourse(newStudentCourse);
                     } else {
                         // If a course already exists, update its status
                         studentCourse.setCourseStatus(status); // Update the status of the existing course
+                        boolean invalid = StudentCourseDao.checkValidCourseTime(updatedCourses, id, dayOfWeek, startTime);
+                        if (invalid) {
+                            PrintWriter out = response.getWriter();
+                            out.println("<script>alert('Time conflict. Please choose a different course or time slot.');</script>");
+                            out.println("<script>window.location.href = '" + request.getContextPath() + "/studentServlet';</script>");
+                            out.close();
+                            return;
+                        }
+                        //StudentCourseDao.replaceCourseList(id, updatedCourses);
                         updatedCourses.add(studentCourse); // Add the updated course to the list
                     }
                 }
@@ -563,6 +609,7 @@ public class studentServlet extends HttpServlet {
 
             // Replace the existing list of courses with the updated one
             StudentCourseDao.replaceCourseList(id, updatedCourses);
+            HistoryDao.addHistory("Assigned course(s) to student '" + id + "'");
 
             // If the loop completes successfully (total credit hours <= 23), show success message
             PrintWriter out = response.getWriter();

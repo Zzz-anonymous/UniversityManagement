@@ -18,7 +18,7 @@
             <h1>Create Course</h1>
         </header>
         <main>
-            <form method="post" action="createCourseServlet">
+            <form method="post" action="courseServlet">
                 <div>
                     <table width="100%">
                         <tr>
@@ -51,6 +51,31 @@
                                     <option value="2">2</option>
                                     <option value="3">3</option>
                                     <option value="4">4</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="dayOfWeek">Day of Week</label> </td>
+                            <td><select name="dayOfWeek" id="dayOfWeek">
+                                    <option value="Monday">Monday</option>
+                                    <option value="Tuesday">Tuesday</option>
+                                    <option value="Wednesday">Wednesday</option>
+                                    <option value="Thursday">Thursday</option>
+                                    <option value="Friday">Friday</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="startTime">Start Time:</label></td>
+                            <td><input type="time" id="startTime" name="startTime" min="08:00" max="17:00" value="08:00"></td>
+                        </tr>
+
+                        <tr>
+                            <td><label for="duration">Duration:</label> </td>
+                            <td>
+                                <select name="duration" id="duration">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
                                 </select>
                             </td>
                         </tr>
@@ -93,7 +118,7 @@
                                 <input type="checkbox" id="programme" name="programmeName[]" value="<%= p.getName()%>">
                                 <label for="programme"><%= p.getName()%></label><br>
                                 <% }
-                                }%>
+                                    }%>
                             </td>
                         </tr>
 
@@ -102,7 +127,7 @@
                             if (fList != null && !fList.isEmpty()) {
 
                         %>           
-                              
+
                         <tr>
                             <td><label for="facultyName">Faculty Names:</label> </td>
                             <td>
@@ -123,7 +148,7 @@
                         <%
                             }
                         %>
-                        
+
                         <tr>
                             <td></td>
                             <td>
@@ -137,6 +162,14 @@
         <%@include file = "/shared/footer.jsp"%>
     </div>
 </section>
+<script>
+    const startTimeInput = document.getElementById("startTime");
+
+    startTimeInput.addEventListener("input", function() {
+        const isValid = /^([01]\d|2[0-3]):([0-5]\d)$/.test(startTimeInput.value);
+        startTimeInput.setCustomValidity(isValid ? "" : "Please enter a valid time with minutes set to 00 or 30.");
+    });
+</script>
 
 
 </body>

@@ -3,6 +3,9 @@
     Created on : 10 Mar 2024, 2:58:01 pm
     Author     : Zy
 --%>
+<%@page import="Dao.FacultyDao"%>
+<%@page import="Dao.ProgrammeDao"%>
+<%@page import="Dao.TutorDao"%>
 <%@page import="Entity.Faculty"%>
 <%@include file = "/shared/header.jsp"%>
 <%@ page import = "Entity.Programme"%>
@@ -80,7 +83,7 @@
                             </td>
                         </tr>
                         <%
-                            ListInterface<Tutor> tList = Tools.initializeTutors();
+                            ListInterface<Tutor> tList = TutorDao.initializeTutors();
                             if (tList != null && !tList.isEmpty()) {
                         %>           
                         <tr>
@@ -105,7 +108,7 @@
                         %>
 
                         <%
-                            ListInterface<Programme> pList = Tools.initializeProgrammes();
+                            ListInterface<Programme> pList = ProgrammeDao.initializeProgrammes();
                             if (pList != null && !pList.isEmpty()) {
 
                         %>           
@@ -123,7 +126,7 @@
                         </tr>
 
                         <%
-                            ListInterface<Faculty> fList = Tools.initializeFaculties();
+                            ListInterface<Faculty> fList = FacultyDao.initializeFaculties();
                             if (fList != null && !fList.isEmpty()) {
 
                         %>           

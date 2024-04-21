@@ -4,6 +4,7 @@
     Author     : Zy
 --%>
 
+<%@page import="Dao.FacultyDao"%>
 <%@page import="Entity.Faculty"%>
 <%@page import = "adt.*"%>
 <%@page import = "Entity.Course"%>
@@ -25,7 +26,7 @@
                 <input type="search" id="search" name="search" placeholder="Search Names" autofocus>        
             </form>
             <%
-                ListInterface<Faculty> fList = (ListInterface<Faculty>) Tools.initializeFaculties();
+                ListInterface<Faculty> fList = (ListInterface<Faculty>) FacultyDao.initializeFaculties();
                 ListInterface<Course> cList = (ListInterface<Course>) request.getAttribute("resultList");
                 ListInterface<Course> cr = (ListInterface<Course>) request.getAttribute("searchResults");
                 boolean showSearchResults = cr != null && !cr.isEmpty();

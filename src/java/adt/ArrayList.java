@@ -1,8 +1,8 @@
 package adt;
 
 /**
- * @author Frank M. Carrano
- * @version 2.0
+ *
+ * @author Zy
  */
 import java.util.Iterator;
 import java.io.Serializable;
@@ -53,29 +53,25 @@ public class ArrayList<T> implements ListInterface<T>, Serializable {
     }
 
     @Override
-    public T remove(int position) {
-        T result = null;
-
+    public boolean remove(int position) {
         if ((position >= 1) && (position <= totalNumberData)) {
-            result = array[position - 1];
-
             if (position < totalNumberData) {
                 removeGap(position);
             }
-
             totalNumberData--;
+            return true; // Removal successful
+        } else {
+            return false; // Invalid position
         }
-
-        return result;
     }
 
     @Override
-    public void clear() {
+    public void reset() {
         totalNumberData = 0;
     }
 
     @Override
-    public boolean replace(int position, T newData) {
+    public boolean update(int position, T newData) {
         boolean isSuccessful = true;
 
         if ((position >= 1) && (position <= totalNumberData)) {
@@ -119,10 +115,6 @@ public class ArrayList<T> implements ListInterface<T>, Serializable {
         return totalNumberData == 0;
     }
 
-    @Override
-    public boolean isFull() {
-        return false;
-    }
 
     private void doubleArray() {
         T[] oldArray = array;
@@ -156,9 +148,8 @@ public class ArrayList<T> implements ListInterface<T>, Serializable {
         }
     };
 
-
-@Override
-public String toString() {
+    @Override
+    public String toString() {
         String outputStr = "";
         for (int index = 0; index < totalNumberData; ++index) {
             outputStr += array[index] + "\n";
@@ -220,19 +211,17 @@ public String toString() {
 
         return isSuccessful;
     }
-    
+
     @Override
-    public boolean update(int position, T newData){
+    public ListInterface<T> search(Predicate<T> criteria) {
         throw new UnsupportedOperationException();
     }
+
+    ;
     
     @Override
-    public ListInterface<T> search(Predicate<T> criteria){
+    public int countNode() {
         throw new UnsupportedOperationException();
-    };
-    
-    @Override
-    public int countNode(){
-        throw new UnsupportedOperationException();
-    };
+    }
+;
 }

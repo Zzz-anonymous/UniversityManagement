@@ -4,10 +4,10 @@
     Author     : Zy
 --%>
 
+<%@page import="Dao.TutorDao"%>
 <%@page import="Entity.Tutor"%>
 <%@page import="adt.*"%>
 <%@page import="Dao.CourseDao"%>
-<%@page import="Utility.Tools"%>
 
 <%@include file="/shared/header.jsp"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -20,7 +20,7 @@
         <main>
            
             <%
-                ListInterface<Tutor> tList = Tools.initializeTutors();
+                ListInterface<Tutor> tList = TutorDao.initializeTutors();
                 if (tList != null && !tList.isEmpty()) {
                     
             %>

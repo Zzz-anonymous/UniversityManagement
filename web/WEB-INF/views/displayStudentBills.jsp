@@ -4,6 +4,8 @@
     Author     : Zy
 --%>
 
+<%@page import="Servlets.studentServlet.studentServices"%>
+<%@page import="Servlets.courseServlet.CourseServices"%>
 <%@page import="Dao.ProgrammeDao"%>
 <%@page import="Dao.StudentDao"%>
 <%@page import="Dao.ProgrammeCourseDao"%>
@@ -27,9 +29,9 @@
             <%
                 //ListInterface<Student> sList = StudentDao.getAllStudents();
                 ListInterface<StudentCourse> scList = (ListInterface<StudentCourse>) request.getAttribute("scList");
-                ListInterface<Course> cList = (ListInterface<Course>) CourseDao.getAllAvailableCourses();
+                ListInterface<Course> cList = (ListInterface<Course>) CourseServices.getAllAvailableCourses();
                 String studentId = request.getParameter("id");
-                Student student = StudentDao.getStudentById(studentId);
+                Student student = studentServices.getStudentById(studentId);
                 if (student != null && scList != null && cList != null) {
             %>
             <form>

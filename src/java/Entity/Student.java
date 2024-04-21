@@ -8,7 +8,6 @@ package Entity;
  *
  * @author Zy
  */
-import Utility.Person;
 public class Student extends Person{
     
    

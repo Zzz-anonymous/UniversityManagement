@@ -4,6 +4,7 @@
     Author     : Zy
 --%>
 
+<%@page import="Dao.FacultyDao"%>
 <%@page import="Entity.Programme"%>
 <%@page import="Entity.Faculty"%>
 <%@page import="Entity.Course"%>
@@ -21,7 +22,7 @@
         <main>
 
             <%
-                ListInterface<Faculty> fList = (ListInterface<Faculty>) Tools.initializeFaculties();
+                ListInterface<Faculty> fList = (ListInterface<Faculty>) FacultyDao.initializeFaculties();
                 ListInterface<Course> inactiveList = (ListInterface<Course>) request.getAttribute("resultList");
             %>
 

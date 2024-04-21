@@ -4,6 +4,8 @@
     Author     : Zy
 --%>
 
+<%@page import="Servlets.courseServlet.programmeCourseServices"%>
+<%@page import="Servlets.courseServlet.CourseServices"%>
 <%@page import="Entity.ProgrammeCourse"%>
 <%@page import="Dao.ProgrammeCourseDao"%>
 <%@page import="adt.ListInterface"%>
@@ -19,12 +21,12 @@
     <div class="home-content">
         <i class='bx bx-menu'></i>
         <header>
-            <h1>Programmes</h1>
+            <h1>Programmes Details</h1>
         </header>
         <main>
             <%
-                ListInterface<Course> cList = CourseDao.getAllAvailableCourses();
-                ListInterface<ProgrammeCourse> pcList = ProgrammeCourseDao.getProgrammeCourse();
+                ListInterface<Course> cList = CourseServices.getAllAvailableCourses();
+                ListInterface<ProgrammeCourse> pcList = programmeCourseServices.getProgrammeCourse();
                 ListInterface<Programme> pList = (ListInterface<Programme>) request.getAttribute("programme");
                 if (pList != null && !pList.isEmpty()) {
                     for (int i = 1; i <= pList.getTotalNumberOfData(); i++) {
@@ -56,7 +58,7 @@
                                 courseTaken = true;
                                 for (int j = 1; j <= cList.getTotalNumberOfData(); j++) {
                                     Course c = cList.getData(j);
-                                    String cName = ProgrammeCourseDao.getCourseNameById(c.getId(), p.getId());
+                                    String cName = programmeCourseServices.getCourseNameById(c.getId(), p.getId());
                                     if (pc.getCourseId().contains(c.getId())) {
                 %>
                 <tr>

@@ -4,12 +4,12 @@
     Author     : Zy
 --%>
 
+<%@page import="Dao.FacultyDao"%>
 <%@page import="Entity.Faculty"%>
 <%@page import="adt.*"%>
 <%@page import="Entity.Course"%>
 <%@page import="Entity.Programme"%>
 <%@page import="Dao.CourseDao"%>
-<%@page import="Utility.Tools"%>
 
 <%@include file="/shared/header.jsp"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -21,7 +21,7 @@
         </header>
         <main>
             <% 
-                ListInterface<Faculty> fList = Tools.initializeFaculties();
+                ListInterface<Faculty> fList = FacultyDao.initializeFaculties();
                 if (fList != null && !fList.isEmpty()) {
                     
             %>

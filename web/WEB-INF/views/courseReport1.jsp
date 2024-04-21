@@ -4,7 +4,6 @@
     Author     : Zy
 --%>
 
-<%@page import="Dao.HistoryDao"%>
 <%@page import = "adt.*"%>
 <%@page import = "Entity.Student"%>
 <%@page import = "Utility.Tools"%>
@@ -25,7 +24,7 @@
                 </thead>    
                 <tbody>
                     <%
-                        ListInterface<String> history = (ListInterface<String>) HistoryDao.printHistory();
+                        ListInterface<String> history = (ListInterface<String>) Tools.printHistory();
                         boolean showResults = history != null && !history.isEmpty();
                         if (showResults) {
                            

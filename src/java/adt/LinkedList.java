@@ -13,15 +13,16 @@ import java.util.function.Predicate;
 
 public class LinkedList<T> implements ListInterface<T> {
 
-    private Node firstNode; // reference to first node
-    private int totalNumberData;  	// number of data in list
+    private Node firstNode;
+    private Node lastNode;
+    private int totalNumberData;
 
     public LinkedList() {
-        clear();
+        reset();
     }
 
     @Override
-    public final void clear() {
+    public final void reset() {
         firstNode = null;
         totalNumberData = 0;
     }
@@ -44,11 +45,11 @@ public class LinkedList<T> implements ListInterface<T> {
         return countNodes(firstNode);
     }
 
-    public int countNodes(Node passInFirstNode) {
-        if (passInFirstNode == null) {
+    public int countNodes(Node firstNode) {
+        if (firstNode == null) {
             return 0;
         } else {
-            return 1 + countNodes(passInFirstNode.next);
+            return 1 + countNodes(firstNode.next);
         }
     }
 
@@ -75,120 +76,131 @@ public class LinkedList<T> implements ListInterface<T> {
         }
     }
 
-    @Override
-    public boolean add(T newData) {
-        Node newNode = new Node(newData);	// create the new node
 
-        if (isEmpty()) {
+    @Override 
+    public boolean add(T newData) {
+        Node newNode = new Node(newData);
+
+        if (!isEmpty()) {
+            // Update the next reference of the last node
+            lastNode.next = newNode; 
+        } else {
+            // If the list is empty, set the new node as the first node
+            firstNode = newNode; 
+        }
+        
+        // Update the last node reference
+        lastNode = newNode; 
+        totalNumberData++;
+        return true;
+    }
+
+
+    @Override 
+    public boolean add(int newPosition, T newData) {
+        // Invalid position
+        if (newPosition < 1 || newPosition > totalNumberData + 1) {
+            return false; 
+        }
+
+        Node newNode = new Node(newData);
+
+        // add to the beginning of list
+        if (isEmpty() || newPosition == 1) { 
+            newNode.next = firstNode;
             firstNode = newNode;
-        } else {                        // add to end of nonempty list
-            Node currentNode = firstNode;	// traverse linked list with p pointing to the current node
-            while (currentNode.next != null) { // while have not reached the last node
-                currentNode = currentNode.next;
+            if (isEmpty()) {
+                // Update lastNode if the list was empty
+                lastNode = newNode; 
             }
-            currentNode.next = newNode; // make last node reference new node
+        } else { // list is not empty and newPosition > 1
+            Node nodeBefore = getNodeAtPosition(newPosition - 1);
+            
+            // make new node point to current node at newPosition
+            newNode.next = nodeBefore.next; 
+            // make the node before point to the new node
+            nodeBefore.next = newNode; 
+            if (newPosition == totalNumberData + 1) {
+                // Update lastNode if adding at the end of the list
+                lastNode = newNode; 
+            }
         }
 
         totalNumberData++;
         return true;
     }
 
-    @Override
-    public boolean add(int newPosition, T newData) { // OutOfMemoryError possible
-        boolean isSuccessful = true;
-
-        if ((newPosition >= 1) && (newPosition <= totalNumberData + 1)) {
-            Node newNode = new Node(newData);
-
-            if (isEmpty() || (newPosition == 1)) { // case 1: add to beginning of list
-                newNode.next = firstNode;
-                firstNode = newNode;
-            } else {								// case 2: list is not empty and newPosition > 1
-                Node nodeBefore = firstNode;
-                for (int i = 1; i < newPosition - 1; ++i) {
-                    nodeBefore = nodeBefore.next;		// advance nodeBefore to its next node
-                }
-
-                newNode.next = nodeBefore.next;	// make new node point to current node at newPosition
-                nodeBefore.next = newNode;		// make the node before point to the new node
-            }
-
-            totalNumberData++;
-        } else {
-            isSuccessful = false;
+    @Override 
+    public boolean remove(int position) {
+        Node currentNode = getNodeAtPosition(position);
+        
+        // Invalid position
+        if (currentNode == null) {
+            return false; 
         }
 
-        return isSuccessful;
-    }
-
-    @Override
-    public T remove(int position) {
-        T result = null;                 // return value
-
-        if ((position >= 1) && (position <= totalNumberData)) {
-            if (position == 1) {      // case 1: remove first entry
-                result = firstNode.data;     // save entry to be removed
-                firstNode = firstNode.next;
-            } else {                         // case 2: givenPosition > 1
-                Node nodeBefore = firstNode;
-                for (int i = 1; i < position - 1; ++i) {
-                    nodeBefore = nodeBefore.next;		// advance nodeBefore to its next node
-                }
-                result = nodeBefore.next.data;  // save entry to be removed
-                nodeBefore.next = nodeBefore.next.next;	// make node before point to node after the
-            } 																// one to be deleted (to disconnect node from chain)
-
-            totalNumberData--;
-        }
-
-        return result; // return removed entry, or null if operation fails
-    }
-
-    @Override
-    public boolean update(int position, T newData) {
-        boolean isSuccessful = true;
-
-        if ((position >= 1) && (position <= totalNumberData)) {
-            Node currentNode = firstNode;
-            for (int i = 0; i < position - 1; ++i) {
-                currentNode = currentNode.next;		// advance currentNode to next node
-            }
-            currentNode.data = newData;	// currentNode is pointing to the node at givenPosition
-        } else {
-            isSuccessful = false;
-        }
-
-        return isSuccessful;
-    }
-
-    @Override
-    public T getData(int position) {
-        T result = null;
-
-        if ((position >= 1) && (position <= totalNumberData)) {
-            Node currentNode = firstNode;
-            for (int i = 0; i < position - 1; ++i) {
-                currentNode = currentNode.next;		// advance currentNode to next node
-            }
-            result = currentNode.data;	// currentNode is pointing to the node at givenPosition
-        }
-
-        return result;
-    }
-
-    @Override
-    public boolean contains(T data) {
-        boolean found = false;
-        Node currentNode = firstNode;
-
-        while (!found && (currentNode != null)) {
-            if (data.equals(currentNode.data)) {
-                found = true;
+        // remove first entry
+        if (position == 1) { 
+            if (totalNumberData == 1) {
+                firstNode = null;
+                lastNode = null;
             } else {
-                currentNode = currentNode.next;
+                firstNode = firstNode.next;
+            }
+        } else { // position > 1
+            Node nodeBefore = getNodeAtPosition(position - 1);
+            if (nodeBefore != null && nodeBefore.next != null) {
+                // remove the node at newPosition
+                nodeBefore.next = nodeBefore.next.next; 
+                if (nodeBefore.next == null) {
+                    // Update lastNode if the last node is removed
+                    lastNode = nodeBefore; 
+                }
             }
         }
-        return found;
+        totalNumberData--;
+        
+        // operation succeeds
+        return true; 
+    }
+
+    @Override 
+    public boolean update(int newPosition, T newData) {
+        // Invalid position
+        if (newPosition < 1 || newPosition > totalNumberData) {
+            return false; 
+        }
+
+        Node currentNode = firstNode;
+        for (int i = 1; i < newPosition; ++i) {
+            // advance currentNode to next node
+            currentNode = currentNode.next;    
+        }
+        // currentNode is pointing to the node at new Position
+        currentNode.data = newData;    
+
+        return true;
+    }
+
+    @Override 
+    public T getData(int position) {
+        Node currentNode = getNodeAtPosition(position);
+        
+        if (currentNode == null) {
+            return null; 
+        }
+
+        return currentNode.data;
+    }
+
+    @Override 
+    public boolean contains(T newData) {
+        for (Node currentNode = firstNode; currentNode != null; currentNode = currentNode.next) {
+            if (newData.equals(currentNode.data)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -198,32 +210,21 @@ public class LinkedList<T> implements ListInterface<T> {
 
     @Override
     public boolean isEmpty() {
-        boolean result;
-
-        result = totalNumberData == 0;
-
-        return result;
+        return firstNode == null;
     }
 
-    @Override
-    public boolean isFull() {
-        return false;
-    }
-    
-    @Override
-    public boolean replace(int position, T newData) {
-        throw new UnsupportedOperationException();
-    }
 
-    @Override
-    public String toString() {
-        String outputStr = "";
-        Node currentNode = firstNode;
-        while (currentNode != null) {
-            outputStr += currentNode.data + "\n";
-            currentNode = currentNode.next;
+    private Node getNodeAtPosition(int position) {
+        if (position < 1 || position > totalNumberData) {
+            return null; 
         }
-        return outputStr;
+
+        Node currentNode = firstNode;
+        for (int i = 1; i < position; ++i) {
+            currentNode = currentNode.next;  
+        }
+
+        return currentNode;
     }
 
     private class Node {

@@ -4,6 +4,8 @@
     Author     : Zy
 --%>
 
+<%@page import="Servlets.courseServlet.programmeCourseServices"%>
+<%@page import="Servlets.courseServlet.CourseServices"%>
 <%@page import="Dao.ProgrammeCourseDao"%>
 <%@page import="Dao.ProgrammeDao"%>
 <%@page import="Entity.ProgrammeCourse"%>
@@ -48,7 +50,7 @@
                             <th><label for="unchosenCourses">Available Courses</label></th>
                             <td>
                                 <%
-                                    ListInterface<Course> cList = (ListInterface<Course>) CourseDao.getAllAvailableCourses();
+                                    ListInterface<Course> cList = (ListInterface<Course>) CourseServices.getAllAvailableCourses();
                                     ListInterface<String> existingCourses = (ListInterface<String>) request.getAttribute("existingCourses");
                                    
 
@@ -58,7 +60,7 @@
                                         for (int j = 1; j <= cList.getTotalNumberOfData(); j++) {
                                             Course c = cList.getData(j);
                                              
-                                            String cName = ProgrammeCourseDao.getCourseNameById(c.getId(), p.getId());
+                                            String cName = programmeCourseServices.getCourseNameById(c.getId(), p.getId());
                                             if (cName != null) {
                                                 // Check if the current course is already selected by the student
                                                 boolean isCourseSelected = existingCourses != null && existingCourses.contains(c.getId());

@@ -3,6 +3,9 @@
     Created on : 19 Mar 2024, 6:52:51 pm
     Author     : Zy
 --%>
+<%@page import="Dao.FacultyDao"%>
+<%@page import="Dao.ProgrammeDao"%>
+<%@page import="Dao.TutorDao"%>
 <%@page import="Entity.Faculty"%>
 <%@page import="Entity.Course"%>
 <%@page import="Dao.CourseDao"%>
@@ -102,7 +105,7 @@
 
 
                         <%
-                            ListInterface<Tutor> tList = Tools.initializeTutors();
+                            ListInterface<Tutor> tList = TutorDao.initializeTutors();
                             if (tList != null && !tList.isEmpty()) {
                         %>           
                         <tr>
@@ -131,7 +134,7 @@
                             <td>
                                 <%
                                     ListInterface<Programme> selectedProgrammes = (ListInterface<Programme>) request.getAttribute("selectedProgrammes");
-                                    ListInterface<Programme> pList = Tools.initializeProgrammes();
+                                    ListInterface<Programme> pList = ProgrammeDao.initializeProgrammes();
                                     if (pList != null && !pList.isEmpty()) {
                                         for (int i = 1; i <= pList.getTotalNumberOfData(); i++) {
                                             Programme p = pList.getData(i);
@@ -150,7 +153,7 @@
                         </tr>
 
                         <%
-                            ListInterface<Faculty> fList = Tools.initializeFaculties();
+                            ListInterface<Faculty> fList = FacultyDao.initializeFaculties();
                             if (fList != null && !fList.isEmpty()) {
 
                         %>           

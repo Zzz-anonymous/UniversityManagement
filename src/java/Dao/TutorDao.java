@@ -5,7 +5,7 @@
 package Dao;
 
 import Entity.Tutor;
-import static Utility.Tools.initializeTutors;
+import adt.ArrayList;
 import adt.ListInterface;
 import java.util.Iterator;
 
@@ -15,61 +15,21 @@ import java.util.Iterator;
  */
 public class TutorDao {
 
-    public static Tutor findTutorByName(String name) {
-        ListInterface<Tutor> tutor = initializeTutors();
-
-        for (int i = 1; i <= tutor.getTotalNumberOfData(); i++) {
-            Tutor t = tutor.getData(i);
-            if (t.getName().equals(name)) {
-                return t;
-            }
-        }
-
-        // If no matching programme is found, return null or throw an exception
-        return null;
+    //  Method to return a collection of with hard-coded tutor values
+    public static ListInterface<Tutor> initializeTutors() {
+        ListInterface<Tutor> tList = new ArrayList<>();
+        tList.add(new Tutor("T1001", "Zhong Li", "Male", "abc@123.com", 1, "Doctoral"));
+        tList.add(new Tutor("T1002", "Raiden Shogun", "Female", "abc@123.com", 1, "Master"));
+        tList.add(new Tutor("T1003", "Yae Miko", "Female", "abc@123.com", 1, "Master"));
+        tList.add(new Tutor("T1004", "Klee", "Female", "abc@123.com", 1, "Degree"));
+        tList.add(new Tutor("T1005", "Ningguang", "Female", "abc@123.com", 1, "Master"));
+        tList.add(new Tutor("T1006", "Xian Yun", "Female", "abc@123.com", 1, "Master"));
+        tList.add(new Tutor("T1007", "Neuvillette", "Male", "abc@123.com", 1, "Master"));
+        tList.add(new Tutor("T1008", "Alhaitham", "Male", "abc@123.com", 1, "Doctoral"));
+        tList.add(new Tutor("T1009", "Beidou", "Female", "abc@123.com", 1, "Degree"));
+        tList.add(new Tutor("T1010", "Nahida", "Female", "abc@123.com", 1, "Master"));
+        tList.add(new Tutor("T1011", "Xiao", "Male", "abc@123.com", 1, "Degree"));
+        tList.add(new Tutor("T1012", "Yelan", "Female", "abc@123.com", 1, "Degree"));
+        return tList;
     }
-    
-    // check the index number based on id
-    public static int getIndex(String id, ListInterface<Tutor> list) {
-        // Trim the provided ID to remove leading and trailing whitespace
-        String trimmedId = id.trim();
-
-        // Get an iterator for the LinkedList
-        Iterator<Tutor> iterator = list.getIterator();
-
-        // Initialize index counter
-        int index = 1;
-
-        // Iterate over the list
-        while (iterator.hasNext()) {
-            Tutor t = iterator.next();
-            if (t != null) {
-                if (t.getId().equals(trimmedId)) {
-                    // If student ID matches, return the index
-                    return index;
-                }
-            }
-            // Increment index counter
-            index++;
-        }
-
-        // If student ID is not found, return -1
-        return -1;
-    }
-    
-    // get tutor object by id
-    public static Tutor getTutorById(String id) {
-        ListInterface<Tutor> tutor = initializeTutors();
-
-        for (int i = 1; i <= tutor.getTotalNumberOfData(); i++) {
-            Tutor t = tutor.getData(i);
-            if (t.getName().equals(id)) {
-                return t;
-            }
-        }
-
-        // If no matching programme is found, return null or throw an exception
-        return null;
-    }
-
 }

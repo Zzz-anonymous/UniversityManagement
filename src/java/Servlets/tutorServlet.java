@@ -7,15 +7,16 @@ package Servlets;
 import Dao.CourseDao;
 import Dao.ProgrammeCourseDao;
 import Dao.TutorDao;
+import static Dao.TutorDao.initializeTutors;
 import Entity.Course;
-import Entity.ProgrammeCourse;
 import Entity.Tutor;
-import Utility.Tools;
+import Servlets.courseServlet.programmeCourseServices;
 import adt.LinkedList;
 import adt.ListInterface;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,9 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/tutorServlet")
 public class tutorServlet extends HttpServlet {
 
-    private final static ListInterface<Tutor> tList = Tools.initializeTutors();
-    private final static ListInterface<Course> cList = CourseDao.getAllAvailableCourses();
-    private final static ListInterface<ProgrammeCourse> pcList = ProgrammeCourseDao.getProgrammeCourse();
+    private final static ListInterface<Tutor> tList = TutorDao.initializeTutors();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -40,9 +39,9 @@ public class tutorServlet extends HttpServlet {
         // tutor id
         String id = request.getParameter("id");
 
-        Tutor tutor = TutorDao.getTutorById(id);
+        Tutor tutor = tutorServices.getTutorById(id);
 
-        int index = TutorDao.getIndex(id, tList);
+        int index = tutorServices.getIndex(id, tList);
         if (index != -1) {
             // If not found in mergedList, check in inactiveList
             tutor = tList.getData(index);
@@ -53,7 +52,7 @@ public class tutorServlet extends HttpServlet {
         tutorList.add(tutor);
 
         // Filter courses based on tutor ID and their presence in pcList
-        ListInterface<Course> filteredCourses = ProgrammeCourseDao.filterCoursesBytId(id);
+        ListInterface<Course> filteredCourses = programmeCourseServices.filterCoursesBytId(id);
         if (filteredCourses == null) {
             PrintWriter out = response.getWriter();
             out.println("<script>alert('No available courses for the tutor!');</script>");
@@ -68,5 +67,68 @@ public class tutorServlet extends HttpServlet {
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/courseReport2.jsp");
         dispatcher.forward(request, response);
+    }
+
+    // -----------------------------------------------------------------------------
+    //                         TUTOR SERVICES
+    // -----------------------------------------------------------------------------
+    public class tutorServices {
+
+        public static Tutor findTutorByName(String name) {
+            ListInterface<Tutor> tutor = initializeTutors();
+
+            for (int i = 1; i <= tutor.getTotalNumberOfData(); i++) {
+                Tutor t = tutor.getData(i);
+                if (t.getName().equals(name)) {
+                    return t;
+                }
+            }
+
+            // If no matching programme is found, return null or throw an exception
+            return null;
+        }
+
+        // check the index number based on id
+        public static int getIndex(String id, ListInterface<Tutor> list) {
+            // Trim the provided ID to remove leading and trailing whitespace
+            String trimmedId = id.trim();
+
+            // Get an iterator for the LinkedList
+            Iterator<Tutor> iterator = list.getIterator();
+
+            // Initialize index counter
+            int index = 1;
+
+            // Iterate over the list
+            while (iterator.hasNext()) {
+                Tutor t = iterator.next();
+                if (t != null) {
+                    if (t.getId().equals(trimmedId)) {
+                        // If student ID matches, return the index
+                        return index;
+                    }
+                }
+                // Increment index counter
+                index++;
+            }
+
+            // If student ID is not found, return -1
+            return -1;
+        }
+
+        // get tutor object by id
+        public static Tutor getTutorById(String id) {
+            ListInterface<Tutor> tutor = initializeTutors();
+
+            for (int i = 1; i <= tutor.getTotalNumberOfData(); i++) {
+                Tutor t = tutor.getData(i);
+                if (t.getName().equals(id)) {
+                    return t;
+                }
+            }
+
+            // If no matching programme is found, return null or throw an exception
+            return null;
+        }
     }
 }

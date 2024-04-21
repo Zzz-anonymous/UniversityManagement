@@ -8,7 +8,6 @@ package Entity;
  *
  * @author Zy
  */
-import Utility.Person;
 
 public class Tutor extends Person{
     private String level;

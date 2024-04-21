@@ -4,6 +4,7 @@
     Author     : Zy
 --%>
 
+<%@page import="Dao.StudentDao"%>
 <%@page import="Entity.Student"%>
 <%@page import = "adt.*"%>
 <%@page import = "Entity.Student"%>
@@ -18,7 +19,7 @@
         </header>
         <main>
             <%
-                ListInterface<Student> initializeStudent = Tools.initializeStudents();
+                ListInterface<Student> initializeStudent = StudentDao.initializeStudents();
                 ListInterface<Student> inactiveList = (ListInterface<Student>) request.getAttribute("resultList");
             %>
 

@@ -4,6 +4,7 @@
     Author     : Zy
 --%>
 
+<%@page import="Dao.ProgrammeDao"%>
 <%@page import="Utility.Tools"%>
 <%@page import="Entity.Programme"%>
 <%@page import = "adt.*"%>
@@ -42,7 +43,7 @@
                     </tr>
                     
                         <%
-                            ListInterface<Programme> pList = Tools.initializeProgrammes();
+                            ListInterface<Programme> pList = ProgrammeDao.initializeProgrammes();
                             if (pList != null && !pList.isEmpty()) {
 
                         %>           

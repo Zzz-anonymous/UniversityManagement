@@ -3,6 +3,8 @@
     Created on : 10 Mar 2024, 3:17:20 pm
     Author     : Zy
 --%>
+<%@page import="Servlets.courseServlet.CourseServices"%>
+<%@page import="Servlets.courseServlet.programmeCourseServices"%>
 <%@page import="Entity.ProgrammeCourse"%>
 <%@page import="Entity.Student"%>
 <%@page import="Dao.ProgrammeCourseDao"%>
@@ -47,8 +49,8 @@
                         </tr>
 
                         <%
-                            ListInterface<Course> cList = (ListInterface<Course>) CourseDao.getAllAvailableCourses();
-                            ListInterface<ProgrammeCourse> pcList = ProgrammeCourseDao.getProgrammeCourse();
+                            ListInterface<Course> cList = (ListInterface<Course>) CourseServices.getAllAvailableCourses();
+                            ListInterface<ProgrammeCourse> pcList = programmeCourseServices.getProgrammeCourse();
                             Student student = (Student) request.getAttribute("student");
                             String programmeId = student.getProgrammeId();
                             ListInterface<String> existingCourses = (ListInterface<String>) request.getAttribute("existingCourses");
@@ -63,7 +65,7 @@
                                             Course c = cList.getData(j);
                                             String courseId = c.getId();
                                             int creditHours = c.getCreditHours();
-                                            String cName = ProgrammeCourseDao.getCourseNameById(courseId, programmeId);
+                                            String cName = programmeCourseServices.getCourseNameById(courseId, programmeId);
                                             if (pc.getCourseId().contains(courseId)) {
                                                 // Check if the current course is already selected by the student
                                                 boolean isCourseSelected = existingCourses != null && existingCourses.contains(courseId);

@@ -3,6 +3,7 @@
     Created on : 21 Mar 2024, 5:17:33 pm
     Author     : Zy
 --%>
+<%@page import="Dao.ProgrammeDao"%>
 <%@page import="adt.*"%>
 <%@page import="Entity.Course"%>
 <%@page import="Entity.Programme"%>
@@ -21,7 +22,7 @@
            
             <%
                 
-                ListInterface<Programme> pList = Tools.initializeProgrammes();
+                ListInterface<Programme> pList = ProgrammeDao.initializeProgrammes();
                 if (pList != null && !pList.isEmpty()) {
                     
             %>

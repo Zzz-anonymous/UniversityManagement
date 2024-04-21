@@ -4,6 +4,7 @@
     Author     : Zy
 --%>
 
+<%@page import="Servlets.studentServlet.studentServices"%>
 <%@page import="Dao.ProgrammeDao"%>
 <%@page import="Dao.StudentDao"%>
 <%@page import="Dao.ProgrammeCourseDao"%>
@@ -29,7 +30,7 @@
                 //ListInterface<StudentCourse> scList = (ListInterface<StudentCourse>) request.getAttribute("scList");
                 ListInterface<Course> filteredCourses = (ListInterface<Course>) request.getAttribute("filteredCourses");
                 String studentId = request.getParameter("id");
-                Student student = StudentDao.getStudentById(studentId);
+                Student student = studentServices.getStudentById(studentId);
 
             %>
 

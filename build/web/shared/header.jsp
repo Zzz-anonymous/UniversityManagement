@@ -43,7 +43,7 @@
                     </div>
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Student Registration Management</a></li>
-                        <li><a href="insertStudent.jsp">Add student</a></li>
+                        <li><a href="insertStudentUI.jsp">Add student</a></li>
                         <li><a href="/UniversityManagement/studentServlet">View student Details</a></li>
                     </ul>
                 </li>
@@ -57,7 +57,7 @@
                     </div>
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Tutor List</a></li>
-                        <li><a href="displayTutors.jsp">View Tutor List</a></li>
+                        <li><a href="displayTutorsUI.jsp">View Tutor List</a></li>
                     </ul>
                 </li>
                 <li>
@@ -70,7 +70,7 @@
                     </div>
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Course Management</a></li>
-                        <li><a href="createCourse.jsp">Create Course</a></li>
+                        <li><a href="createCourseUI.jsp">Create Course</a></li>
                         <li><a href="/UniversityManagement/courseServlet">View Courses</a></li>
                     </ul>
                 </li>
@@ -84,7 +84,7 @@
                     </div>
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Programme Management</a></li>
-                        <li><a href="programmeCourse.jsp">View Programme</a></li>
+                        <li><a href="programmeCourseUI.jsp">View Programme</a></li>
                         
                     </ul>
                 </li>

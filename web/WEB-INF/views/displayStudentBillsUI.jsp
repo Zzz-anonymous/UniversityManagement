@@ -39,21 +39,21 @@
                 <div>
                     <table border="1" style="width:100%;" class="table">
                         <tr>
-                            <th colspan="7">Student's Information</th>
+                            <th colspan="8">Student's Information</th>
                         </tr>
                         <tr>
                             <th>Student ID</th> 
-                            <td colspan="2">${student.id}</td>
+                            <td colspan="3">${student.id}</td>
                             <th>Student Name</th>
                             <td colspan="3">${student.name}</td>
                         </tr>
                         <tr>
-                            <th>Email</th>
-                            <td colspan='6'>${student.email}</td>
+                            <th colspan="3">Email</th>
+                            <td colspan='5'>${student.email}</td>
                         </tr>
                         <tr>
                             <th>Gender</th>
-                            <td colspan="2">${student.gender}</td>
+                            <td colspan="3">${student.gender}</td>
                             <th>Student Status</th>
                             <td colspan="3">
                                 <% if (student.getStatus() == 1) { %>
@@ -64,10 +64,11 @@
                             </td>
                         </tr>
                         <tr>
-                            <th colspan="7">Student's Course Information</th>
+                            <th colspan="8">Student's Course Information</th>
                         </tr>
                         <tr>
                             <th></th>
+                            <th>Course ID</th>
                             <th colspan="2">Course Name</th>
                             <th colspan="2">Course Status</th>
                             <th>Credit Hours</th>
@@ -88,6 +89,7 @@
                         %>
                         <tr>
                             <td><%= courseIndex%></td> 
+                            <td><%= c.getId() %></td>
                             <td colspan="2"><%= c.getName()%></td>
                             <td colspan="2"><%= sc.getCourseStatus()%></td>
                             <td><%= c.getCreditHours()%></td>
@@ -104,13 +106,13 @@
                             if (!courseTaken) {
                         %>
                         <tr>
-                            <th colspan="7">No Course Assigned</th>
+                            <th colspan="8">No Course Assigned</th>
                         </tr>
                         <%
                             }
                         %>
                         <tr>
-                            <th colspan="6">Total Fees</th>
+                            <th colspan="7">Total Fees</th>
                             <td>RM <%= totalFees%></td>
                         </tr>
                     </table>

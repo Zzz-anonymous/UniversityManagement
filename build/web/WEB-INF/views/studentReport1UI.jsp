@@ -125,8 +125,7 @@
                                     boolean courseFound = false;
                                     String courseId = "";
                                     String courseName = "";
-                                    String cStartTime = "";
-                                    String cEndTime = "";
+                                    String tutorName = "";
                                     int duration = 0;
                                     // Iterate through filtered courses
                                     for (int i = 1; i <= filteredCourses.getTotalNumberOfData(); i++) {
@@ -137,8 +136,8 @@
                                             courseId = c.getId();
                                             courseName = c.getName();
                                             duration = c.getDuration();
-                                            cStartTime = c.getStartTime();
-                                            cEndTime = c.getEndTime();
+                                            tutorName = c.getTutor().getName();
+                                            
                                             courseFound = true; // Set the flag to true
                                             // Increment the column by duration to move to the next available time slot
                                             column += duration + 1;
@@ -149,9 +148,9 @@
                                     // Output table cell with course information if a course is found, otherwise, display an empty cell
                                     if (courseFound) {%>
                         <td style="text-align: center; background-color:#f0f0f0" colspan="<%= duration + 1%>">
-                            <%= courseId%> <br>
-                            <%= courseName%><br>
-                            <%= cStartTime%> - <%= cEndTime%>
+                            <%= courseId %> <br>
+                            <%= courseName %><br>
+                            <%= tutorName %>
                         </td>
                         <% } else { %>
                         <td></td>

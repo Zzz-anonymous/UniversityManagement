@@ -65,7 +65,7 @@ public class tutorServlet extends HttpServlet {
         request.setAttribute("tutor", tutorList);
         request.setAttribute("filteredCourses", filteredCourses);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/courseReport2.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/courseReport2UI.jsp");
         dispatcher.forward(request, response);
     }
 

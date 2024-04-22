@@ -152,7 +152,7 @@ public class courseServlet extends HttpServlet {
         if (pathInfo == null || pathInfo.equals("/")) {
 
             request.setAttribute("resultList", cList);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/displayCourses.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/displayCoursesUI.jsp");
             dispatcher.forward(request, response);
 
         } else {
@@ -170,7 +170,7 @@ public class courseServlet extends HttpServlet {
         StudentCourse studentCourse = studentCourseServices.getStudentCourseBycId(id);
         if (studentCourse != null) {
             PrintWriter out = response.getWriter();
-            out.println("<script>alert('Students are enrolled in this course! Can\\'t remove it');</script>");
+            out.println("<script>alert('Students are enrolled in course " + id + "! Can\\'t remove it');</script>");
             out.println("<script>window.location.href = '" + request.getContextPath() + "/courseServlet';</script>");
             out.close();
             return;
@@ -208,7 +208,7 @@ public class courseServlet extends HttpServlet {
             request.setAttribute("resultList", resultList);
         }
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/displayCourses.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/displayCoursesUI.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -228,7 +228,7 @@ public class courseServlet extends HttpServlet {
             request.setAttribute("resultList", resultList);
         }
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/inactiveCourses.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/inactiveCoursesUI.jsp");
         dispatcher.forward(request, response);
 
     }
@@ -259,7 +259,7 @@ public class courseServlet extends HttpServlet {
         request.setAttribute("dayOfWeek", dayOfWeek);
         request.setAttribute("startTime", startTime);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/amendCourse.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/amendCourseUI.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -298,10 +298,10 @@ public class courseServlet extends HttpServlet {
             // Set attributes and forward request only if availableCourses is not null and not empty
             request.setAttribute("existingCourses", existingCourses);
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/addCourseProgramme.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/addCourseProgrammeUI.jsp");
             dispatcher.forward(request, response);
         }
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/addCourseProgramme.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/addCourseProgrammeUI.jsp");
         dispatcher.forward(request, response);
 
     }
@@ -324,7 +324,7 @@ public class courseServlet extends HttpServlet {
         // Pass the student object to the JSP page
         request.setAttribute("programme", programmeList);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/displayProgrammeDetails.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/displayProgrammeDetailsUI.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -332,7 +332,7 @@ public class courseServlet extends HttpServlet {
     private void showHistory(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/courseReport1.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/courseReport1UI.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -346,7 +346,7 @@ public class courseServlet extends HttpServlet {
 
         request.setAttribute("tutor", tutor);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/displayTutorDetails.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/displayTutorDetailsUI.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -357,7 +357,7 @@ public class courseServlet extends HttpServlet {
         if (cList.isEmpty()) {
             PrintWriter out = response.getWriter();
             out.println("<script>alert('No course is created. Please create a course to view the chart.');</script>");
-            out.println("<script>window.location.href = 'createCourse.jsp';</script>");
+            out.println("<script>window.location.href = 'createCourseUI.jsp';</script>");
             out.close();
             return;
         }
@@ -365,7 +365,7 @@ public class courseServlet extends HttpServlet {
         // Set attributes and forward request only if availableCourses is not null and not empty
         request.setAttribute("cList", cList);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/courseReport2.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/courseReport3UI.jsp");
         dispatcher.forward(request, response);
 
     }
@@ -387,7 +387,7 @@ public class courseServlet extends HttpServlet {
             // show error message when the ID is already exists
             PrintWriter out = response.getWriter();
             out.println("<script>alert('ID already exists. Please choose a different ID.');</script>");
-            out.println("<script>window.location.href = 'createCourse.jsp';</script>");
+            out.println("<script>window.location.href = 'createCourseUI.jsp';</script>");
             out.close();
             return;
         }
@@ -483,7 +483,7 @@ public class courseServlet extends HttpServlet {
             // If an exception occurs, it means the addition failed
             PrintWriter out = response.getWriter();
             out.println("<script>alert('Failed to create course!');</script>");
-            out.println("<script>window.location.replace('createCourse.jsp');</script>");
+            out.println("<script>window.location.replace('createCourseUI.jsp');</script>");
             out.close();
         }
     }
@@ -501,7 +501,7 @@ public class courseServlet extends HttpServlet {
             return;
         } else {
             request.setAttribute("resultList", inactiveList);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/inactiveCourses.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/inactiveCoursesUI.jsp");
             dispatcher.forward(request, response);
         }
     }
@@ -518,7 +518,7 @@ public class courseServlet extends HttpServlet {
 
         // Forward the search results to a JSP for display
         request.setAttribute("searchResults", searchResults);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/displayCourses.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/displayCoursesUI.jsp");
         dispatcher.forward(request, response);
     }
 

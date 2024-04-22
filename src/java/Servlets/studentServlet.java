@@ -148,11 +148,11 @@ public class studentServlet extends HttpServlet {
                 // Display alert message if no students were found
                 PrintWriter out = response.getWriter();
                 out.println("<script>alert('No students were found.');</script>");
-                out.println("<script>window.location.href = 'insertStudent.jsp';</script>");
+                out.println("<script>window.location.href = 'insertStudentUI.jsp';</script>");
                 out.close();
             } else {
                 request.setAttribute("resultList", mergedList);
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/students.jsp");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/studentsUI.jsp");
                 dispatcher.forward(request, response);
             }
         } else {
@@ -176,7 +176,7 @@ public class studentServlet extends HttpServlet {
             request.setAttribute("resultList", resultList);
         }
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/students.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/studentsUI.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -196,7 +196,7 @@ public class studentServlet extends HttpServlet {
             request.setAttribute("resultList", resultList);
         }
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/inactiveStudents.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/inactiveStudentsUI.jsp");
         dispatcher.forward(request, response);
 
     }
@@ -230,7 +230,7 @@ public class studentServlet extends HttpServlet {
         request.setAttribute("gender", gender);
         request.setAttribute("ProgrammeId", ProgrammeId);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/amendStudent.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/amendStudentUI.jsp");
         dispatcher.forward(request, response);
 
     }
@@ -257,7 +257,7 @@ public class studentServlet extends HttpServlet {
             out.close();
         }
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/students.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/studentsUI.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -323,7 +323,7 @@ public class studentServlet extends HttpServlet {
         request.setAttribute("existingCourses", existingCourses); // Assuming existingCourses is a list of course IDs assigned to the student
         request.setAttribute("courseStatuses", courseStatuses);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("addStudentCourse.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("addStudentCourseUI.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -337,7 +337,7 @@ public class studentServlet extends HttpServlet {
         if (pathInfo == null || pathInfo.equals("/")) {
             request.setAttribute("student", student);
             request.setAttribute("scList", scList);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/displayStudentBills.jsp?id=" + id);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/displayStudentBillsUI.jsp?id=" + id);
             dispatcher.forward(request, response);
 
         } else {
@@ -360,7 +360,7 @@ public class studentServlet extends HttpServlet {
         //request.setAttribute("scList", sc);
         request.setAttribute("filteredCourses", filteredCourses);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/studentReport1.jsp?id=" + id);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/studentReport1UI.jsp?id=" + id);
         dispatcher.forward(request, response);
     }
 
@@ -375,7 +375,7 @@ public class studentServlet extends HttpServlet {
         request.setAttribute("inactiveList", inactiveList);
 
         // Forward the request to a JSP page where you generate the chart
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/studentReport2.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/studentReport2UI.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -395,7 +395,7 @@ public class studentServlet extends HttpServlet {
             // ID already exists, handle accordingly (e.g., show error message)
             PrintWriter out = response.getWriter();
             out.println("<script>alert('ID already exists. Please choose a different ID.');</script>");
-            out.println("<script>window.location.href = 'insertStudent.jsp';</script>");
+            out.println("<script>window.location.href = 'insertStudentUI.jsp';</script>");
             out.close();
             return;
         }
@@ -424,7 +424,7 @@ public class studentServlet extends HttpServlet {
             // If an exception occurs, it means the addition failed
             PrintWriter out = response.getWriter();
             out.println("<script>alert('Failed to add student!');</script>");
-            out.println("<script>window.location.replace('insertStudent.jsp');</script>");
+            out.println("<script>window.location.replace('insertStudentUI.jsp');</script>");
             out.close();
         }
     }
@@ -442,7 +442,7 @@ public class studentServlet extends HttpServlet {
         request.setAttribute("searchResults", searchResults);
         Tools.addHistory("Search '" + name + "' for student's name");
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/students.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/studentsUI.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -934,27 +934,21 @@ public class studentServlet extends HttpServlet {
             if (scList != null && cList != null) {
                 for (int k = 1; k <= scList.getTotalNumberOfData(); k++) {
                     StudentCourse sc = scList.getData(k);
-                    if (sc.getStudentId().equals(id)) {
-
+                    if (sc.getStudentId().equals(id) && !sc.getCourseStatus().equals("Resit")) {
                         for (int j = 1; j <= cList.getTotalNumberOfData(); j++) {
                             Course c = cList.getData(j);
                             if (sc.getCourseId().contains(c.getId())) {
                                 filteredCourses.add(c);
                                 break;
-
                             }
-
                         }
-
                     }
                 }
-
             }
             // Check if no courses were found, return null
             if (filteredCourses.isEmpty()) {
                 return null;
             }
-
             return filteredCourses;
         }
 

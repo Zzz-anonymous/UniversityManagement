@@ -170,7 +170,7 @@ public class courseServlet extends HttpServlet {
         StudentCourse studentCourse = studentCourseServices.getStudentCourseBycId(id);
         if (studentCourse != null) {
             PrintWriter out = response.getWriter();
-            out.println("<script>alert('Students are enrolled in course " + id + "! Can\\'t remove it');</script>");
+            out.println("<script>alert('Students are enrolled in course!" + id + " Can\\'t remove it');</script>");
             out.println("<script>window.location.href = '" + request.getContextPath() + "/courseServlet';</script>");
             out.close();
             return;

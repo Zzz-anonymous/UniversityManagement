@@ -238,9 +238,17 @@ public class studentServlet extends HttpServlet {
     // delete a student to inactive list (withdraw)
     private void deleteStudent(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //ListInterface<Student> mergedList = StudentDao.getAllStudents();
         // Get the student ID from the request
         String id = request.getParameter("id");
+        
+        StudentCourse studentCourse = studentCourseServices.getStudentCourseBysId(id);
+        if (studentCourse != null) {
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('Students are enrolled in course! Can\\'t remove it');</script>");
+            out.println("<script>window.location.href = '" + request.getContextPath() + "/studentServlet';</script>");
+            out.close();
+            return;
+        }
 
         // Call the deleteStudent method passing the student ID and the list from which you want to delete
         boolean deletionSuccessful = studentServices.deleteStudent(id, mergedList);
@@ -517,7 +525,7 @@ public class studentServlet extends HttpServlet {
             return;
         } else {
             request.setAttribute("resultList", inactiveList);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/inactiveStudents.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/inactiveStudentsUI.jsp");
             dispatcher.forward(request, response);
         }
     }
@@ -958,6 +966,18 @@ public class studentServlet extends HttpServlet {
             for (int i = 1; i <= scList.getTotalNumberOfData(); i++) {
                 StudentCourse sc = scList.getData(i);
                 if (sc.getCourseId().contains(cId)) {
+                    return sc;
+                }
+            }
+            // Return null if no student with the given ID is found
+            return null;
+        }
+        
+        public static StudentCourse getStudentCourseBysId(String sId) {
+            // Iterate over the list of studentCpurse to find the one with the matching ID
+            for (int i = 1; i <= scList.getTotalNumberOfData(); i++) {
+                StudentCourse sc = scList.getData(i);
+                if (sc.getStudentId().equals(sId)) {
                     return sc;
                 }
             }

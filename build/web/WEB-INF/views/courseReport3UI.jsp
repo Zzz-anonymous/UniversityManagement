@@ -14,7 +14,7 @@
     <div class="home-content">
         <i class='bx bx-menu'></i>
         <header>
-            <h1>Course Report 2 - Available Course taken by Programmes</h1>
+            <h1>Course Report 3 - Available Course for Programmes</h1>
         </header>
 <main>
     <!-- Include Chart.js library -->
@@ -57,6 +57,7 @@
                     title: 'Available courses and their number of programmes',
                     subtitle: 'Number of programmes',
                 }
+                
             };
 
             // Instantiate and draw the chart

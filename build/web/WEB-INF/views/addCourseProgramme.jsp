@@ -52,14 +52,14 @@
                                 <%
                                     ListInterface<Course> cList = (ListInterface<Course>) CourseServices.getAllAvailableCourses();
                                     ListInterface<String> existingCourses = (ListInterface<String>) request.getAttribute("existingCourses");
-                                    boolean foundCourses = false;
+                                   
 
                                     // Check if there are available courses
                                     if (cList != null && !cList.isEmpty()) {
                                         // Iterate over the list of courses
                                         for (int j = 1; j <= cList.getTotalNumberOfData(); j++) {
                                             Course c = cList.getData(j);
-
+                                             
                                             String cName = programmeCourseServices.getCourseNameById(c.getId(), p.getId());
                                             if (cName != null) {
                                                 // Check if the current course is already selected by the student
@@ -71,19 +71,16 @@
                                        value="<%= c.getId()%>"
                                        <%= isCourseSelected ? "checked" : ""%>
                                        />
-                                <%= cName%>
+                                <%= cName %>
                                 <br />
                                 <%
-                                                foundCourses = true; // Set the flag to true since at least one course is found
+                                } else {
+                                %>
+                                <span>No Available Course</span>
+                                <%
                                             }
                                         }
                                     }
-                                    if (!foundCourses) {
-                                %>  
-                                <span>No Available Course</span>
-                                <%
-                                    }
-
                                 %>
                             </td>
 

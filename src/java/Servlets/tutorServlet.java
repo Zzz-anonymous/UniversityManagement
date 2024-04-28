@@ -4,8 +4,6 @@
  */
 package Servlets;
 
-import Dao.CourseDao;
-import Dao.ProgrammeCourseDao;
 import Dao.TutorDao;
 import static Dao.TutorDao.initializeTutors;
 import Entity.Course;
